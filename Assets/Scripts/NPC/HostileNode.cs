@@ -19,7 +19,7 @@ public class HostileNode : Node
     {
         float reputation = GameManager.instance.reputation;
 
-        if (reputation > -10)
+        if (reputation > 5f)
             return NodeState.FAILURE;
 
         float distance = Vector3.Distance(navAgent.transform.position, player.position);

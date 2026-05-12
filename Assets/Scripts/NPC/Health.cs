@@ -12,6 +12,8 @@ public class Health : MonoBehaviour
     private int currentHealth;
     private FloatingHealthBar healthBar;
     private Animator animator;
+    private GameOver gameOverManager;
+    public System.Action<int, int> OnHealthChanged;
     [SerializeField] private GameObject healthBarPrefab;
     [SerializeField] private Transform followTarget;
     [SerializeField] private Vector3 uiOffset =new Vector3(0,2f,0);
@@ -19,8 +21,12 @@ public class Health : MonoBehaviour
     void Awake()
     {
         currentHealth = maxHealth;
+        OnHealthChanged?.Invoke(currentHealth, maxHealth);
         animator = GetComponent<Animator>();
-        SpawnHealthBar();
+        gameOverManager = FindAnyObjectByType<GameOver>();
+        if (!CompareTag("Player"))
+            SpawnHealthBar();
+        
     }
 
 
@@ -59,6 +65,7 @@ public class Health : MonoBehaviour
     {
         if (isDead) return;
         currentHealth -= amount;
+        OnHealthChanged?.Invoke(currentHealth, maxHealth);
         if(healthBar != null)
         {
             healthBar.UpdateHealthBar(currentHealth, maxHealth);
@@ -105,6 +112,9 @@ public class Health : MonoBehaviour
         if (CompareTag("Player"))
         {
             GetComponent<PlayerController>().enabled = false;
+            if (gameOverManager != null)
+                gameOverManager.GameOverPanel();
+            GetComponent<PlayerCombat>().enabled = false;
             Debug.Log("Game Over!");
             return;
         }

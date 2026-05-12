@@ -30,7 +30,7 @@ public class PlayerCombat : MonoBehaviour
             if (hp != null && !hp.isDead)
             {
                 hp.TakeDamage(damage);
-                ThreatSystem.AddThreat(hit.transform, transform, damage);
+                ThreatSystem.AddThreat(hit.transform.root, transform.root, damage);
             }
         }
         lastAttackTime = Time.time;

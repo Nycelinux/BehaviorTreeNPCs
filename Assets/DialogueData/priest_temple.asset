@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7408b1ec601201a409f6164ba7b66f17, type: 3}
+  m_Name: priest_temple
+  m_EditorClassIdentifier: 
+  npcName: Itzamara
+  dialogueText: Geh zum Temple
+  choices:
+  - choiceText: ich geh zum Tempel
+    startQuest: 1
+    questID: 3
+    nextStage: 2
+    reputationChange: 0
+  - choiceText: Warum sollte ich Quests folgen?
+    startQuest: 0
+    questID: 3
+    nextStage: 1
+    reputationChange: -100
+  portrait: {fileID: 0}

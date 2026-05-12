@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent (typeof(CharacterController))]
+[RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
     private CharacterController controller;
     public Transform cameraTransform;
     private bool IsGrounded;
+    public bool canLock = true;
     private Vector3 velocity;
 
     public Transform groundCheck;
@@ -25,38 +26,63 @@ public class PlayerController : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        HandleMouseLook();
-        HandleMovement(); 
-        HandleJump(); 
+        if (DialogueUI.instance != null &&
+        DialogueUI.instance.dialoguePanel.activeSelf)
+            return;
+        if (canLock)
+            HandleMouseLook();
+        HandleMovement();
+        HandleJump();
         AddGravity();
     }
 
     void HandleMovement()
     {
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
+        if (DialogueUI.instance != null &&
+        DialogueUI.instance.dialoguePanel.activeSelf)
+            return;
+        float x = 0f;
+        float z = 0f;
+
+        if (Input.GetKey(KeyCode.A))
+            x = -1f;
+
+        if (Input.GetKey(KeyCode.D))
+            x = 1f;
+
+        if (Input.GetKey(KeyCode.W))
+            z = 1f;
+
+        if (Input.GetKey(KeyCode.S))
+            z = -1f;
 
         transform.Rotate(0f, x * 150f * Time.deltaTime, 0f);
-      
-        Vector3 move = transform.forward * z;
-        Vector3 finalMove = move * speed + Vector3.up * velocity.y;
-        controller.Move(finalMove * speed * Time.deltaTime);
 
+        Vector3 move = transform.forward * z;
+
+        Vector3 finalMove = move * speed;
+        finalMove.y = velocity.y;
+
+        controller.Move(finalMove * Time.deltaTime);
     }
 
     void HandleJump()
     {
+        if (DialogueUI.instance != null &&
+        DialogueUI.instance.dialoguePanel.activeSelf)
+            return;
         IsGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-         if (IsGrounded && velocity.y < 0)
+        if (IsGrounded && velocity.y < 0)
         {
             velocity.y = -2f;
         }
-         if(Input.GetButtonDown("Jump") && IsGrounded)
+        if (Input.GetButtonDown("Jump") && IsGrounded)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
@@ -69,11 +95,20 @@ public class PlayerController : MonoBehaviour
 
     void HandleMouseLook()
     {
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+        if (DialogueUI.instance != null &&
+        DialogueUI.instance.dialoguePanel.activeSelf)
+            return;
+        float lookUp = 0f;
 
-        xRotation -= mouseY;
+        if (Input.GetKey(KeyCode.UpArrow))
+            lookUp = 1f;
+
+        if (Input.GetKey(KeyCode.DownArrow))
+            lookUp = -1f;
+
+        xRotation -= lookUp * 60f * Time.deltaTime;
         xRotation = Mathf.Clamp(xRotation, -80f, 80f);
+
         cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
     }
 }
