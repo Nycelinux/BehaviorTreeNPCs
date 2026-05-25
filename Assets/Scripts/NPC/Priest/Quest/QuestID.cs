@@ -7,6 +7,7 @@ public enum QuestID
    FindArtifact,
    RatAttack,
    GatherWood,
+   BuildBarricades,
    VisitTemple,
    DefendVillage,
    SaveHarvest,

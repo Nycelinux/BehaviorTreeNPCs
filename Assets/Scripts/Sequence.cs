@@ -5,14 +5,13 @@ using UnityEngine;
 public class Sequence : Node
 {
     private List<Node> children;
-    public Sequence(List<Node> children)
+    public Sequence(Blackboard blackboard,List<Node> children): base(blackboard)
     {
         this.children = children;
     }
 
     public override NodeState Evaluate()
     {
-        bool anyRunning = false;
         foreach (Node child in children)
         {
             switch (child.Evaluate())
@@ -22,12 +21,12 @@ public class Sequence : Node
                     return state;
 
                 case NodeState.RUNNING:
-                    anyRunning = true;
-                    break;
+                    state = NodeState.RUNNING;
+                    return state;
 
             }
         }
-        state = anyRunning? NodeState.RUNNING:NodeState.SUCCESS;
+        state =NodeState.SUCCESS;
         return state;
     }
 }

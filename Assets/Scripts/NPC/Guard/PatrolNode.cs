@@ -9,7 +9,7 @@ public class PatrolNode : Node
     private Transform[] waypoints;
     private NavMeshAgent navAgent;
 
-    public PatrolNode(NavMeshAgent navAgent, Transform[] waypoints)
+    public PatrolNode(Blackboard blackboard ,NavMeshAgent navAgent, Transform[] waypoints):base(blackboard)
     {
         this.navAgent = navAgent;
         this.waypoints = waypoints;

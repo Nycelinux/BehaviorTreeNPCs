@@ -17,7 +17,8 @@ public class EnemySpawner : MonoBehaviour
     {
         for (int i =0; i < amount; i++)
         {
-            Instantiate(enemyPrefab, spawnPoints[i].position, Quaternion.identity);
+            Transform spawn = spawnPoints[Random.Range(0, spawnPoints.Length)];
+            Instantiate(enemyPrefab, spawn.position, Quaternion.identity);
         }
     }
 

@@ -43,11 +43,27 @@ public class QuestManager : MonoBehaviour
         Debug.Log("Quest abgeschlossen! Reputationerhöht." + quest.questName);
         if(quest.questID== QuestID.FindArtifact)
         {
-            StoryManager.instance.StartStage(StoryStage.GainPriestTrust);
+            StoryManager.instance.StartStage(StoryStage.GatherWood);
         }
         if (quest.questID == QuestID.GatherWood)
         {
             StoryManager.instance.StartStage(StoryStage.DefendVillage);
+        }
+        if (quest.questID == QuestID.DefendVillage)
+        {
+            StoryManager.instance.StartStage(StoryStage.RatAttack);
+        }
+        if (quest.questID == QuestID.RatAttack)
+        {
+            StoryManager.instance.StartStage(StoryStage.GainPriestTrust);
+        }
+        if (quest.questID == QuestID.Diplomacy)
+        {
+            StoryManager.instance.StartStage(StoryStage.FinalAttack);
+        }
+        if (quest.questID == QuestID.PriestDecision)
+        {
+            StoryManager.instance.StartStage(StoryStage.PriestDecision);
         }
         if (QuestMenuUI.instance != null)
             QuestMenuUI.instance.RefreshQuestList();
@@ -72,6 +88,7 @@ public class QuestManager : MonoBehaviour
 
     public bool HasQuest(QuestID id)
     {
-        return activeQuests.Exists(q => q.questID == id); 
+        //return activeQuests.Exists(q => q.questID == id); 
+        return activeQuests.Exists(q => q.questID == id && !q.isCompleted); 
     }
 }

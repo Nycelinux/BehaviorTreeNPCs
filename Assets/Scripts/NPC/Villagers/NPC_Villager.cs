@@ -3,33 +3,72 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class NPC_Villager : MonoBehaviour
+public class NPC_Villager : NPC_Base
 {
     public Transform player;
     public Transform homePoint;
     public Transform resourcePoint;
-
-    private Node root;
+    public Ressourcetyp preferredResource;
     private bool autoGatherEnabled= false;
     private NavMeshAgent agent;
+    private Blackboard blackboard;
+    [TextArea]
+    public string PersonalProblem;
 
-    void Start()
+    [Header("Wander")]
+    public float wanderRadius = 8f;
+
+    [Header("Personality")]
+    public string npcName;
+    private NPCReaction reaction;
+
+    protected override void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
-        NPCReaction reaction = GetComponent<NPCReaction>();
-        root = new Selector(new List<Node> {
-        new CollectRessource(agent, reaction, this),
-        new HostileNode(agent,player),
-        new SleepNode(agent,homePoint),
-        new FollowNode(agent,player)
-        }) ;
+       
+        base.Start();
+        blackboard = new Blackboard();
+        blackboard.navAgent = navAgent;
+        blackboard.reputation = GameManager.instance.reputation;
+        blackboard.player = player;
+        if (homePoint == null)
+        {
+            GameObject home = new GameObject(npcName + "_Home");
+            home.transform.position = transform.position;
+            homePoint = home.transform;
+        }
+        reaction = GetComponent<NPCReaction>();
+        BuildTree();
     }
 
-    void Update()
+    protected override void BuildTree()
     {
-        root.Evaluate();
-    }
+        root = new Selector(blackboard, new List<Node>
+        {
+            new Sequence(blackboard, new List<Node>
+            {
+                new CheckNight(blackboard),
+                new SleepNode(blackboard,agent,homePoint),
+            }),
+            new Sequence(blackboard, new List<Node>
+            {
+                new HostileNode(blackboard,agent,player)
 
+            }),
+            new Sequence(blackboard, new List<Node>
+            {
+                new FollowNode(blackboard,agent,player)
+
+            }),
+            new Sequence(blackboard, new List<Node>
+            {
+                new CollectRessource(blackboard,agent, reaction, this),
+            }),
+
+            new WanderNode(blackboard, agent,transform.position,wanderRadius),
+        }); ;
+        
+    }
+   
     public void EnableAutoGather()
     {
         autoGatherEnabled = true;

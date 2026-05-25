@@ -13,7 +13,7 @@ public class CollectRessource : Node
     private NavMeshAgent agent;
     private NPCReaction reaction;
     private NPC_Villager villager;
-    public CollectRessource(NavMeshAgent agent, NPCReaction reaction, NPC_Villager villager)
+    public CollectRessource(Blackboard blackboard ,NavMeshAgent agent, NPCReaction reaction, NPC_Villager villager):base(blackboard)
     {
         this.agent = agent;
         this.reaction = reaction;
@@ -35,32 +35,54 @@ public class CollectRessource : Node
         float fear = reaction != null ? reaction.GetFear() : 0f;
 
         float gatherTime = 5f;
-        if (fear > 70) gatherTime = 8f;
-        else if (fear > 30) gatherTime = 6f;
+        if (reaction != null)
+        {
+            gatherTime += reaction.hunger * 0.05f;
+            if (reaction.GetFear() > 70)
+                gatherTime += 3f;
+            if (reaction.faith > 80)
+                gatherTime -= 1f;
+            if (reaction.loyality > 70)
+                gatherTime -= 1.5f;
+        }
         //hier weiter 
         if (isWaiting)
         {
             waitTimer += Time.deltaTime;
-            if(waitTimer >= waitTime)
+            if (waitTimer >= waitTime)
             {
                 isWaiting = false;
                 waitTimer = 0f;
             }
             return NodeState.RUNNING;
         }
-        
+
         if (GameManager.instance.isNight)
         {
             ReleaseRessource();
             return NodeState.FAILURE;
         }
+
+        if (currentResource == null) {
+            Ressourcetyp desiredType = villager.preferredResource;
             
-        if(currentResource == null) {
-            currentResource = ResourceManager.instance.GetFreeResource();
+            if (reaction.hunger > 70)
+                desiredType = Ressourcetyp.Food;
+            currentResource = ResourceManager.instance.GetFreeResource(desiredType);
             if (currentResource == null)
+            {
+                Debug.LogWarning(villager.npcName + " findet keine Resource vom Typ: " + desiredType);
                 return NodeState.FAILURE;
+            }
         }
-        
+
+
+       
+        if (agent == null)
+        {
+            Debug.LogError("NavMesh agent missing! ");
+            return NodeState.FAILURE;
+        }
         agent.SetDestination(currentResource.transform.position);
 
         if (Vector3.Distance(agent.transform.position,currentResource.transform.position)<1.5f)
@@ -78,7 +100,9 @@ public class CollectRessource : Node
                 Debug.Log(" sammelt: " + amount);
                 currentResource.UseResource();
                 if(UIManager.instance !=null)
-                    UIManager.instance.AddResources(amount);
+                    UIManager.instance.AddResources(currentResource.ressourcetyp,amount);
+                if (StoryManager.instance.currentStage == StoryStage.GatherWood)
+                    QuestManager.instance.ProgressQuest(QuestID.GatherWood, amount);
                 timer = 0f;
 
                 if(!currentResource.HasResources())

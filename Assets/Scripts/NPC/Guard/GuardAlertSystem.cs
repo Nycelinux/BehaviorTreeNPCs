@@ -5,23 +5,24 @@ using UnityEngine;
 public class GuardAlertSystem : MonoBehaviour
 {
     public static GuardAlertSystem instance;
-    public List<GuardCombatNode> guards = new List<GuardCombatNode>();
+    public List<Blackboard> guardBoards = new List<Blackboard>();
     void Awake()
     {
         instance = this; 
     }
 
-    public void Register(GuardCombatNode guard)
+    public void Register(Blackboard blackboard)
     {
-        if (!guards.Contains(guard))
-            guards.Add(guard);
+        if (!guardBoards.Contains(blackboard))
+            guardBoards.Add(blackboard);
     }
 
     public void AlertAll(Transform target)
     {
-        foreach(var guard in guards)
+        foreach(var blackboard in guardBoards)
         {
-            guard.SetTarget(target);
+            blackboard.currentTarget=target;
+            blackboard.isAlerted=true;
         }
     }
 }

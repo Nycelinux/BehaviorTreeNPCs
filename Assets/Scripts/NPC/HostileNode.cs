@@ -9,7 +9,7 @@ public class HostileNode : Node
     private NavMeshAgent navAgent;
     private Transform player;
 
-    public HostileNode(NavMeshAgent navAgent, Transform player)
+    public HostileNode(Blackboard blackboard ,NavMeshAgent navAgent, Transform player):base(blackboard)
     {
         this.navAgent = navAgent;
         this.player = player;
@@ -19,16 +19,15 @@ public class HostileNode : Node
     {
         float reputation = GameManager.instance.reputation;
 
-        if (reputation > 5f)
-            return NodeState.FAILURE;
-
-        float distance = Vector3.Distance(navAgent.transform.position, player.position);
-        if (distance <10f)
+        if (blackboard.reputation > 5f)
         {
-            navAgent.SetDestination(player.position);
-            Debug.Log("NPC greift Spieler an!");
-            return NodeState.RUNNING;
+            blackboard.isHostile = false;
+            return NodeState.FAILURE;
         }
-        return NodeState.FAILURE;
+
+
+        blackboard.isHostile = true;
+        navAgent.SetDestination(player.position);
+        return NodeState.SUCCESS;
     }
 }

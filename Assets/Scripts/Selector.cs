@@ -5,7 +5,7 @@ using UnityEngine;
 public class Selector : Node
 {
     private List<Node> children;
-    public Selector(List<Node> children)
+    public Selector(Blackboard blackboard,List<Node> children): base(blackboard)
     {
         this.children = children;
     }

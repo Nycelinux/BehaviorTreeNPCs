@@ -3,42 +3,65 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class NPC_Guard : MonoBehaviour
+public class NPC_Guard : NPC_Base
 {
     public Transform homePoint;
     public Transform[] wayPoints;
     public Transform player;
     public int attackDamage = 2;
+    private Blackboard blackboard;
 
-    private NavMeshAgent navAgent;
-    private Animator animator;
-    private Node root;
-    void Start()
+    protected override void Start()
     {
-        navAgent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
-        var combatNode = new GuardCombatNode(navAgent, this);
-        if(GuardAlertSystem.instance != null)
-            GuardAlertSystem.instance.Register(combatNode);
-        root = new Selector(new List<Node>
+        base.Start();
+        blackboard = new Blackboard();
+        blackboard.navAgent = navAgent;
+        blackboard.player = player;
+        if (player == null)
         {
-            new SleepNode(navAgent,homePoint),
-            combatNode,
-            new HostileNode(navAgent,player),
-            new FollowNode(navAgent, player),
-            new PatrolNode(navAgent,wayPoints)
-        });
+            GameObject p = GameObject.FindGameObjectWithTag("Player");
+            if (p != null)
+                player = p.transform;
+        }
+
+        if(wayPoints == null || wayPoints.Length == 0)
+        {
+            GameObject[] points = GameObject.FindGameObjectsWithTag("Waypoint");
+            wayPoints = new Transform[points.Length]; 
+            for (int i = 0; i < points.Length; i++)
+                wayPoints[i] = points[i].transform;
+        }
+        if (GuardAlertSystem.instance != null)
+            GuardAlertSystem.instance.Register(blackboard);
+        SquadManager.instance?.Register(blackboard);
+
+        BuildTree();
     }
 
-    void Update()
+    protected override void BuildTree()
     {
-        root.Evaluate();
-        if (animator != null && navAgent != null)
+        
+        root = new Selector(blackboard,new List<Node>
         {
-            float speed = navAgent.velocity.magnitude;
-            if (speed < 0.1f) speed = 0f;
-            animator.SetFloat("Speed", speed, 0.1f, Time.deltaTime);
-        }
+            new Sequence(blackboard,new List<Node>
+            {
+                new CheckNight(blackboard),
+                new SleepNode(blackboard,navAgent,homePoint)
+            }),
+             new Sequence(blackboard,new List<Node>
+            {
+                new LowHealthRetreatNode(blackboard,navAgent),
+            }),
+             new Sequence(blackboard,new List<Node>
+            {
+                new DetectEnemyNode(blackboard,this,navAgent),
+                new SquadRoleDecisionNode(blackboard),
+                new SquadPositioningNode(blackboard,navAgent),
+                new SquadActionNode(blackboard,this, navAgent),
+
+            }),
+            new PatrolNode(blackboard,navAgent,wayPoints)
+        });
     }
 }
 

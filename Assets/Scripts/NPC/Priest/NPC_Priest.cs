@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class NPC_Priest : MonoBehaviour, IInteractable
+public class NPC_Priest : NPC_Base, IInteractable
 {
     public Transform templeCenter;
     public DialogueData introDialogue;
@@ -15,45 +15,29 @@ public class NPC_Priest : MonoBehaviour, IInteractable
     public DialogueData diplomacyDialogue;
     public DialogueData priestDecisionDialogue;
     public DialogueData éndingDialogue;
+    private Blackboard blackboard;
 
-    private NavMeshAgent navAgent;
-    private Animator animator;
-    private Node root;
-
-    void Start()
+    protected override void Start()
     {
-        if(templeCenter == null)
+        base.Start();
+        if (templeCenter == null)
         {
             Debug.LogError("TempleCenter fehlt");
             enabled = false;
             return;
         }
-        navAgent = GetComponent<NavMeshAgent>();
-        if(navAgent == null)
-        {
-            Debug.LogError(" NPC_Priest braucht NavMeshagent");
-            enabled = false;
-            return;
-        }
-        animator = GetComponent<Animator>();
-
-        root = new Selector(new List<Node>
-        {
-            new PriestRitualNode(),
-            new PriestRoamNode(navAgent, templeCenter),
-        });
+        blackboard = new Blackboard();
+        blackboard.navAgent = navAgent;
+        BuildTree();
     }
 
-    void Update()
+    protected override void BuildTree()
     {
-        if(root != null)
-            root.Evaluate();
-        if (animator != null && navAgent != null)
+        root = new Selector(blackboard,new List<Node>
         {
-            float speed = navAgent.velocity.magnitude;
-            if (speed < 0.1f) speed = 0f;
-            animator.SetFloat("Speed", speed, 0.01f, Time.deltaTime);
-        }
+            new PriestRitualNode(blackboard),
+            new PriestRoamNode(blackboard,navAgent, templeCenter),
+        });
     }
 
     public void Interact()

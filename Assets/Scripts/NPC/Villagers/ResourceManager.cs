@@ -22,11 +22,11 @@ public class ResourceManager : MonoBehaviour
         lastNightState = GameManager.instance.isNight;
     }
 
-    public RessourceNode GetFreeResource()
+    public RessourceNode GetFreeResource(Ressourcetyp type)
     {
         foreach(var point in resourcePoints)
         {
-            if(!point.isOccupied && point.HasResources())
+            if(!point.isOccupied && point.HasResources() && point.ressourcetyp == type)
             {
                 point.isOccupied = true;
                 return point;

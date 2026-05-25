@@ -23,15 +23,15 @@ public class DialogueButtonUI : MonoBehaviour
         Debug.Log("Choice gewählt: " + currentChoice.choiceText);
 
         GameManager.instance.reputation += currentChoice.reputationChange;
-
+        if (StoryManager.instance.currentStage == StoryStage.TempleVisits)
+            QuestManager.instance.ProgressQuest(QuestID.VisitTemple, 1);
         if (currentChoice.startQuest)
-        {
             CreateQuest(currentChoice.questID);
-        }
-
+        
+        StoryManager.instance.StartStage(currentChoice.nextStage);
         DialogueManager.instance.EndDialogue();
 
-        StoryManager.instance.StartStage(currentChoice.nextStage);
+        
     }
     void CreateQuest(QuestID id)
     {

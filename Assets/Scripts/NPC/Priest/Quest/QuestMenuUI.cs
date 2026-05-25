@@ -33,14 +33,24 @@ public class QuestMenuUI : MonoBehaviour
 
     public void ToggleQuestMenu()
     {
+        if(DialogueUI.instance != null && DialogueUI.instance.dialoguePanel.activeSelf)
+        {
+            Debug.LogWarning("Questmenü kann während Dialog nicht geöffnet werden");
+            return;
+        }
+
         isOpen = !isOpen;
         questPanel.SetActive(isOpen);
         if (isOpen){
             Time.timeScale = 0f;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
         else
         {
             Time.timeScale = 1f;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
     }
 

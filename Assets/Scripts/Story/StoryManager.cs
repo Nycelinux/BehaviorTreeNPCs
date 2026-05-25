@@ -168,7 +168,11 @@ public class StoryManager : MonoBehaviour
 
     void StartDefendVillageStage()
     {
-        Debug.Log("Organissier die Verteidigung");
+        Debug.Log("Organisier die Verteidigung");
+        VillageDefenseSystem.instance.enemiesKilled = 0;
+        VillageDefenseSystem.instance.villageHealth = 100;
+        VillageDefenseSystem.instance.attackActive = true;
+        EnemySpawner.instance.SpawnEnemies(15);
         NPC_Guard[] guards = FindObjectsOfType<NPC_Guard>();
         
         foreach (var guard in guards)
@@ -180,7 +184,7 @@ public class StoryManager : MonoBehaviour
         }
             
 
-        CreateQuest(QuestID.GatherWood, "Verteidige das Dorf", "Sammle Holz für Barrikaden", 15, Quest.QuestType.Build);
+        CreateQuest(QuestID.DefendVillage, "Verteidige das Dorf", "Besiege 15 Enemies und halt die Gesundheit über 50", 15, Quest.QuestType.Defend);
 
     }
 
@@ -211,7 +215,7 @@ public class StoryManager : MonoBehaviour
     {
         Debug.Log("Finde das Artefakt.");
         //DungeonManager.instance.OpenTempleDungeon();
-        CreateQuest(QuestID.FindArtifact, "Finde das Artifakt", "Finde das Artifakt in dem Tempel", 1, Quest.QuestType.Talk);
+        CreateQuest(QuestID.FindArtifact, "Finde das Artifakt", "Finde das Artifakt in dem Tempel", 1, Quest.QuestType.Collect);
 
     }
 

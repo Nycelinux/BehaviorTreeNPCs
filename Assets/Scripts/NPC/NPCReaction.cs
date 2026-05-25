@@ -8,6 +8,11 @@ public class NPCReaction : MonoBehaviour
     [Header("Loyality")]
     public float loyality = 50f;
 
+    [Header("Needs")]
+    public float faith = 50f;
+    public float hunger = 0f;
+    public float aggression = 0f;
+
     [Header("Fear System")]
     public float fear = 0f;
     public float maxFear = 100f;
@@ -20,11 +25,13 @@ public class NPCReaction : MonoBehaviour
     private NavMeshAgent navAgent;
     private Transform player;
     private Animator animator;
+    private NPC_Villager villagerData;
     void Start()
     {
         navAgent = GetComponent<NavMeshAgent>();
         health = GetComponent<Health>();
         animator = GetComponent<Animator>();
+        villagerData = GetComponent<NPC_Villager>();
 
         GameObject p = GameObject.FindGameObjectWithTag("Player");
         if(p != null)
@@ -36,8 +43,11 @@ public class NPCReaction : MonoBehaviour
      void Update()
     {
         ReduceFearOverTime();
+        UpdateHunger();
         DetectNearbyEnemies();
+        UpdateFaith();
         UpdateLoyality();
+        UpdateAggression();
 
         if (fear > 60)
             SpreadFear();
@@ -56,9 +66,44 @@ public class NPCReaction : MonoBehaviour
         Debug.Log(name + " Angst: " + fear);
     }
 
+    void UpdateAggression()
+    {
+        if(fear > 60)
+        {
+            aggression += 2f * Time.deltaTime;
+        }
+        else
+        {
+            aggression -= Time.deltaTime;
+
+        }
+        aggression = Mathf.Clamp(aggression, 0, 100);
+    }
+
+    void UpdateHunger()
+    {
+        hunger += Time.deltaTime * 0.5f;
+        hunger = Mathf.Clamp(hunger,0,100);
+        if (hunger > 70)
+        {
+            fear += Time.deltaTime*3f;
+            loyality -= Time.deltaTime * 2f;
+        }
+    }
+
+    void UpdateFaith()
+    {
+        if (StoryManager.instance.currentStage == StoryStage.GainPriestTrust)
+        {
+            faith += Time.deltaTime;
+        }
+        faith = Mathf.Clamp(faith, 0, 100);
+
+    }
+
     void ReduceFearOverTime()
     {
-        if(fear > 0)
+        if (fear > 0)
         {
             fear -= fearDecreaseRate * Time.deltaTime;
             fear = Mathf.Clamp(fear, 0, maxFear);
@@ -166,13 +211,21 @@ public class NPCReaction : MonoBehaviour
     //vorläfige Dialoge 
     public string GetDialogue()
     {
+        string npcName = "Bewohner";
+        if (villagerData != null)
+            npcName = villagerData.npcName;
         if (fear > 70)
-            return "Ich habe Angst.. wir werden alle sterben!";
+            return npcName + "Ich habe Angst.. wir werden alle sterben!";
         if (loyality < 30)
-            return "Ich trau euch nicht...";
+            return npcName + "Ich trau euch nicht...";
         if (loyality > 70)
-            return "Ich steh hinter euch, Bürgermeister";
-
+            return npcName + "Ich steh hinter euch, Bürgermeister";
+        if (hunger > 80)
+            return npcName + "Wir verhungern";
+        if (faith > 80)
+            return npcName + "Die Priesterin wird uns retten";
+        if (villagerData != null)
+            return npcName + ": " + villagerData.PersonalProblem;
         return "Alles ist ruhig";
     }
 

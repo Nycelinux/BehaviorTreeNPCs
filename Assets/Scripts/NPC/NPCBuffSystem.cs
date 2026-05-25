@@ -7,6 +7,12 @@ public class NPCBuffSystem : MonoBehaviour
     public static NPCBuffSystem instance;
     void Awake()
     {
+        if(instance!= null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         instance = this;
     }
 
