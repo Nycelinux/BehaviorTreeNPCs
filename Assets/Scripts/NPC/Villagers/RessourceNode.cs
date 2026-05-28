@@ -21,6 +21,16 @@ public class RessourceNode : MonoBehaviour
         return currentUses < maxUses;
     }
 
+    public void Reserve()
+    {
+        isOccupied = true;
+    }
+
+    public void Release()
+    {
+        isOccupied = false;
+    }
+
     public void UseResource()
     {
         currentUses++;

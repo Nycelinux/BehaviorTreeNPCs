@@ -15,5 +15,8 @@ public enum QuestID
    Diplomacy,
    FinalDefense,
    FinalDecision,
-   PriestDecision
+   PriestDecision,
+   FirstAttack,
+   LastAttack,
+   GainPriestTrust
 }

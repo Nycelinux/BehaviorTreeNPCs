@@ -93,12 +93,32 @@ public class VillgerSpawner : MonoBehaviour
         villager.player = player;
         villager.npcName = names[Random.Range(0, names.Length)];
         villager.PersonalProblem = problems[Random.Range(0, problems.Length)];
-        villager.preferredResource = (Ressourcetyp) Random.Range(0,3);
+        villager.preferredResource = (Ressourcetyp) Random.Range(0, System.Enum.GetValues(typeof(Ressourcetyp)).Length);
     }
     void SpawnNPC(GameObject prefab, bool isGuard)
     {
         Vector3 spawnPos = GetVillagePos();
+        if(spawnPos == Vector3.zero)
+        {
+            Debug.LogError("kein gültiger NavMesh Punkt, spawn abgebrochen");
+            return;
+        }
+
         GameObject npc = Instantiate(prefab, spawnPos, Quaternion.identity);
+        NavMeshAgent navAgent = npc.GetComponent<NavMeshAgent>();
+
+        if (navAgent != null)
+        {
+            NavMeshHit hit;
+            if(NavMesh.SamplePosition(spawnPos, out hit, 5f, NavMesh.AllAreas))
+            {
+                npc.transform.position = hit.position;
+                navAgent.Warp(hit.position);
+            }
+            
+            
+           
+        } 
         AssignHome(npc.transform);
         if (!isGuard)
             SetupVillager(npc);
@@ -106,19 +126,32 @@ public class VillgerSpawner : MonoBehaviour
 
     Vector3 GetVillagePos()
     {
-        for (int i = 0; i < 30; i++) {
-            Vector3 ranPos = transform.position + new Vector3(Random.Range(-25f, 25f), 0, Random.Range(-25f, 25f));
+        for (int i = 0; i < 30; i++)
+        {
+            Vector3 randomOffset = new Vector3(
+                Random.Range(-25f, 25f),
+                0f,
+                Random.Range(-25f, 25f)
+            );
 
-            Collider[] hits = Physics.OverlapSphere(ranPos, 1f, villageLayer);
-            if (hits.Length > 0)
+            Vector3 rawPos = transform.position + randomOffset;
+
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(rawPos, out hit, 20f, NavMesh.AllAreas))
             {
-                NavMeshHit hit;
-                if (NavMesh.SamplePosition(ranPos, out hit, 5, NavMesh.AllAreas))
-                {
-                    return hit.position;
-                }
+                Debug.Log("NavMesh Spawn gefunden: " + hit.position);
+                return hit.position;
             }
         }
-        return transform.position;
+
+        Debug.LogWarning("Kein gültiger NavMesh Spawnpunkt gefunden!");
+        NavMeshHit fallbackHit;
+        if (NavMesh.SamplePosition(transform.position, out fallbackHit, 50f, NavMesh.AllAreas))
+        {
+            Debug.Log("Fallback position: " + fallbackHit.position);
+            return fallbackHit.position;
+        }
+
+        return Vector3.zero;
     }
 }       

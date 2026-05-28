@@ -28,7 +28,6 @@ public class ResourceManager : MonoBehaviour
         {
             if(!point.isOccupied && point.HasResources() && point.ressourcetyp == type)
             {
-                point.isOccupied = true;
                 return point;
             }
         }

@@ -140,7 +140,7 @@ public class StoryManager : MonoBehaviour
     void StartUnrestStage()
     {
         Debug.Log("Die Dorfbewohner sind unzufrieden");
-        GameManager.instance.reputation -= 10;
+        GameManager.instance.reputation -= 5;
         NPCReaction[] villagers = FindObjectsOfType<NPCReaction>();
         foreach (var npc in villagers)
         {
@@ -162,7 +162,7 @@ public class StoryManager : MonoBehaviour
         NPCReaction[] villagers = FindObjectsOfType<NPCReaction>();
         foreach (var npc in villagers)
             npc.fear += 30f;
-        CreateQuest(QuestID.RatAttack, "Verteidige das Dorf", "Besiege die Angreifer", 5, Quest.QuestType.Kill);
+        CreateQuest(QuestID.FirstAttack, "Verteidige das Dorf", "Besiege die Angreifer", 5, Quest.QuestType.Kill);
 
     }
 
@@ -278,7 +278,7 @@ public class StoryManager : MonoBehaviour
         {
             npc.fear += 80f;
         }
-        CreateQuest(QuestID.RatAttack, "Überlebe den Angriff", "Verteidige das Dorf", 30, Quest.QuestType.Survive);
+        CreateQuest(QuestID.LastAttack, "Überlebe den Angriff", "Verteidige das Dorf", 30, Quest.QuestType.Survive);
 
     }
 

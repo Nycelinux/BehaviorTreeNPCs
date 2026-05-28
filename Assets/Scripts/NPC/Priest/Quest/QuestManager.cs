@@ -14,17 +14,22 @@ public class QuestManager : MonoBehaviour
 
     public void AddQuest(Quest quest)
     {
+        if (HasQuest(quest.questID))
+        {
+            Debug.LogWarning("Quest existiert bereits: " + quest.questName);
+            return;
+        }
         activeQuests.Add(quest);
         quest.isActive = true;
-        Debug.Log("Neue Quest: Finde dasa Artefakt im Tempel" + quest.questName);
+        Debug.Log("Neue Quest: " + quest.questName);
         if(QuestMenuUI.instance != null)
             QuestMenuUI.instance.RefreshQuestList();
     }
 
     public void ProgressQuest(QuestID id, int amount)
     {
-        Quest quest = activeQuests.Find(q => q.questID == id);
-        if (quest == null || quest.isCompleted)
+        Quest quest = activeQuests.Find(q => q.questID == id && q.isActive && !q.isCompleted);
+        if (quest == null)
             return;
         quest.currentAmount += amount;
         Debug.Log(quest.questName + ": " + quest.currentAmount + "/" + quest.requiredAmount);
@@ -41,30 +46,7 @@ public class QuestManager : MonoBehaviour
         quest.isCompleted = true;
         GameManager.instance.reputation += 20;
         Debug.Log("Quest abgeschlossen! Reputationerhöht." + quest.questName);
-        if(quest.questID== QuestID.FindArtifact)
-        {
-            StoryManager.instance.StartStage(StoryStage.GatherWood);
-        }
-        if (quest.questID == QuestID.GatherWood)
-        {
-            StoryManager.instance.StartStage(StoryStage.DefendVillage);
-        }
-        if (quest.questID == QuestID.DefendVillage)
-        {
-            StoryManager.instance.StartStage(StoryStage.RatAttack);
-        }
-        if (quest.questID == QuestID.RatAttack)
-        {
-            StoryManager.instance.StartStage(StoryStage.GainPriestTrust);
-        }
-        if (quest.questID == QuestID.Diplomacy)
-        {
-            StoryManager.instance.StartStage(StoryStage.FinalAttack);
-        }
-        if (quest.questID == QuestID.PriestDecision)
-        {
-            StoryManager.instance.StartStage(StoryStage.PriestDecision);
-        }
+        
         if (QuestMenuUI.instance != null)
             QuestMenuUI.instance.RefreshQuestList();
 

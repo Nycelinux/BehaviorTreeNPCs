@@ -10,7 +10,6 @@ public class NPC_Villager : NPC_Base
     public Transform resourcePoint;
     public Ressourcetyp preferredResource;
     private bool autoGatherEnabled= false;
-    private NavMeshAgent agent;
     private Blackboard blackboard;
     [TextArea]
     public string PersonalProblem;
@@ -24,8 +23,14 @@ public class NPC_Villager : NPC_Base
 
     protected override void Start()
     {
-       
+
         base.Start();
+        
+        if(navAgent == null)
+        {
+            Debug.LogError(npcName + "hat keinen NavMeshAgent");
+            return;
+        }
         blackboard = new Blackboard();
         blackboard.navAgent = navAgent;
         blackboard.reputation = GameManager.instance.reputation;
@@ -47,24 +52,25 @@ public class NPC_Villager : NPC_Base
             new Sequence(blackboard, new List<Node>
             {
                 new CheckNight(blackboard),
-                new SleepNode(blackboard,agent,homePoint),
+                new SleepNode(blackboard,navAgent,homePoint),
             }),
             new Sequence(blackboard, new List<Node>
             {
-                new HostileNode(blackboard,agent,player)
+                new HostileNode(blackboard,navAgent,player)
 
             }),
             new Sequence(blackboard, new List<Node>
             {
-                new FollowNode(blackboard,agent,player)
-
+                new CollectRessource(blackboard,navAgent, reaction, this),
             }),
             new Sequence(blackboard, new List<Node>
             {
-                new CollectRessource(blackboard,agent, reaction, this),
-            }),
+                new FollowNode(blackboard,navAgent,player)
 
-            new WanderNode(blackboard, agent,transform.position,wanderRadius),
+            }),
+            
+
+            new WanderNode(blackboard, navAgent,transform.position,wanderRadius),
         }); ;
         
     }

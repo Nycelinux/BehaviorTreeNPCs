@@ -16,14 +16,17 @@ public class DetectEnemyNode : Node
         Collider[] hits = Physics.OverlapSphere(agent.transform.position, 10f);
         foreach (var hit in hits)
         {
+            if (!hit.CompareTag("Enemy"))
+                continue;
             Transform root = hit.transform.root;
             if (root == agent.transform.root)
                 continue;
 
-            Health hp = DamageUtil.GetHealth(blackboard.currentTarget.gameObject);
-            if (hp != null && !hp.isDead)
+            Health hp = DamageUtil.GetHealth(root.gameObject);
+            if (hp == null && hp.isDead)
                 continue;
-
+            if (!TargetRules.CanBeTargeted(agent.transform, root))
+                continue;
             blackboard.currentTarget = root;
             return NodeState.SUCCESS;
         }

@@ -30,6 +30,7 @@ public class NPC_Guard : NPC_Base
             wayPoints = new Transform[points.Length]; 
             for (int i = 0; i < points.Length; i++)
                 wayPoints[i] = points[i].transform;
+            Debug.Log(" Waypoints gefunden " + wayPoints.Length);
         }
         if (GuardAlertSystem.instance != null)
             GuardAlertSystem.instance.Register(blackboard);

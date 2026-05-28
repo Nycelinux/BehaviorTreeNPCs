@@ -179,21 +179,24 @@ public class NPCReaction : MonoBehaviour
         foreach(var e in enemies)
         {
             if (e.CompareTag("Enemy"))
-                IncreaseFear(Time.deltaTime * 10f);
+                IncreaseFear(Time.deltaTime * 0.5f);
         }
     }
+
+    private float reputationTimer;
     void UpdateLoyality()
     {
-        if (fear > 70) {
-            loyality -= Time.deltaTime * 5f;
-            GameManager.instance.reputation -= Time.deltaTime * 2f;
-        }
-        else 
+        if (fear > 70)
         {
-            loyality += Time.deltaTime * 2f;
-        }
-            
+            loyality -= Time.deltaTime * 2f;
+            reputationTimer += Time.deltaTime;
+            if (reputationTimer >= 5f)
+            {
+                GameManager.instance.reputation -= 1;
+                reputationTimer = 0f;
+            }
 
+        }
         loyality = Mathf.Clamp(loyality, 0, 100);
     }
 

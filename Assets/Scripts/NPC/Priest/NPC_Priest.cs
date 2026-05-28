@@ -62,25 +62,53 @@ public class NPC_Priest : NPC_Base, IInteractable
                 break;
             case StoryStage.FindArtifact:
                 DialogueManager.instance.StartDialogue(artifactDialogue);
+                if (!QuestManager.instance.HasQuest(QuestID.GatherWood))
+                {
+                    StoryManager.instance.StartStage(StoryStage.GatherWood);
+                }
+
                 break;
             case StoryStage.GatherWood:
-                DialogueManager.instance.StartDialogue(woodDialogue);
+                DialogueManager.instance.StartDialogue(woodDialogue); if (!QuestManager.instance.HasQuest(QuestID.FirstAttack))
+                {
+                    StoryManager.instance.StartStage(StoryStage.FirstAttack);
+                }
                 break;
             case StoryStage.FirstAttack:
                 DialogueManager.instance.StartDialogue(firstAttackDialogue);
+                if (!QuestManager.instance.HasQuest(QuestID.GainPriestTrust))
+                {
+                    StoryManager.instance.StartStage(StoryStage.GainPriestTrust);
+                }
                 break;
             case StoryStage.GainPriestTrust:
                 DialogueManager.instance.StartDialogue(trustDialogue);
+                if (!QuestManager.instance.HasQuest(QuestID.Diplomacy))
+                {
+                    StoryManager.instance.StartStage(StoryStage.Diplomacy);
+                }
                 break;
             case StoryStage.Diplomacy:
                 DialogueManager.instance.StartDialogue(diplomacyDialogue);
+                if (!QuestManager.instance.HasQuest(QuestID.LastAttack))
+                {
+                    StoryManager.instance.StartStage(StoryStage.FinalAttack);
+                }
                 break;
             case StoryStage.FinalAttack:
                 DialogueManager.instance.StartDialogue(lastAttackDialogue);
+                if (!QuestManager.instance.HasQuest(QuestID.PriestDecision))
+                {
+                    StoryManager.instance.StartStage(StoryStage.PriestDecision);
+                }
                 break;
            
             case StoryStage.PriestDecision:
                 DialogueManager.instance.StartDialogue(priestDecisionDialogue);
+                if (!QuestManager.instance.HasQuest(QuestID.FinalDecision))
+                {
+                    StoryManager.instance.StartStage(StoryStage.FinalDecision);
+                }
                 break;
             case StoryStage.FinalDecision:
                 DialogueManager.instance.StartDialogue(éndingDialogue);

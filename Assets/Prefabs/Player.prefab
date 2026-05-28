@@ -308,7 +308,7 @@ MonoBehaviour:
   isDead: 0
   destroyOnDeath: 1
   maxHealth: 10
-  healthBarPrefab: {fileID: 0}
+  healthBarPrefab: {fileID: 6883455555731519308, guid: 6f0a067b2eb0e8144bf906ef470ab008, type: 3}
   followTarget: {fileID: 0}
   uiOffset: {x: 0, y: 2, z: 0}
 --- !u!114 &4202208986903375793

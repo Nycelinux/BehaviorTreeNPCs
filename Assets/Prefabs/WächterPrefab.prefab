@@ -73,7 +73,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   homePoint: {fileID: 0}
-  wayPoints: []
+  wayPoints:
+  - {fileID: 0}
+  - {fileID: 0}
   player: {fileID: 0}
   attackDamage: 3
 --- !u!95 &108182312430223409
