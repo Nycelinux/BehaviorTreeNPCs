@@ -14,6 +14,7 @@ public class DetectEnemyNode : Node
     public override NodeState Evaluate()
     {
         Collider[] hits = Physics.OverlapSphere(agent.transform.position, 10f);
+        Transform bestTarget = null;
         foreach (var hit in hits)
         {
             if (!hit.CompareTag("Enemy"))
@@ -23,15 +24,26 @@ public class DetectEnemyNode : Node
                 continue;
 
             Health hp = DamageUtil.GetHealth(root.gameObject);
-            if (hp == null && hp.isDead)
+            if (hp == null || hp.isDead)
                 continue;
             if (!TargetRules.CanBeTargeted(agent.transform, root))
                 continue;
-            blackboard.currentTarget = root;
+            bestTarget = root;
+            break;
+        }
+        if(bestTarget != null)
+        {
+            blackboard.currentTarget = bestTarget;
+            SquadManager.instance?.SetCombat(bestTarget);
+            GuardAlertSystem.instance?.AlertAll(bestTarget);
             return NodeState.SUCCESS;
         }
-
-        blackboard.currentTarget = null; 
+       if(!SquadManager.instance || !SquadManager.instance.IsInCombat)
+        {
+            blackboard.currentTarget = null;
+            Debug.Log(agent.name + " NO TARGET");
+        }
         return NodeState.FAILURE;
+
     }
 }

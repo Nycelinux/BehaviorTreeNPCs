@@ -530,7 +530,7 @@ Transform:
   m_GameObject: {fileID: 240808506}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.18, y: -3.88, z: -0.79}
+  m_LocalPosition: {x: -8.18, y: -0.7, z: -9.87}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1523,7 +1523,7 @@ Transform:
   m_GameObject: {fileID: 462629501}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.3, y: -0.5, z: 3.57}
+  m_LocalPosition: {x: 2.3, y: -0.752, z: 3.57}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2483,7 +2483,7 @@ Transform:
   m_GameObject: {fileID: 727424906}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.99, y: 4.25, z: -2.75}
+  m_LocalPosition: {x: -10.71, y: -2.11, z: -12.43}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3099,7 +3099,7 @@ Transform:
   m_GameObject: {fileID: 799101107}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.68, y: -1.09, z: 1.66}
+  m_LocalPosition: {x: 2.68, y: -0.09, z: 1.66}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4296,7 +4296,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f257b72118ffab47a7235e678b16a7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ressourcetyp: 0
+  ressourcetyp: 3
   isOccupied: 0
   maxUses: 2
 --- !u!1 &1069034588
@@ -4930,7 +4930,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f257b72118ffab47a7235e678b16a7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ressourcetyp: 0
+  ressourcetyp: 3
   isOccupied: 0
   maxUses: 2
 --- !u!1 &1241268506
@@ -6654,7 +6654,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1514335810}
-  - component: {fileID: 1514335809}
   m_Layer: 0
   m_Name: WayPoints
   m_TagString: Waypoint
@@ -6662,21 +6661,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1514335809
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1514335808}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f257b72118ffab47a7235e678b16a7a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ressourcetyp: 0
-  isOccupied: 0
-  maxUses: 2
 --- !u!4 &1514335810
 Transform:
   m_ObjectHideFlags: 0
@@ -7939,7 +7923,7 @@ Transform:
   m_GameObject: {fileID: 1738153513}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.446, y: 1, z: -0.01}
+  m_LocalPosition: {x: 1.446, y: 1.11, z: -0.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7984,6 +7968,7 @@ MonoBehaviour:
   isDead: 0
   destroyOnDeath: 1
   maxHealth: 10
+  currentHealth: 0
   healthBarPrefab: {fileID: 1142337849}
   followTarget: {fileID: 0}
   uiOffset: {x: 0, y: 2, z: 0}
@@ -9830,7 +9815,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f257b72118ffab47a7235e678b16a7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ressourcetyp: 0
+  ressourcetyp: 3
   isOccupied: 0
   maxUses: 1
 --- !u!1 &1965758069

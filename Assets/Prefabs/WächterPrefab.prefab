@@ -73,10 +73,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   homePoint: {fileID: 0}
-  wayPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  player: {fileID: 0}
+  wayPoints: []
+  player: {fileID: 1495892969053053950}
   attackDamage: 3
 --- !u!95 &108182312430223409
 Animator:

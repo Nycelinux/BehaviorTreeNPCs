@@ -14,7 +14,8 @@ public class LowHealthRetreatNode : Node
 
     public override NodeState Evaluate()
     {
-        if(blackboard.health>25)
+        Debug.Log(agent.name + " Health: " + blackboard.health);
+        if (blackboard.health>1)
             return NodeState.FAILURE;
 
         Vector3 retreatDirection = -agent.transform.forward * 10f;
@@ -22,8 +23,19 @@ public class LowHealthRetreatNode : Node
 
         NavMeshHit hit;
         if (NavMesh.SamplePosition(targetPosition, out hit, 10f, NavMesh.AllAreas))
+        {
             agent.SetDestination(hit.position);
+            if(Vector3.Distance(agent.transform.position, hit.position) < 1f)
+            {
+                Debug.Log(agent.name + "hat sich zurück gezogen");
 
-        return NodeState.RUNNING;
+                return NodeState.SUCCESS;
+            }
+            return NodeState.RUNNING;
+
+        }
+
+
+        return NodeState.FAILURE;
     }
 }

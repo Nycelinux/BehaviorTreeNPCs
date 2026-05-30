@@ -13,14 +13,15 @@ public class SquadPositioningNode : Node
 
     public override NodeState Evaluate()
     {
+        
         if (blackboard.currentTarget == null)
             return NodeState.FAILURE;
 
         Vector3 targetPos = blackboard.currentTarget.position;
-        Vector3 movePos = targetPos;
+        
         Vector3 forward = (agent.transform.position-targetPos).normalized;
         Vector3 right = Vector3.Cross(Vector3.up,forward);
-
+        Vector3 movePos = targetPos;
         switch (blackboard.role)
         {
             case squadRole.Tank:
@@ -35,8 +36,12 @@ public class SquadPositioningNode : Node
                 movePos = targetPos - forward * 4f +right*Random.Range(-1f, 1f);
                 break;
         }
+        float distanceToEnemy = Vector3.Distance(agent.transform.position, blackboard.currentTarget.position);
+        Debug.Log(agent.name +" Distanz: " +distanceToEnemy);
+        if (distanceToEnemy < 2.5f)
+            return NodeState.SUCCESS;
         blackboard.movePosition = movePos;
         agent.SetDestination(movePos);
-        return NodeState.FAILURE;
+        return NodeState.RUNNING;
     }
 }

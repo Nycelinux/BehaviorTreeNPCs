@@ -9,6 +9,7 @@ public class VillgerSpawner : MonoBehaviour
     public int vilCount = 3;
     public LayerMask villageLayer;
     public Transform player;
+    private int nextWaypointIndex =0;
 
     [Header("Prefabs")]
     public GameObject guardPrefab;
@@ -48,8 +49,13 @@ public class VillgerSpawner : MonoBehaviour
 
     void SpawnGuard()
     {
+        Debug.Log(" Spawned guard count: " + guardCount);
         for (int i = 0; i < guardCount; i++)
+        {
+            Debug.Log("Spawn guard " + i);
             SpawnNPC(guardPrefab, true);
+        }
+
     }
 
     void SpawnVillager()
@@ -105,6 +111,7 @@ public class VillgerSpawner : MonoBehaviour
         }
 
         GameObject npc = Instantiate(prefab, spawnPos, Quaternion.identity);
+       
         NavMeshAgent navAgent = npc.GetComponent<NavMeshAgent>();
 
         if (navAgent != null)
@@ -115,13 +122,18 @@ public class VillgerSpawner : MonoBehaviour
                 npc.transform.position = hit.position;
                 navAgent.Warp(hit.position);
             }
-            
-            
            
         } 
         AssignHome(npc.transform);
         if (!isGuard)
             SetupVillager(npc);
+        NPC_Guard guard = npc.GetComponent<NPC_Guard>();
+
+        if (isGuard && guard != null)
+        {
+            AssignGuardWaypoints(npc);
+        }
+
     }
 
     Vector3 GetVillagePos()
@@ -153,5 +165,34 @@ public class VillgerSpawner : MonoBehaviour
         }
 
         return Vector3.zero;
+    }
+
+    void AssignGuardWaypoints( GameObject npc)
+    {
+        NPC_Guard guard = npc.GetComponent<NPC_Guard>();
+        if (guard == null)
+            return;
+        GameObject[] allWaypointss = GameObject.FindGameObjectsWithTag("Waypoint");
+        if(allWaypointss.Length < 2)
+        {
+            Debug.LogError(" zu wenig WAypoins in der Szene");
+            return;
+
+        }
+
+        List<Transform> assigned = new List<Transform>();
+
+        int amount = Mathf.Min(2, allWaypointss.Length); 
+
+        for (int i = 0; i < amount; i++)
+        {
+            int idx = (nextWaypointIndex + i) % allWaypointss.Length;
+            assigned.Add(allWaypointss[idx].transform);
+        }
+
+        nextWaypointIndex = (nextWaypointIndex + amount) % allWaypointss.Length;
+
+        guard.wayPoints = assigned.ToArray();
+        Debug.Log(guard.name + " bekam " + guard.wayPoints.Length + " Waypoints");
     }
 }       

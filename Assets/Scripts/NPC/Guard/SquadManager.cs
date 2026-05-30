@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class SquadManager : MonoBehaviour
 {
-    public static SquadManager instance;
+    public static SquadManager instance;  
     private SqaudBlackboard squad = new SqaudBlackboard();
+    public bool IsInCombat => squad.isInCombat;
+
+    public Transform SharedTarget => squad.sharedTarget;
     void Awake()
     {
         instance = this;
@@ -32,11 +35,19 @@ public class SquadManager : MonoBehaviour
 
     public void SetCombat(Transform target)
     {
+        if (target == null) return;
         squad.sharedTarget = target;
         squad.isInCombat= true;
-
+        AssignRoles();
         foreach (var member in squad.members)
+        {
+            if (member == null) continue;
+
             member.currentTarget = target;
+            member.isAlerted = true;
+        }
+            
+   
     }
 
     public void UpdateSquadVectors()
@@ -52,5 +63,18 @@ public class SquadManager : MonoBehaviour
             member.right = Vector3.Cross(Vector3.up, dir);
         }
     }
-    
+
+    public void RequestHelp(Blackboard requester, Transform enemy)
+    {
+        squad.sharedTarget = enemy;
+        squad.isInCombat = true;
+
+        foreach (var member in squad.members)
+        {
+            member.currentTarget = enemy;
+            member.isAlerted = true;
+        }
+    }
+
+
 }

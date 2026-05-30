@@ -8,17 +8,26 @@ public abstract class NPC_Base : MonoBehaviour
     protected Node root;
     protected Animator animator;
     protected NavMeshAgent navAgent;
+    protected bool initialized;
 
-
-    protected virtual void Start()
+    protected virtual void Awake()
     {
         navAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
     }
+    protected virtual void Start() { }
 
     protected virtual void Update()
     {
-        root?.Evaluate();
+        if (!initialized)
+            return;
+        if (root == null)
+        {
+            Debug.Log(name + " ROOT NULL");
+            return;
+        }
+
+        root.Evaluate();
         UpdateAnimation();
     }
 

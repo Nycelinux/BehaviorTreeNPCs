@@ -48,6 +48,7 @@ public class NPCReaction : MonoBehaviour
         UpdateFaith();
         UpdateLoyality();
         UpdateAggression();
+        UpdateCourage();
 
         if (fear > 60)
             SpreadFear();
@@ -103,11 +104,13 @@ public class NPCReaction : MonoBehaviour
 
     void ReduceFearOverTime()
     {
-        if (fear > 0)
-        {
-            fear -= fearDecreaseRate * Time.deltaTime;
-            fear = Mathf.Clamp(fear, 0, maxFear);
-        }
+        if (fear <= 0) return;
+        float calmRate = 8f;
+        bool inCombat = SquadManager.instance != null && SquadManager.instance.IsInCombat;
+        if (inCombat)
+            calmRate = 2f;
+        fear -= calmRate * Time.deltaTime;
+        fear= Mathf.Clamp(fear, 0, maxFear);
     }
 
     public void ReduceFearInstant(float amount)
@@ -135,16 +138,18 @@ public class NPCReaction : MonoBehaviour
 
     void Flee()
     {
-        if (player == null ||navAgent ==null) return;
+        if (player == null || navAgent == null) return;
+        navAgent.isStopped = false;
         Vector3 direction = (transform.position - player.position).normalized;
         Vector3 randomOffset = Random.insideUnitSphere * 3f;
         randomOffset.y = 0;
-        Vector3 fleePos = transform.position + direction * fleeDistance+randomOffset;
+        Vector3 fleePos = transform.position + direction * fleeDistance + randomOffset;
 
         NavMeshHit hit;
-        if (NavMesh.SamplePosition(fleePos, out hit,5f, NavMesh.AllAreas))
+        if (NavMesh.SamplePosition(fleePos, out hit, 5f, NavMesh.AllAreas))
         {
             navAgent.SetDestination(hit.position);
+            Debug.Log(name + "flieht");
         }
         else
         {
@@ -155,8 +160,19 @@ public class NPCReaction : MonoBehaviour
             animator.SetFloat("Speed", navAgent.speed * 1.5f);
         }
 
-        if (GuardAlertSystem.instance != null)
-            GuardAlertSystem.instance.AlertAll(transform);
+
+        Transform nearestEnemy = FindNearestEnemy();
+        if (nearestEnemy != null)
+        {
+            GuardAlertSystem.instance?.AlertAll(transform);
+            NPC_Guard guard = GetComponent<NPC_Guard>();
+            if (guard != null)
+            {
+                SquadManager.instance?.RequestHelp(guard.GetBlackboard(), nearestEnemy);
+            }
+        } 
+    
+        Debug.Log(name + " fleiht und ruft um Hilfe");
 
         Debug.Log(name + " flieht!");
     }
@@ -235,5 +251,38 @@ public class NPCReaction : MonoBehaviour
     private void OnMouseDown()
     {
         Debug.Log(GetDialogue());
+    }
+
+    void UpdateCourage()
+    {
+        if (SquadManager.instance != null && SquadManager.instance.IsInCombat)
+            fear -= Time.deltaTime * 1.5f;
+    }
+    Transform FindNearestEnemy()
+    {
+        Collider[] hits =
+            Physics.OverlapSphere(transform.position, 15f);
+
+        float closestDistance = Mathf.Infinity;
+        Transform closestEnemy = null;
+
+        foreach (var hit in hits)
+        {
+            if (!hit.CompareTag("Enemy"))
+                continue;
+
+            float dist =
+                Vector3.Distance(
+                    transform.position,
+                    hit.transform.position);
+
+            if (dist < closestDistance)
+            {
+                closestDistance = dist;
+                closestEnemy = hit.transform.root;
+            }
+        }
+
+        return closestEnemy;
     }
 }

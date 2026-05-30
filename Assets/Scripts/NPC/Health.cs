@@ -9,7 +9,7 @@ public class Health : MonoBehaviour
     public bool destroyOnDeath = true;
     public int maxHealth = 10;
 
-    private int currentHealth;
+    public int currentHealth;
     private FloatingHealthBar healthBar;
     private Animator animator;
     private GameOver gameOverManager;

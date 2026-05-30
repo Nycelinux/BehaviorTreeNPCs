@@ -12,18 +12,19 @@ public class Selector : Node
 
     public override NodeState Evaluate()
     {
-        foreach (Node child in children)
+        for (int i = 0; i< children.Count; i++)
         {
-            switch (child.Evaluate())
+            NodeState result = children[i].Evaluate();
+            if (result ==  NodeState.SUCCESS)
             {
-                case NodeState.SUCCESS:
-                    state = NodeState.SUCCESS;
-                    return state;
+                state = NodeState.SUCCESS;
+                return state;
+            }
 
-                case NodeState.RUNNING:
-                    state = NodeState.RUNNING;
-                    return state;
-
+            if (result == NodeState.RUNNING)
+            {
+                state = NodeState.RUNNING;
+                return state;
             }
         }
         state = NodeState.FAILURE;

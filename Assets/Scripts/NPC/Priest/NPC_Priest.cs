@@ -40,8 +40,10 @@ public class NPC_Priest : NPC_Base, IInteractable
         });
     }
 
+    private bool storyAdvanceRequested = false;
     public void Interact()
     {
+
         Debug.Log("Mit Priester interagiert");
         if (navAgent != null)
         {
@@ -49,75 +51,61 @@ public class NPC_Priest : NPC_Base, IInteractable
             navAgent.velocity = Vector3.zero;
         }
 
+        storyAdvanceRequested = false;
+        DialogueData currentDialogue = null;
         switch (StoryManager.instance.currentStage)
         {
             case StoryStage.TempleVisits:
                 Debug.Log("Intro Dialogue");
-                if (introDialogue == null)
-                {
-                    Debug.LogError("introDialogue fehlt");
-                    return;
-                }
-                DialogueManager.instance.StartDialogue(introDialogue);
+                currentDialogue = introDialogue;
+                if (QuestManager.instance.HasQuest(QuestID.VisitTemple))
+                    QuestManager.instance.ProgressQuest(QuestID.VisitTemple, 1);
                 break;
             case StoryStage.FindArtifact:
-                DialogueManager.instance.StartDialogue(artifactDialogue);
-                if (!QuestManager.instance.HasQuest(QuestID.GatherWood))
-                {
-                    StoryManager.instance.StartStage(StoryStage.GatherWood);
-                }
-
+                currentDialogue = artifactDialogue;
+                storyAdvanceRequested = true;
                 break;
             case StoryStage.GatherWood:
-                DialogueManager.instance.StartDialogue(woodDialogue); if (!QuestManager.instance.HasQuest(QuestID.FirstAttack))
-                {
-                    StoryManager.instance.StartStage(StoryStage.FirstAttack);
-                }
+                currentDialogue = woodDialogue;
+                storyAdvanceRequested = true;
+
                 break;
             case StoryStage.FirstAttack:
-                DialogueManager.instance.StartDialogue(firstAttackDialogue);
-                if (!QuestManager.instance.HasQuest(QuestID.GainPriestTrust))
-                {
-                    StoryManager.instance.StartStage(StoryStage.GainPriestTrust);
-                }
+                currentDialogue = firstAttackDialogue;
+                storyAdvanceRequested = true;
+
                 break;
             case StoryStage.GainPriestTrust:
-                DialogueManager.instance.StartDialogue(trustDialogue);
-                if (!QuestManager.instance.HasQuest(QuestID.Diplomacy))
-                {
-                    StoryManager.instance.StartStage(StoryStage.Diplomacy);
-                }
+                currentDialogue = trustDialogue;
+                storyAdvanceRequested = true;
+
                 break;
             case StoryStage.Diplomacy:
-                DialogueManager.instance.StartDialogue(diplomacyDialogue);
-                if (!QuestManager.instance.HasQuest(QuestID.LastAttack))
-                {
-                    StoryManager.instance.StartStage(StoryStage.FinalAttack);
-                }
+                currentDialogue = diplomacyDialogue;
+                storyAdvanceRequested = true;
+
                 break;
             case StoryStage.FinalAttack:
-                DialogueManager.instance.StartDialogue(lastAttackDialogue);
-                if (!QuestManager.instance.HasQuest(QuestID.PriestDecision))
-                {
-                    StoryManager.instance.StartStage(StoryStage.PriestDecision);
-                }
+                currentDialogue = lastAttackDialogue;
+                storyAdvanceRequested = true;
+
                 break;
            
             case StoryStage.PriestDecision:
-                DialogueManager.instance.StartDialogue(priestDecisionDialogue);
-                if (!QuestManager.instance.HasQuest(QuestID.FinalDecision))
-                {
-                    StoryManager.instance.StartStage(StoryStage.FinalDecision);
-                }
+                currentDialogue = priestDecisionDialogue;
+                storyAdvanceRequested = true;
+
                 break;
             case StoryStage.FinalDecision:
-                DialogueManager.instance.StartDialogue(éndingDialogue);
+                currentDialogue = éndingDialogue;
                 break;
             default:
                 Debug.Log("Kein Dialog für stage: " + StoryManager.instance.currentStage);
                 break;
 
         }
+        if (currentDialogue != null)
+            DialogueManager.instance.StartDialogue(currentDialogue);
     }
 
     public void ResumeMovement()

@@ -10,46 +10,105 @@ public class NPC_Guard : NPC_Base
     public Transform player;
     public int attackDamage = 2;
     private Blackboard blackboard;
+    private bool iinitialized =false;
 
-    protected override void Start()
+
+
+     protected override void Awake()
     {
-        base.Start();
+        base.Awake();
         blackboard = new Blackboard();
+       
         blackboard.navAgent = navAgent;
         blackboard.player = player;
+        blackboard.health = GetComponent<Health>() != null ? GetComponent<Health>().currentHealth : 100f;
+        blackboard.fear = 0f;
+        blackboard.hunger = 0f;
+        blackboard.reputation = 50f;
+        blackboard.loyality = 50f;
         if (player == null)
         {
             GameObject p = GameObject.FindGameObjectWithTag("Player");
             if (p != null)
                 player = p.transform;
         }
+      
 
-        if(wayPoints == null || wayPoints.Length == 0)
-        {
-            GameObject[] points = GameObject.FindGameObjectsWithTag("Waypoint");
-            wayPoints = new Transform[points.Length]; 
-            for (int i = 0; i < points.Length; i++)
-                wayPoints[i] = points[i].transform;
-            Debug.Log(" Waypoints gefunden " + wayPoints.Length);
-        }
         if (GuardAlertSystem.instance != null)
-            GuardAlertSystem.instance.Register(blackboard);
+        GuardAlertSystem.instance.Register(blackboard);
         SquadManager.instance?.Register(blackboard);
 
-        BuildTree();
+    }
+    public Blackboard GetBlackboard()
+    {
+        return blackboard;
     }
 
+    protected override void Start()
+    {
+        base.Start();
+        Debug.Log($"{name} Waypoints beim Start: {(wayPoints == null ? 0 : wayPoints.Length)}");
+
+        if (wayPoints == null || wayPoints.Length < 2)
+        {
+            Debug.LogWarning($"{name}: keine gültigen Waypoints - Patrol deaktiviert");
+        }
+        Debug.Log(name + " hat Waypoints: " + (wayPoints == null ? 0 : wayPoints.Length));
+        InitBlackboardAndTree();
+
+    }
+
+    protected override void Update()
+    {
+        Health hp = GetComponent<Health>();
+        if (hp != null)
+            blackboard.health = hp.currentHealth;
+        base.Update();
+    }
+
+    public void InitBlackboardAndTree()
+    {
+        if (iinitialized) return;
+        iinitialized = true;
+        if (blackboard == null || navAgent == null)
+        {
+            Debug.LogError($"{name}: Blackboard oder NavAgent noch NULL (Init zu früh?)");
+            return;
+        }
+
+        BuildTree();
+
+        if (root == null)
+        {
+            Debug.LogError($"{name}:  Root ist NULL , BUildTree fehlgeschlagen");
+            return;
+        }
+      
+        initialized = true;
+        Debug.Log("{name}: GuardTree Build erfolgreich!");
+
+    }
     protected override void BuildTree()
     {
-        
+        if (blackboard == null || navAgent == null)
+        {
+            Debug.LogError("Guard Blackboardoder NavAgent felt");
+            return;
+        }
+        if (navAgent == null)
+        {
+            Debug.LogError($"{name}: NavAgent NULL");
+            return;
+        }
+
+        if (wayPoints == null || wayPoints.Length < 2)
+        {
+            Debug.LogWarning($"{name}: keine Patrol Waypoints - Patrol wird deaktiviert");
+        }
+
         root = new Selector(blackboard,new List<Node>
         {
-            new Sequence(blackboard,new List<Node>
-            {
-                new CheckNight(blackboard),
-                new SleepNode(blackboard,navAgent,homePoint)
-            }),
-             new Sequence(blackboard,new List<Node>
+              new Sequence(blackboard,new List<Node>
             {
                 new LowHealthRetreatNode(blackboard,navAgent),
             }),
@@ -61,7 +120,15 @@ public class NPC_Guard : NPC_Base
                 new SquadActionNode(blackboard,this, navAgent),
 
             }),
-            new PatrolNode(blackboard,navAgent,wayPoints)
+            new PatrolNode(blackboard,navAgent,wayPoints),
+            new Sequence(blackboard,new List<Node>
+            {
+                new CheckNight(blackboard),
+                new SleepNode(blackboard,navAgent,homePoint),
+                
+            }),
+           
+            
         });
     }
 }

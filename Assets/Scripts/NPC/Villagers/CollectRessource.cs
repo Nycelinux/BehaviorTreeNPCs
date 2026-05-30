@@ -6,14 +6,12 @@ using UnityEngine.AI;
 public class CollectRessource : Node
 {
     private float timer = 0f;
-    private float waitTimer = 0f;
-    private float waitTime = 2f;
-    private bool isWaiting = false;
     private bool destinationSet = false;
     private RessourceNode currentResource;
     private NavMeshAgent agent;
     private NPCReaction reaction;
     private NPC_Villager villager;
+    private static HashSet<NPC_Villager> allowedGathers = new();
     public CollectRessource(Blackboard blackboard ,NavMeshAgent agent, NPCReaction reaction, NPC_Villager villager):base(blackboard)
     {
         this.agent = agent;
@@ -48,11 +46,11 @@ public class CollectRessource : Node
         {
             Ressourcetyp desiredType = villager.preferredResource;
 
-            if (reaction != null && reaction.hunger > 70)
-                desiredType = Ressourcetyp.Food;
+            //if (reaction != null && reaction.hunger > 70)
+                //desiredType = Ressourcetyp.Food;
             currentResource = ResourceManager.instance.GetFreeResource(desiredType);
-
-
+            Debug.Log(villager.npcName +" sucht " +desiredType +" -> " +(currentResource != null));
+           
             if (currentResource == null)
             {
                 Debug.LogWarning(villager.npcName + " findet keine Resource vom Typ: " + desiredType);
@@ -60,67 +58,70 @@ public class CollectRessource : Node
             }
             currentResource.Reserve();
             destinationSet = false;
+            timer = 0f;
         }
 
         if (!destinationSet)
         {
             agent.SetDestination(currentResource.transform.position);
             destinationSet = true;
+            Debug.Log(villager.npcName + " läuft zu " + currentResource.name);
+
         }
         if (!currentResource.HasResources())
         {
             ReleaseRessource();
+            timer = 0f;
+
             return NodeState.FAILURE;
         }
 
 
         
-            if (!agent.pathPending && agent.hasPath && agent.remainingDistance <= agent.stoppingDistance +0.5f)
-            {
-                Debug.Log(" sammelt jetzt ");
-                timer += Time.deltaTime;
-                float gatherTime = 5f;
-                if(reaction != null)
-                {
-                gatherTime += reaction.hunger * 0.05f;
-                if (reaction.GetFear() > 70)
-                    gatherTime += 3f;
-                if (reaction.faith > 80)
-                    gatherTime -= 1f;
-                if (reaction.loyality> 70)
-                    gatherTime -= 1f;
-            }
-            
-                if (timer >= gatherTime)
-                {
-                    float reputation = GameManager.instance.reputation;
-                    int amount = 1;
-                    if (reputation > 70) amount = 3;
-                    else if (reputation > 40) amount = 2;
-                    else if (reputation > 20) amount = 1;
-                    else amount = 0;
-                    Debug.Log(" sammelt: " + amount);
-                    currentResource.UseResource();
-                    if (UIManager.instance != null)
-                        UIManager.instance.AddResources(currentResource.ressourcetyp, amount);
-                    if (StoryManager.instance.currentStage == StoryStage.GatherWood && currentResource.ressourcetyp == Ressourcetyp.Wood)
-                        QuestManager.instance.ProgressQuest(QuestID.GatherWood, amount);
-
-                    bool empty = !currentResource.HasResources();
-                    timer = 0f;
-                    ReleaseRessource();
-                    if (empty)
-                        Debug.Log("Resource leer");
-                    isWaiting = true;
-
-                    return NodeState.SUCCESS;
-                }
-                return NodeState.RUNNING;
-            
+        if (Vector3.Distance(agent.transform.position,currentResource.transform.position) > agent.stoppingDistance + 0.6f)
+        {
+            return NodeState.RUNNING;
         }
-       return NodeState.RUNNING;
-       
+            
+        Debug.Log(" sammelt jetzt ");
+        float gatherTime = 2f;
+                
+        if (reaction != null)
+        {
+            gatherTime += reaction.hunger * 0.05f;
+            if (reaction.GetFear() > 70)
+                gatherTime += 3f;
+            if (reaction.faith > 80)
+                gatherTime -= 1f;
+            if (reaction.loyality> 70)
+                gatherTime -= 1f;
+        }
+        Debug.Log(villager.npcName + "Timer:" + timer + " / "+ gatherTime);
+        timer += Time.deltaTime;
+        if (timer >= gatherTime)
+            return NodeState.RUNNING;
+                
+        float reputation = GameManager.instance.reputation;
+        int amount = 1;
+        if (reputation > 70) amount = 3;
+        else if (reputation > 40) amount = 2;
+        else if (reputation > 20) amount = 1;
+        else amount = 0;
+        Debug.Log(" sammelt: " + amount);
+        currentResource.UseResource();
+        if (UIManager.instance != null)
+            UIManager.instance.AddResources(currentResource.ressourcetyp, amount);
+        if (StoryManager.instance.currentStage == StoryStage.GatherWood && currentResource.ressourcetyp == Ressourcetyp.Wood)
+            QuestManager.instance.ProgressQuest(QuestID.GatherWood, amount);
+
+  
+        ReleaseRessource();
+        timer = 0f;
+        return NodeState.SUCCESS;
+
+
     }
+      
 
     private void ReleaseRessource()
     {
