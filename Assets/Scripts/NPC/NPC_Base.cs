@@ -30,6 +30,10 @@ public abstract class NPC_Base : MonoBehaviour
         root.Evaluate();
         UpdateAnimation();
     }
+    protected void SetInitialized()
+    {
+        initialized = true;
+    }
 
     protected abstract void BuildTree();
     protected virtual void UpdateAnimation()

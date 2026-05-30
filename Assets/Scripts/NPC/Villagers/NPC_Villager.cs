@@ -43,6 +43,7 @@ public class NPC_Villager : NPC_Base
         }
         reaction = GetComponent<NPCReaction>();
         BuildTree();
+        SetInitialized();
     }
 
     protected override void BuildTree()
