@@ -73,4 +73,12 @@ public class QuestManager : MonoBehaviour
         //return activeQuests.Exists(q => q.questID == id); 
         return activeQuests.Exists(q => q.questID == id && !q.isCompleted); 
     }
+
+    public bool isQuestCompleted(QuestID id)
+    {
+        Quest quest= activeQuests.Find(q => q.questID == id);
+        if (quest == null)
+            return false;
+        return quest.isCompleted;
+    }
 }

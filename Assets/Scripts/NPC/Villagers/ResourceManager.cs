@@ -26,11 +26,38 @@ public class ResourceManager : MonoBehaviour
     {
         foreach(var point in resourcePoints)
         {
-            if(!point.isOccupied && point.HasResources() && point.ressourcetyp == type)
+            if (point.ressourcetyp!= type)
             {
-                return point;
+                Debug.Log(point.name + " type=" + point.ressourcetyp + " requested=" + type);
+                continue;
             }
+            if (!point.HasResources())
+            {
+                continue;
+            }
+            if (point.isOccupied)
+            {
+                continue;
+            }
+   
+            point.Reserve();
+            return point;
+            
         }
+        foreach(var point in resourcePoints)
+        {
+            if (!point.HasResources())
+            {
+                continue;
+            }
+            if (point.isOccupied)
+            {
+                continue;
+            }
+            point.Reserve();
+            return point;
+        }
+
         return null;
     }
 

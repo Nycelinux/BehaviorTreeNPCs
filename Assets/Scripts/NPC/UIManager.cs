@@ -49,9 +49,9 @@ public class UIManager : MonoBehaviour
             case Ressourcetyp.Wood:
                 wood += amount;
                 break;
-            case Ressourcetyp.FaithArtifact:
+            /*case Ressourcetyp.FaithArtifact:
                 artifact += amount;
-                break;
+                break;*/
         }
     }
 }

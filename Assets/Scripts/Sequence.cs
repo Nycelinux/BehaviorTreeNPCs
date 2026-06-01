@@ -27,7 +27,7 @@ public class Sequence : Node
                 return state;
             }
         }
-        state = NodeState.FAILURE;
+        state = NodeState.SUCCESS;
         return state;
     }
     /*public override NodeState Evaluate()

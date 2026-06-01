@@ -29,6 +29,6 @@ public class WanderNode : Node
         {
             navAgent.SetDestination(hit.position);
         }
-        return NodeState.SUCCESS;
+        return NodeState.RUNNING;
     }
 }

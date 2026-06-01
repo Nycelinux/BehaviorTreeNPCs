@@ -23,8 +23,8 @@ public class ArtifactPickup : MonoBehaviour
                 return;
             collected = true;
             Debug.Log("Artefakt eingesammelt");
-            if (UIManager.instance != null)
-                UIManager.instance.AddResources(Ressourcetyp.FaithArtifact, artAmount);
+            /*if (UIManager.instance != null)
+                UIManager.instance.AddResources(Ressourcetyp.FaithArtifact, artAmount);*/
             if (QuestManager.instance != null)
                 QuestManager.instance.ProgressQuest(QuestID.FindArtifact, 1);
             if (GameManager.instance != null)

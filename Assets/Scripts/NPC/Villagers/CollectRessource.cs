@@ -28,7 +28,7 @@ public class CollectRessource : Node
         }
         if (GameManager.instance == null)
         {
-            Debug.LogError("GameManager fehlt!");
+            Debug.LogError("GameManager fehlt");
             return NodeState.FAILURE;
         }
         if (GameManager.instance.isNight)
@@ -44,21 +44,22 @@ public class CollectRessource : Node
 
         if (currentResource == null)
         {
-            Ressourcetyp desiredType = villager.preferredResource;
+            //Ressourcetyp desiredType = villager.preferredResource;
 
             //if (reaction != null && reaction.hunger > 70)
-                //desiredType = Ressourcetyp.Food;
-            currentResource = ResourceManager.instance.GetFreeResource(desiredType);
-            Debug.Log(villager.npcName +" sucht " +desiredType +" -> " +(currentResource != null));
-           
+            //desiredType = Ressourcetyp.Food;
+            currentResource = ResourceManager.instance.GetFreeResource(villager.preferredResource);
+            Debug.Log(villager.npcName + " sucht " + villager.preferredResource);
+
             if (currentResource == null)
             {
-                Debug.LogWarning(villager.npcName + " findet keine Resource vom Typ: " + desiredType);
-                return NodeState.FAILURE;
+                Debug.LogWarning(villager.npcName + " findet keine Resource vom Typ: " + villager.preferredResource);
+
+                return NodeState.RUNNING;
             }
-            currentResource.Reserve();
+            //currentResource.Reserve();
             destinationSet = false;
-            timer = 0f;
+            timer = 0f; 
         }
 
         if (!destinationSet)
@@ -68,17 +69,18 @@ public class CollectRessource : Node
             Debug.Log(villager.npcName + " läuft zu " + currentResource.name);
 
         }
-        if (!currentResource.HasResources())
+        if (currentResource== null||!currentResource.HasResources())
         {
             ReleaseRessource();
-            timer = 0f;
-
             return NodeState.FAILURE;
         }
 
-
-        
-        if (Vector3.Distance(agent.transform.position,currentResource.transform.position) > agent.stoppingDistance + 0.6f)
+        float distance = agent.remainingDistance;
+        //Debug.Log(villager.npcName + " Distanz: " + distance + " StopDistance: " + agent.stoppingDistance);
+        Debug.Log(villager.npcName +" remainingDistance=" +agent.remainingDistance +" pathPending=" +agent.pathPending);
+        if (agent.pathPending)
+            return NodeState.RUNNING;
+        if (agent.remainingDistance > agent.stoppingDistance )
         {
             return NodeState.RUNNING;
         }
@@ -98,7 +100,7 @@ public class CollectRessource : Node
         }
         Debug.Log(villager.npcName + "Timer:" + timer + " / "+ gatherTime);
         timer += Time.deltaTime;
-        if (timer >= gatherTime)
+        if (timer < gatherTime)
             return NodeState.RUNNING;
                 
         float reputation = GameManager.instance.reputation;
@@ -108,6 +110,7 @@ public class CollectRessource : Node
         else if (reputation > 20) amount = 1;
         else amount = 0;
         Debug.Log(" sammelt: " + amount);
+        Debug.Log("FINAL GATHER: " + villager.npcName + " -> " + currentResource.ressourcetyp);
         currentResource.UseResource();
         if (UIManager.instance != null)
             UIManager.instance.AddResources(currentResource.ressourcetyp, amount);
@@ -117,6 +120,7 @@ public class CollectRessource : Node
   
         ReleaseRessource();
         timer = 0f;
+        destinationSet = false;
         return NodeState.SUCCESS;
 
 
@@ -130,6 +134,8 @@ public class CollectRessource : Node
             currentResource.Release();
             currentResource = null;
         }
+        timer = 0f;
+        destinationSet = false;
     }
 
     void OnDisable()

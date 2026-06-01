@@ -18,7 +18,7 @@ public class VillgerSpawner : MonoBehaviour
     private List<HomePoint> freeHouse = new List<HomePoint>();
     private string[] problems =
     {
-        "Seit dem letzten ANgriff wird mein Mann ´vermisst",
+        "Seit dem letzten ANgriff wird mein Mann vermisst",
         "Wir brauchen Stein, u den Tempel zu verbessern.",
         "Wir brauchen mehr Nahrung",
         "Mein Sohn ist krank",

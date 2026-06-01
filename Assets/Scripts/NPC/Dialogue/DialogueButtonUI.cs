@@ -23,8 +23,8 @@ public class DialogueButtonUI : MonoBehaviour
         Debug.Log("Choice gewählt: " + currentChoice.choiceText);
 
         GameManager.instance.reputation += currentChoice.reputationChange;
-        
-        StoryManager.instance.StartStage(currentChoice.nextStage);
+        if (currentChoice.nextStage != StoryManager.instance.currentStage)
+            StoryManager.instance.StartStage(currentChoice.nextStage);
         DialogueManager.instance.EndDialogue();
 
         

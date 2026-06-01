@@ -29,6 +29,7 @@ public class NPC_Priest : NPC_Base, IInteractable
         blackboard = new Blackboard();
         blackboard.navAgent = navAgent;
         BuildTree();
+        SetInitialized();
     }
 
     protected override void BuildTree()
@@ -62,38 +63,73 @@ public class NPC_Priest : NPC_Base, IInteractable
                     QuestManager.instance.ProgressQuest(QuestID.VisitTemple, 1);
                 break;
             case StoryStage.FindArtifact:
+                if (!QuestManager.instance.isQuestCompleted(QuestID.FindArtifact))
+                {
+                    DialogueUI.instance.ShowHint("Das Artefakt wurde noch nicht gefunden.");
+                    return;
+                }
                 currentDialogue = artifactDialogue;
-                storyAdvanceRequested = true;
+                //storyAdvanceRequested = true;
                 break;
             case StoryStage.GatherWood:
+                if (!QuestManager.instance.isQuestCompleted(QuestID.GatherWood))
+                {
+                    DialogueUI.instance.ShowHint("Wir brauchen noch mehr Holz.Komm zurück wenn die Arbeit erledigt ist.");
+                    return;
+                }
                 currentDialogue = woodDialogue;
-                storyAdvanceRequested = true;
+                //storyAdvanceRequested = true;
 
                 break;
             case StoryStage.FirstAttack:
+                if (!QuestManager.instance.isQuestCompleted(QuestID.FirstAttack))
+                {
+                    DialogueUI.instance.ShowHint("Die Angreifer sind noch nicht besiegt.");
+                    return;
+                }
                 currentDialogue = firstAttackDialogue;
-                storyAdvanceRequested = true;
+                //storyAdvanceRequested = true;
 
                 break;
             case StoryStage.GainPriestTrust:
+                if (!QuestManager.instance.isQuestCompleted(QuestID.GainPriestTrust))
+                {
+                    DialogueUI.instance.ShowHint("Das Vertrauen ist och nicht gewonnen");
+                    return;
+                }
                 currentDialogue = trustDialogue;
-                storyAdvanceRequested = true;
+                //storyAdvanceRequested = true;
 
                 break;
             case StoryStage.Diplomacy:
+                if (!QuestManager.instance.isQuestCompleted(QuestID.Diplomacy))
+                {
+                    DialogueUI.instance.ShowHint("Das Bündnis wurde noch nicht geschlossen.");
+                    return;
+                }
                 currentDialogue = diplomacyDialogue;
                 storyAdvanceRequested = true;
 
                 break;
             case StoryStage.FinalAttack:
+                if (!QuestManager.instance.isQuestCompleted(QuestID.LastAttack))
+                {
+                    DialogueUI.instance.ShowHint("Das Dorf kämpft noch ums Überleben.");
+                    return;
+                }
                 currentDialogue = lastAttackDialogue;
-                storyAdvanceRequested = true;
+                //storyAdvanceRequested = true;
 
                 break;
            
             case StoryStage.PriestDecision:
+                if (!QuestManager.instance.isQuestCompleted(QuestID.PriestDecision))
+                {
+                    DialogueUI.instance.ShowHint("Ich aheb meine Entscheidung noch nicht gefällt.");
+                    return;
+                }
                 currentDialogue = priestDecisionDialogue;
-                storyAdvanceRequested = true;
+                //storyAdvanceRequested = true;
 
                 break;
             case StoryStage.FinalDecision:

@@ -5,7 +5,7 @@ public enum Ressourcetyp
 {
     Stone,
     Wood,
-    FaithArtifact,
+    //FaithArtifact,
     Food
 }
 
@@ -47,4 +47,9 @@ public class RessourceNode : MonoBehaviour
         return maxUses - currentUses;
     }
 
+     void Update()
+    {
+        if (currentUses >= maxUses)
+            isOccupied = false;
+    }
 }
