@@ -159,6 +159,8 @@ public class StoryManager : MonoBehaviour
     {
         Debug.Log("Feinde greifen das Dorf an.");
         EnemySpawner.instance.SpawnEnemies(5);
+        Debug.Log("5 Feinde gespawnt.");
+
         NPCReaction[] villagers = FindObjectsOfType<NPCReaction>();
         foreach (var npc in villagers)
             npc.fear += 30f;

@@ -119,7 +119,13 @@ public class Health : MonoBehaviour
             return;
         }
 
-        if (destroyOnDeath)
+        if (CompareTag("Enemy"))
+        {
+            QuestManager.instance.ProgressQuest(QuestID.FirstAttack, 1);
+            Debug.Log("Enemy besiegt");
+        }
+
+            if (destroyOnDeath)
             Destroy(gameObject, 3f);
     }
 

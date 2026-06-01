@@ -8,6 +8,7 @@ public class Quest
     public QuestID questID;
     public bool isActive;
     public bool isCompleted;
+    public bool readyToTurnIn;
 
     public int requiredAmount;
     public int currentAmount;

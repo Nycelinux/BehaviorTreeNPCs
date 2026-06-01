@@ -52,88 +52,157 @@ public class NPC_Priest : NPC_Base, IInteractable
             navAgent.velocity = Vector3.zero;
         }
 
-        storyAdvanceRequested = false;
+        //storyAdvanceRequested = false;
         DialogueData currentDialogue = null;
         switch (StoryManager.instance.currentStage)
         {
             case StoryStage.TempleVisits:
-                Debug.Log("Intro Dialogue");
-                currentDialogue = introDialogue;
-                if (QuestManager.instance.HasQuest(QuestID.VisitTemple))
+               
+                if (!QuestManager.instance.IsCompleted(QuestID.VisitTemple))
+                {
+                    Debug.Log("Intro Dialogue");
+                    Debug.Log("Quest not commpleted ... ");
+
                     QuestManager.instance.ProgressQuest(QuestID.VisitTemple, 1);
+                    Quest quest = QuestManager.instance.GetQuest(QuestID.VisitTemple);
+                    if(quest != null && quest.readyToTurnIn)
+                    {
+                        Debug.Log("Quest completed...");
+
+                        QuestManager.instance.CompleteQuest(quest);
+                        StoryManager.instance.StartStage(StoryStage.FindArtifact);
+                        currentDialogue = introDialogue;
+                        ;
+                    }
+                    else
+                    {
+                        Debug.Log("quest noch nicht abgeschlossen");
+
+                    }
+                }
                 break;
             case StoryStage.FindArtifact:
-                if (!QuestManager.instance.isQuestCompleted(QuestID.FindArtifact))
+                if (QuestManager.instance.IsReadyToTurnIn(QuestID.FindArtifact))
                 {
-                    DialogueUI.instance.ShowHint("Das Artefakt wurde noch nicht gefunden.");
+                    QuestManager.instance.CompleteQuest(QuestManager.instance.GetQuest(QuestID.FindArtifact));
+                    StoryManager.instance.StartStage(StoryStage.GatherWood);
+                    currentDialogue = artifactDialogue;
+                }
+                else 
+                {
+                    DialogueUI.instance.ShowHint("Das Artifakt wartet im Tempel... es kommt nicht von allein zu euch");
+                    ResumeMovement();
                     return;
                 }
-                currentDialogue = artifactDialogue;
+                    
                 //storyAdvanceRequested = true;
                 break;
             case StoryStage.GatherWood:
-                if (!QuestManager.instance.isQuestCompleted(QuestID.GatherWood))
+                if (QuestManager.instance.IsReadyToTurnIn(QuestID.GatherWood))
                 {
-                    DialogueUI.instance.ShowHint("Wir brauchen noch mehr Holz.Komm zurück wenn die Arbeit erledigt ist.");
-                    return;
+                    QuestManager.instance.CompleteQuest(QuestManager.instance.GetQuest(QuestID.GatherWood));
+                    StoryManager.instance.StartStage(StoryStage.FirstAttack);
+                    currentDialogue = woodDialogue;
                 }
-                currentDialogue = woodDialogue;
+                else
+                {
+                    DialogueUI.instance.ShowHint("Sammle mehr Holz");
+                    ResumeMovement();
+                    return;
+                }                                    
                 //storyAdvanceRequested = true;
-
                 break;
             case StoryStage.FirstAttack:
-                if (!QuestManager.instance.isQuestCompleted(QuestID.FirstAttack))
+                if (QuestManager.instance.IsReadyToTurnIn(QuestID.FirstAttack))
                 {
-                    DialogueUI.instance.ShowHint("Die Angreifer sind noch nicht besiegt.");
-                    return;
+                    QuestManager.instance.CompleteQuest(QuestManager.instance.GetQuest(QuestID.FirstAttack));
+                    StoryManager.instance.StartStage(StoryStage.FirstAttack);
+                    currentDialogue = firstAttackDialogue;
                 }
-                currentDialogue = firstAttackDialogue;
+                else
+                {
+                    DialogueUI.instance.ShowHint("Die Gegner sind noch nicht besiegt");
+                    ResumeMovement();
+                    return;
+                }   
                 //storyAdvanceRequested = true;
-
                 break;
             case StoryStage.GainPriestTrust:
-                if (!QuestManager.instance.isQuestCompleted(QuestID.GainPriestTrust))
+                if (QuestManager.instance.IsReadyToTurnIn(QuestID.GainPriestTrust))
                 {
-                    DialogueUI.instance.ShowHint("Das Vertrauen ist och nicht gewonnen");
-                    return;
-                }
-                currentDialogue = trustDialogue;
-                //storyAdvanceRequested = true;
+                    QuestManager.instance.CompleteQuest(QuestManager.instance.GetQuest(QuestID.GainPriestTrust));
+                    StoryManager.instance.StartStage(StoryStage.Diplomacy);
+                    currentDialogue = trustDialogue;
 
+                }
+                else
+                {
+                    DialogueUI.instance.ShowHint("Das Vertrauen ist noch nicht gewonnen");
+                    ResumeMovement();
+                    return;
+                }                   
+                //storyAdvanceRequested = true;
                 break;
             case StoryStage.Diplomacy:
-                if (!QuestManager.instance.isQuestCompleted(QuestID.Diplomacy))
+                if (QuestManager.instance.IsReadyToTurnIn(QuestID.Diplomacy))
                 {
-                    DialogueUI.instance.ShowHint("Das Bündnis wurde noch nicht geschlossen.");
+                    QuestManager.instance.CompleteQuest(QuestManager.instance.GetQuest(QuestID.Diplomacy));
+                    StoryManager.instance.StartStage(StoryStage.FinalAttack);
+                    currentDialogue = diplomacyDialogue;
+                }
+                else
+                {
+                    DialogueUI.instance.ShowHint("Diplomatie nicht beendet");
+                    ResumeMovement(); 
                     return;
                 }
-                currentDialogue = diplomacyDialogue;
-                storyAdvanceRequested = true;
-
+                //storyAdvanceRequested = true;
                 break;
             case StoryStage.FinalAttack:
-                if (!QuestManager.instance.isQuestCompleted(QuestID.LastAttack))
+                if (QuestManager.instance.IsReadyToTurnIn(QuestID.LastAttack))
                 {
-                    DialogueUI.instance.ShowHint("Das Dorf kämpft noch ums Überleben.");
-                    return;
-                }
-                currentDialogue = lastAttackDialogue;
-                //storyAdvanceRequested = true;
+                    QuestManager.instance.CompleteQuest(QuestManager.instance.GetQuest(QuestID.LastAttack));
+                    StoryManager.instance.StartStage(StoryStage.PriestDecision);
+                    currentDialogue = lastAttackDialogue;
 
+                }
+                else
+                {
+                    DialogueUI.instance.ShowHint("Die Gegner sind noch nicht besiegt");
+                    ResumeMovement();
+                    return;
+                }                    
+                //storyAdvanceRequested = true;
                 break;
            
             case StoryStage.PriestDecision:
-                if (!QuestManager.instance.isQuestCompleted(QuestID.PriestDecision))
+                if (QuestManager.instance.IsReadyToTurnIn(QuestID.PriestDecision))
                 {
-                    DialogueUI.instance.ShowHint("Ich aheb meine Entscheidung noch nicht gefällt.");
+                    QuestManager.instance.CompleteQuest(QuestManager.instance.GetQuest(QuestID.PriestDecision));
+                    StoryManager.instance.StartStage(StoryStage.FinalDecision);
+                    currentDialogue = priestDecisionDialogue;
+                }
+                else
+                {
+                    DialogueUI.instance.ShowHint("Die Priesterin hat ihre finale Entscheidung noch nicht getroffen");
+                    ResumeMovement();
                     return;
                 }
-                currentDialogue = priestDecisionDialogue;
                 //storyAdvanceRequested = true;
-
                 break;
             case StoryStage.FinalDecision:
-                currentDialogue = éndingDialogue;
+                if (QuestManager.instance.IsReadyToTurnIn(QuestID.FinalDecision))
+                {
+                    QuestManager.instance.CompleteQuest(QuestManager.instance.GetQuest(QuestID.FinalDecision));
+                    currentDialogue = éndingDialogue;
+
+                }
+                else
+                {
+                    DialogueUI.instance.ShowHint("ende noch nicht abgeschlossen.");
+                    ResumeMovement();
+                    return;
+                }                   
                 break;
             default:
                 Debug.Log("Kein Dialog für stage: " + StoryManager.instance.currentStage);

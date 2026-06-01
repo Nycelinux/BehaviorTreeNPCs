@@ -17,7 +17,7 @@ MonoBehaviour:
     dass ihr das Dorf vor Feinden besch\xFCtzt?"
   choices:
   - choiceText: "F\xFCr die Bewohner werde ich mein Bestes geben."
-    startQuest: 1
+    startQuest: 0
     questID: 2
     nextStage: 3
     reputationChange: 10

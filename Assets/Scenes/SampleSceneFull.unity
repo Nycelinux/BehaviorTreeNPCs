@@ -571,7 +571,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 72
   m_UseGeometry: 0
   m_DefaultArea: 0
   m_GenerateLinks: 0
@@ -582,7 +582,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: a7e0ab62a68f21948a712e7a2dbe16bc, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 07dfed87ac3044745afe6a043fd04c92, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &241484649
 Transform:
@@ -2791,6 +2791,10 @@ PrefabInstance:
     - target: {fileID: 1320445565239228, guid: 89194aad41c1bc945b7d77ebe7ee9cc5, type: 3}
       propertyPath: m_Name
       value: Templa
+      objectReference: {fileID: 0}
+    - target: {fileID: 1320445565239228, guid: 89194aad41c1bc945b7d77ebe7ee9cc5, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4655282139349800, guid: 89194aad41c1bc945b7d77ebe7ee9cc5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5121,6 +5125,7 @@ MonoBehaviour:
   - questID: 3
     isActive: 1
     isCompleted: 0
+    readyToTurnIn: 0
     requiredAmount: 1
     currentAmount: 0
     questName: Visit Temple

@@ -16,13 +16,13 @@ MonoBehaviour:
   dialogueText: Schnell, das Dorf wird angegriffen! Besiegt de Feinde!
   choices:
   - choiceText: "Ich werde mich darum k\xFCmmern."
-    startQuest: 0
-    questID: 1
+    startQuest: 1
+    questID: 12
     nextStage: 8
     reputationChange: 20
   - choiceText: "Die W\xE4chter schaffen es schon."
     startQuest: 0
-    questID: 1
+    questID: 12
     nextStage: 16
     reputationChange: -10
   portrait: {fileID: 0}
