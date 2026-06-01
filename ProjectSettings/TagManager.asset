@@ -9,6 +9,7 @@ TagManager:
   - Citizien
   - Waypoint
   - Ground
+  - Haus
   layers:
   - Default
   - TransparentFX

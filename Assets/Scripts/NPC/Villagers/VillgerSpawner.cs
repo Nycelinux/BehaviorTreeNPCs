@@ -15,7 +15,8 @@ public class VillgerSpawner : MonoBehaviour
     public GameObject guardPrefab;
     public GameObject vilPrefab;
 
-    private List<HomePoint> freeHouse = new List<HomePoint>();
+    private List<Transform> houses = new List<Transform>();
+    private HashSet<Transform> occupiedHouses = new HashSet<Transform>();
     private string[] problems =
     {
         "Seit dem letzten ANgriff wird mein Mann vermisst",
@@ -42,8 +43,14 @@ public class VillgerSpawner : MonoBehaviour
 
     void FindHouse()
     {
-        HomePoint[] homes = FindObjectsOfType<HomePoint>();
-        freeHouse.AddRange(homes);
+        houses.Clear();
+        GameObject[] foundHouses = GameObject.FindGameObjectsWithTag("Haus");
+        Debug.Log("Häuser gefunden: " + foundHouses.Length);
+        foreach(GameObject house in foundHouses)
+        {
+            houses.Add(house.transform);
+            Debug.Log("Home registriert: " + house.name);
+        }
 
     }
 
@@ -66,29 +73,50 @@ public class VillgerSpawner : MonoBehaviour
 
     void AssignHome(Transform npc)
     {
+        NPC_Villager villager = npc.GetComponent<NPC_Villager>();
+        NPC_Guard guard = npc.GetComponent<NPC_Guard>();
         Transform homeTrans = null;
-        foreach(var home in freeHouse)
+        foreach(Transform house in houses)
         {
-            if (!home.isOccupied)
+            if (!occupiedHouses.Contains(house))
             {
-                home.isOccupied = true;
-                homeTrans = home.transform;
+                occupiedHouses.Add(house);
+                homeTrans = house;
+                Debug.Log( npc.name + " bekommt house " + house.name);
                 break;
             }
         }
 
         if(homeTrans == null)
         {
-            GameObject fallback = new GameObject(npc.name + "_Hoem");
+            GameObject fallback = new GameObject(npc.name + "_Home");
             fallback.transform.position = npc.position;
             homeTrans = fallback.transform;
+            Debug.LogWarning("Kein freies Haus gefunden für " + npc.name);
         }
-        NPC_Villager villager = npc.GetComponent<NPC_Villager>();
+        NavMeshHit hit;
+        if(NavMesh.SamplePosition(homeTrans.position, out hit, 5f, NavMesh.AllAreas))
+        {
+            homeTrans.position = hit.position;
+        }
+        else
+        {
+            Debug.LogError("Home ist nicht auf NavMesh: " + homeTrans.name);
+        }
+
         if (villager != null)
+        {
             villager.homePoint = homeTrans;
-        NPC_Guard guard = npc.GetComponent<NPC_Guard>();
+            Debug.Log(villager.name + " assigned home: " + homeTrans.name + " at " + homeTrans.position);
+        }
+            
         if (guard != null)
+        {
             guard.homePoint = homeTrans;
+            Debug.Log(guard.name + " assigned home: " + homeTrans.name + " at " + homeTrans.position);
+
+        }
+
     }
 
     void SetupVillager(GameObject npc)
@@ -124,9 +152,10 @@ public class VillgerSpawner : MonoBehaviour
             }
            
         } 
-        AssignHome(npc.transform);
         if (!isGuard)
             SetupVillager(npc);
+        AssignHome(npc.transform);
+
         NPC_Guard guard = npc.GetComponent<NPC_Guard>();
 
         if (isGuard && guard != null)

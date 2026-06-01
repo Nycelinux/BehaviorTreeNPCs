@@ -42,6 +42,7 @@ public class NPC_Villager : NPC_Base
             homePoint = home.transform;
         }
         reaction = GetComponent<NPCReaction>();
+        Debug.Log(npcName + " HomePoint = " + homePoint);
         BuildTree();
         SetInitialized();
     }

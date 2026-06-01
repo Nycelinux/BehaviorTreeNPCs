@@ -7,7 +7,9 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     [Header("Time")]
-    public float dayLength = 300f;// 60 Sekunden = ein Tag
+    //public float dayLength = 300f;
+    public float dayLength = 3f;// 60 Sekunden = ein Tag
+
     private float timer = 0f;
     private float hungerTimer = 0f;
 
