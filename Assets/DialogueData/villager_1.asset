@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7408b1ec601201a409f6164ba7b66f17, type: 3}
+  m_Name: villager_1
+  m_EditorClassIdentifier: 
+  npcName: "Itzamn\xE1"
+  dialogueText: "Die Maisfelder tragen weniger Fr\xFCchte als im letzten Zyklus.
+    Wenn das so bleibt, wird der n\xE4chste Mond schwierig."
+  choices:
+  - relationShipEffect:
+      fearChange: 0
+      loyalityChange: 0
+      respectChange: 0
+      trustChange: 3
+      friendshipChange: 5
+    choiceText: Wir schicken mehr Sammler.
+    startQuest: 0
+    reputationChange: 2
+  - relationShipEffect:
+      fearChange: 0
+      loyalityChange: 0
+      respectChange: 2
+      trustChange: 0
+      friendshipChange: 0
+    choiceText: "Wir m\xFCssen Vorr\xE4te sparen."
+    startQuest: 0
+    reputationChange: 0
+  - relationShipEffect:
+      fearChange: 0
+      loyalityChange: 0
+      respectChange: 0
+      trustChange: -10
+      friendshipChange: 0
+    choiceText: Das Dorf hat wichtigere Probleme.
+    startQuest: 0
+    reputationChange: 0
+  portrait: {fileID: 0}

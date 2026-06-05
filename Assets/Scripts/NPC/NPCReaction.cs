@@ -25,6 +25,7 @@ public class NPCReaction : MonoBehaviour
     private NavMeshAgent navAgent;
     private Transform player;
     private Animator animator;
+    private RelationshipData relationshipData;
     private NPC_Villager villagerData;
     void Start()
     {
@@ -32,6 +33,7 @@ public class NPCReaction : MonoBehaviour
         health = GetComponent<Health>();
         animator = GetComponent<Animator>();
         villagerData = GetComponent<NPC_Villager>();
+        relationshipData = GetComponent<RelationshipData>();
 
         GameObject p = GameObject.FindGameObjectWithTag("Player");
         if(p != null)

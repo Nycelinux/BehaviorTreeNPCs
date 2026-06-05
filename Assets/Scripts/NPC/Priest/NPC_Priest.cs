@@ -210,7 +210,7 @@ public class NPC_Priest : NPC_Base, IInteractable
 
         }
         if (currentDialogue != null)
-            DialogueManager.instance.StartDialogue(currentDialogue);
+            DialogueManager.instance.StartDialogue(currentDialogue, gameObject);
     }
 
     public void ResumeMovement()

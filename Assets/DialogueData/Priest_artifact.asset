@@ -16,14 +16,22 @@ MonoBehaviour:
   dialogueText: "Super, ihr wart erfolgreich. Als n\xE4chstes ben\xF6tigen wir Holz,
     um unsere Stadt zu befestigen. K\xF6nnt ihr es sammeln?"
   choices:
-  - choiceText: Klar, ich mach mich sofort auf den Weg
+  - relationShipEffect:
+      fearChange: 0
+      loyalityChange: 0
+      respectChange: 0
+      trustChange: 0
+      friendshipChange: 0
+    choiceText: Klar, ich mach mich sofort auf den Weg
     startQuest: 1
-    questID: 0
-    nextStage: 6
     reputationChange: 10
-  - choiceText: Sollen die Bewohner doch das Holz sammeln
+  - relationShipEffect:
+      fearChange: 0
+      loyalityChange: 0
+      respectChange: 0
+      trustChange: 0
+      friendshipChange: 0
+    choiceText: Sollen die Bewohner doch das Holz sammeln
     startQuest: 0
-    questID: 0
-    nextStage: 1
     reputationChange: -15
   portrait: {fileID: 0}

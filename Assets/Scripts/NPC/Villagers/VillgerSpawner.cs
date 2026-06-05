@@ -9,7 +9,11 @@ public class VillgerSpawner : MonoBehaviour
     public int vilCount = 3;
     public LayerMask villageLayer;
     public Transform player;
+    public GameObject convaiVillagerPrefab;
     private int nextWaypointIndex =0;
+
+    [Header("Villager Dialogue")]
+    public DialogueData[] villagerDialogue;
 
     [Header("Prefabs")]
     public GameObject guardPrefab;
@@ -21,15 +25,12 @@ public class VillgerSpawner : MonoBehaviour
     {
         "Seit dem letzten ANgriff wird mein Mann vermisst",
         "Wir brauchen Stein, u den Tempel zu verbessern.",
-        "Wir brauchen mehr Nahrung",
         "Mein Sohn ist krank",
         "Mein Haus ist undicht, ich brauche Holz für die Reperatur",
     };
 
     private string[] names =
     {
-        "Ix Chel",
-        "Chaac",
         "Itzamná",
         "Kukulkan",
         "Pakal",
@@ -37,6 +38,7 @@ public class VillgerSpawner : MonoBehaviour
     void Start()
     {
         FindHouse();
+        SpawnConvaiVillager();
         SpawnVillager();
         SpawnGuard();
     }
@@ -69,6 +71,32 @@ public class VillgerSpawner : MonoBehaviour
     {
         for (int i = 0; i < vilCount; i++)
             SpawnNPC(vilPrefab, false);
+    }
+
+    void SpawnConvaiVillager()
+    {
+        if(convaiVillagerPrefab == null)
+        {
+            Debug.LogWarning("convai villager prefab fehlt ");
+            return;
+        }
+
+        Vector3 spawnPosition = GetVillagePos();
+        GameObject npc = Instantiate(convaiVillagerPrefab, spawnPosition, Quaternion.identity);
+        NPC_Villager villager = npc.GetComponent<NPC_Villager>();
+
+        if(villager != null)
+        {
+            villager.player = player;
+            villager.npcName = "Ix Chel";
+            villager.PersonalProblem = " Mein Mann wird seit dem letzten ANgriff vermisst";
+            villager.preferredResource = Ressourcetyp.Food;
+        }
+
+        AssignHome(npc.transform);
+        Debug.Log("Convai Villager Ix Chel gespawnt");
+
+
     }
 
     void AssignHome(Transform npc)
@@ -128,6 +156,47 @@ public class VillgerSpawner : MonoBehaviour
         villager.npcName = names[Random.Range(0, names.Length)];
         villager.PersonalProblem = problems[Random.Range(0, problems.Length)];
         villager.preferredResource = (Ressourcetyp) Random.Range(0, System.Enum.GetValues(typeof(Ressourcetyp)).Length);
+        villager.dialoguePool.Clear();
+        int villagerType = Random.Range(0, 5);
+
+        switch (villagerType)
+        {
+            case 0:
+                villager.npcName = "Ah Kin";
+                villager.PersonalProblem = "Die Maisfelder liefern zu wenig Nahrung";
+                break;
+            case 1:
+                villager.npcName = "Itzamná";
+                villager.PersonalProblem = "Der Fluss liefert weniger Fisch";
+                break;
+            case 2:
+                villager.npcName = "Chak Tok";
+                villager.PersonalProblem = "Der Tempel bringt mehr Stein";
+                break;
+            case 3:
+                villager.npcName = "Yax Tun";
+                villager.PersonalProblem = "Die Wälder werden gefährlicher";
+                break;
+            case 4:
+                villager.npcName = "Pakal";
+                villager.PersonalProblem = "Die Händler verlangen höhere Preise";
+                break;
+
+        }
+
+        if(villagerDialogue.Length > 0)
+        {
+            int amount = Mathf.Min(4, villagerDialogue.Length);
+            List<DialogueData> available = new List<DialogueData>(villagerDialogue);
+            for(int i = 0; i<amount; i++)
+            {
+                int index = Random.Range(0, available.Count);
+                villager.dialoguePool.Add(available[index]);
+                available.RemoveAt(index);
+            }
+
+            villager.villagerDialogue = villager.dialoguePool[0];
+        }
     }
     void SpawnNPC(GameObject prefab, bool isGuard)
     {

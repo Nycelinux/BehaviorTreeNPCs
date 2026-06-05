@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class NPC_Villager : NPC_Base
+public class NPC_Villager : NPC_Base, IInteractable
 {
     public Transform player;
     public Transform homePoint;
     public Transform resourcePoint;
+    public DialogueData villagerDialogue;
     public Ressourcetyp preferredResource;
     private bool autoGatherEnabled= false;
     private Blackboard blackboard;
@@ -20,6 +21,9 @@ public class NPC_Villager : NPC_Base
     [Header("Personality")]
     public string npcName;
     private NPCReaction reaction;
+
+    [Header("Dialogue Pool")]
+    public List<DialogueData> dialoguePool = new List<DialogueData>();
 
     protected override void Start()
     {
@@ -86,5 +90,22 @@ public class NPC_Villager : NPC_Base
     public bool CanAutoGather()
     {
         return autoGatherEnabled;
+    }
+
+    public void Interact()
+    {
+        ConvaiContextProvider context = GetComponent<ConvaiContextProvider>();
+        string convaiContext = context != null ? context.BuildContext() : "";
+        if(dialoguePool != null && dialoguePool.Count > 0)
+        {
+            DialogueData randomDialogue = dialoguePool[Random.Range(0, dialoguePool.Count)];
+            DialogueManager.instance.StartDialogue(randomDialogue, gameObject);
+        }
+        
+        
+        else if(villagerDialogue != null)
+        {
+            DialogueManager.instance.StartDialogue(villagerDialogue, gameObject);
+        }
     }
 }

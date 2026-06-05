@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7408b1ec601201a409f6164ba7b66f17, type: 3}
+  m_Name: villager_3
+  m_EditorClassIdentifier: 
+  npcName: Pakal
+  dialogueText: "Die W\xE4lder sind weiter entfernt als fr\xFCher. Unsere Wege werden
+    gef\xE4hrlicher."
+  choices:
+  - relationShipEffect:
+      fearChange: 0
+      loyalityChange: 0
+      respectChange: 3
+      trustChange: 5
+      friendshipChange: 0
+    choiceText: Ich stelle Wachen ab.
+    startQuest: 0
+    reputationChange: 0
+  - relationShipEffect:
+      fearChange: 0
+      loyalityChange: 0
+      respectChange: 0
+      trustChange: 0
+      friendshipChange: 3
+    choiceText: "Nehmt gr\xF6\xDFere Gruppen mit."
+    startQuest: 0
+    reputationChange: 0
+  - relationShipEffect:
+      fearChange: 0
+      loyalityChange: 0
+      respectChange: 0
+      trustChange: -4
+      friendshipChange: 0
+    choiceText: "Wir k\xF6nnen nichts tun."
+    startQuest: 0
+    reputationChange: 0
+  portrait: {fileID: 0}

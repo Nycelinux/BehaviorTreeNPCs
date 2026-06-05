@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7408b1ec601201a409f6164ba7b66f17, type: 3}
+  m_Name: villager_6
+  m_EditorClassIdentifier: 
+  npcName: Pakal
+  dialogueText: "Ich m\xF6chte den Kriegern beitreten und das Dorf verteidigen."
+  choices:
+  - relationShipEffect:
+      fearChange: 0
+      loyalityChange: 0
+      respectChange: 5
+      trustChange: 0
+      friendshipChange: 3
+    choiceText: Mut wird gebraucht.
+    startQuest: 0
+    reputationChange: 2
+  - relationShipEffect:
+      fearChange: 4
+      loyalityChange: -1
+      respectChange: 0
+      trustChange: -3
+      friendshipChange: 0
+    choiceText: Du bist noch nicht bereit.
+    startQuest: 1
+    reputationChange: 0
+  - relationShipEffect:
+      fearChange: 0
+      loyalityChange: 0
+      respectChange: 0
+      trustChange: 1
+      friendshipChange: 4
+    choiceText: Hilf erst dem Dorf.
+    startQuest: 0
+    reputationChange: 0
+  portrait: {fileID: 0}
