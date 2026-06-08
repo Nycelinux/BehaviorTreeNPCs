@@ -16,14 +16,28 @@ MonoBehaviour:
   dialogueText: Der letzte Angriff steht bevor und es sieht nicht gut aus. Werdet
     ihr euch der Herausforderung stellen?
   choices:
-  - choiceText: "Wir werden die Stadt besch\xFCtzen"
+  - relationShipEffect:
+      fearChange: -5
+      loyalityChange: 7
+      respectChange: 2
+      trustChange: 7
+      friendshipChange: 2
+    choiceText: "Wir werden die Stadt besch\xFCtzen"
     startQuest: 1
-    questID: 8
-    nextStage: 13
+    questID: 13
+    changeStoryChange: 1
+    nextStage: 9
     reputationChange: 10
-  - choiceText: Wir alle sind verloren
+  - relationShipEffect:
+      fearChange: 7
+      loyalityChange: -9
+      respectChange: 0
+      trustChange: -3
+      friendshipChange: -5
+    choiceText: Wir alle sind verloren
     startQuest: 0
-    questID: 8
+    questID: 13
+    changeStoryChange: 0
     nextStage: 16
     reputationChange: -20
   portrait: {fileID: 0}

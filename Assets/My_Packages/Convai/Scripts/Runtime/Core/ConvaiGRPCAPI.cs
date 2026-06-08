@@ -48,7 +48,7 @@ namespace Convai.Scripts.Runtime.Core
             }
 
             Instance = this;
-
+            Debug.Log("ConvaiGRPCAPI Awake test");
             // Load API key from a ScriptableObject in Resources folder.
             ConvaiAPIKeySetup.GetAPIKey(out _apiKey);
 
@@ -112,6 +112,7 @@ namespace Convai.Scripts.Runtime.Core
             }
 
             using AsyncDuplexStreamingCall<GetResponseRequest, GetResponseResponse> call = client.GetResponse();
+            Debug.Log("ConvaiGRPCAPI.Instance = " + Instance);
             GetResponseRequest getResponseConfigRequest = new()
             {
                 GetResponseConfig = new GetResponseConfig

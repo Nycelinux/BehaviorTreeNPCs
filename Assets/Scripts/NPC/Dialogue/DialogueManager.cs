@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Convai.Scripts.Runtime.Core;
 public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager instance;
@@ -28,7 +28,7 @@ public class DialogueManager : MonoBehaviour
             Debug.LogError("DialogueData fehlt!");
             return;
         }*/
-
+        DialogueChoiceExecuter.instance.SetContext(npc);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
@@ -39,25 +39,12 @@ public class DialogueManager : MonoBehaviour
     {
         Debug.Log("StartConvaiDialogue aufgerufen");
         currentNpc = npc.gameObject;
-
+       
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        StartCoroutine(ConvaiRequestRoutine(npc, context));
+        ConvaiDialogueService.instance.StartConversation(npc, context);
     }
 
-    private IEnumerator ConvaiRequestRoutine(NPC_Villager npc, string context)
-    {
-        yield return new WaitForSeconds(0.5f);
-        string responseText = " Die Götter sind unruhig... aber ich hör dir zu";
-        List<DialogueChoice> generatedChoice = DialogueChoiceFactory.GenerateBasicChoices();
-        DialogueData runtimeDialogue = new DialogueData
-        {
-            npcName = npc.npcName,
-            dialogueText = responseText,
-            choices = generatedChoice
-        };
-        dialogueUI.ShowDialogue(runtimeDialogue);
-    }
 
     public void EndDialogue()
     {

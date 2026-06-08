@@ -39,8 +39,25 @@ public class ConvaiContextProvider : MonoBehaviour
         }
         if (relationshipData != null)
         {
-            context += relationshipData.GetRelationShipSummary() + "\n";
+            context += "relationship state: "+ relationshipData.GetRelationShipSummary() + "\n";
+            context += "Respect: "+ relationshipData.respect + "\n";
+            context += "Trust: "+ relationshipData.trust + "\n";
+            context += "Fear of Player: "+ relationshipData.fearOfPlayer + "\n";
+            context += "Friendship: "+ relationshipData.friendship + "\n";
         }
         return context;
+    }
+
+    public string BuildConvaiPrompt()
+    {
+        string prompt = BuildContext();
+        prompt += "\n";
+        prompt += "\nPlayer starts a conversation.";
+        prompt += "\nTell the player about your current situation.";
+        prompt += "\nMention your biggest concern.";
+        prompt += "\nStay in character.";
+        prompt += "\nMaximum 3 sentences.";
+
+        return prompt;
     }
 }

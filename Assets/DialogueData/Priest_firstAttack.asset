@@ -15,14 +15,28 @@ MonoBehaviour:
   npcName: Itzamara
   dialogueText: Schnell, das Dorf wird angegriffen! Besiegt de Feinde!
   choices:
-  - choiceText: "Ich werde mich darum k\xFCmmern."
+  - relationShipEffect:
+      fearChange: -7
+      loyalityChange: 3
+      respectChange: 6
+      trustChange: 11
+      friendshipChange: 2
+    choiceText: "Ich werde mich darum k\xFCmmern."
     startQuest: 1
     questID: 12
+    changeStoryChange: 1
     nextStage: 8
     reputationChange: 20
-  - choiceText: "Die W\xE4chter schaffen es schon."
+  - relationShipEffect:
+      fearChange: 15
+      loyalityChange: -5
+      respectChange: -7
+      trustChange: -2
+      friendshipChange: -6
+    choiceText: "Die W\xE4chter schaffen es schon."
     startQuest: 0
     questID: 12
+    changeStoryChange: 1
     nextStage: 16
     reputationChange: -10
   portrait: {fileID: 0}

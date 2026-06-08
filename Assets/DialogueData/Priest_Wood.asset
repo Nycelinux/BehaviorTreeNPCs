@@ -16,19 +16,40 @@ MonoBehaviour:
   dialogueText: "Danke, dass ihr es geholt habt. K\xF6nnen wir darauf vertrauen,
     dass ihr das Dorf vor Feinden besch\xFCtzt?"
   choices:
-  - choiceText: "F\xFCr die Bewohner werde ich mein Bestes geben."
-    startQuest: 0
+  - relationShipEffect:
+      fearChange: -3
+      loyalityChange: 7
+      respectChange: 4
+      trustChange: 6
+      friendshipChange: 7
+    choiceText: "F\xFCr die Bewohner werde ich mein Bestes geben."
+    startQuest: 1
     questID: 2
+    changeStoryChange: 1
     nextStage: 3
     reputationChange: 10
-  - choiceText: Die Bewohner sind mir egal.
+  - relationShipEffect:
+      fearChange: 0
+      loyalityChange: 0
+      respectChange: 0
+      trustChange: 0
+      friendshipChange: 0
+    choiceText: Die Bewohner sind mir egal.
     startQuest: 0
     questID: 2
+    changeStoryChange: 0
     nextStage: 1
     reputationChange: -10
-  - choiceText: Eigentlich bin ich ein Spion des Nachbardorfes.
+  - relationShipEffect:
+      fearChange: 7
+      loyalityChange: -7
+      respectChange: -3
+      trustChange: -6
+      friendshipChange: -5
+    choiceText: Eigentlich bin ich ein Spion des Nachbardorfes.
     startQuest: 0
     questID: 2
+    changeStoryChange: 0
     nextStage: 16
     reputationChange: -100
   portrait: {fileID: 21300002, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}

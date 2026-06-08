@@ -56,14 +56,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
-    <Analyzer Include="C:\Users\nikey\source\repos\BehaviorTreeNPCs\Assets\My_Packages\Convai\Plugins\gRPC\Grpc.Core.Api\lib\net45\Grpc.Core.Api.dll" />
-    <Analyzer Include="C:\Users\nikey\source\repos\BehaviorTreeNPCs\Assets\My_Packages\Convai\Plugins\gRPC\Grpc.Core\lib\net45\Grpc.Core.dll" />
-    <Analyzer Include="C:\Users\nikey\source\repos\BehaviorTreeNPCs\Assets\My_Packages\Convai\Plugins\gRPC\Google.Protobuf\Google.Protobuf.dll" />
-    <Analyzer Include="C:\Users\nikey\source\repos\BehaviorTreeNPCs\Assets\My_Packages\Convai\Plugins\gRPC\System.Diagnostics.DiagnosticSource\System.Diagnostics.DiagnosticSource.dll" />
-    <Analyzer Include="C:\Users\nikey\source\repos\BehaviorTreeNPCs\Assets\My_Packages\Convai\Plugins\gRPC\System.Runtime.CompilerServices.Unsafe\System.Runtime.CompilerServices.Unsafe.dll" />
-    <Analyzer Include="C:\Users\nikey\source\repos\BehaviorTreeNPCs\Assets\My_Packages\Convai\Plugins\gRPC\Microsoft.Extensions.Logging.Abstractions\Microsoft.Extensions.Logging.Abstractions.dll" />
-    <Analyzer Include="C:\Users\nikey\source\repos\BehaviorTreeNPCs\Assets\My_Packages\Convai\Plugins\gRPC\System.Memory\System.Memory.dll" />
-    <Analyzer Include="C:\Users\nikey\source\repos\BehaviorTreeNPCs\Assets\My_Packages\Convai\Plugins\gRPC\System.Buffers\System.Buffers.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.61f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.61f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
@@ -82,6 +74,7 @@
     <Compile Include="Assets\Scripts\IInteractable.cs" />
     <Compile Include="Assets\My_Packages\Convai\Scripts\Runtime\Features\LipSync\LipSyncBlendFrameData.cs" />
     <Compile Include="Assets\My_Packages\Convai\Scripts\Runtime\Features\LipSync\Visemes\VisemeBoneEffectorList.cs" />
+    <Compile Include="Assets\Scripts\NPC\ConvaiDialogueBridge.cs" />
     <Compile Include="Assets\My_Packages\Convai\Scripts\Runtime\UI\SettingsPanel\TranscriptUIActiveStatusHandler.cs" />
     <Compile Include="Assets\My_Packages\Convai\Scripts\Runtime\Features\NPC2NPC\NPCGroup.cs" />
     <Compile Include="Assets\Scripts\NPC\Priest\PriestRitualNode.cs" />
@@ -90,8 +83,10 @@
     <Compile Include="Assets\Scripts\Player\PlayerInteraction.cs" />
     <Compile Include="Assets\My_Packages\Convai\Scripts\Runtime\Features\LongTermMemory\LTMStatus.cs" />
     <Compile Include="Assets\Scripts\NPC\Guard\GuardAlertSystem.cs" />
+    <Compile Include="Assets\Scripts\NPC\ConvaiResponseRouter.cs" />
     <Compile Include="Assets\My_Packages\Convai\Scripts\Runtime\UI\Chat\ChatBoxUI.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\DummyCrosshairHandler.cs" />
     <Compile Include="Assets\My_Packages\Convai\Scripts\Runtime\Extensions\ImageExtensions.cs" />
     <Compile Include="Assets\Scripts\NPC\Guard\SqaudBlackboard.cs" />
     <Compile Include="Assets\My_Packages\Convai\Scripts\Runtime\UI\SettingsPanel\UISettingsPanelOpenButton.cs" />
@@ -109,8 +104,8 @@
     <Compile Include="Assets\Scripts\NPC\DamageUtil.cs" />
     <Compile Include="Assets\My_Packages\Convai\Scripts\Runtime\Features\NarrativeDesign\Runtime\NarrativeDesignManager.cs" />
     <Compile Include="Assets\My_Packages\Convai\Scripts\Runtime\Core\ConvaiNPCManager.cs" />
-    <Compile Include="Assets\Scripts\Zone.cs" />
     <Compile Include="Assets\My_Packages\Convai\Scripts\Runtime\Addons\NotificationSystem\SONotificationGroup.cs" />
+    <Compile Include="Assets\Scripts\Zone.cs" />
     <Compile Include="Assets\My_Packages\Convai\Scripts\Runtime\Addons\NotificationSystem\NotificationSystemActiveStatusHandler.cs" />
     <Compile Include="Assets\My_Packages\Convai\Scripts\Runtime\Utils\ConvaiLanguageCheck.cs" />
     <Compile Include="Assets\My_Packages\Convai\Scripts\Runtime\Utils\ConvaiAPIKeySetup.cs" />
@@ -178,6 +173,7 @@
     <Compile Include="Assets\Scripts\NPC\Dialogue\DialogueManager.cs" />
     <Compile Include="Assets\My_Packages\Convai\Scripts\Runtime\UI\Chat\QuestionAnswerUI.cs" />
     <Compile Include="Assets\Scripts\NPC\Priest\Quest\QuestEntryUI.cs" />
+    <Compile Include="Assets\Scripts\NPC\Dialogue\DialogueChoiceExecuter.cs" />
     <Compile Include="Assets\My_Packages\Convai\Scripts\Runtime\LoggerSystem\ConvaiLogger.cs" />
     <Compile Include="Assets\Scripts\NPC\Dialogue\DialogueButtonUI.cs" />
     <Compile Include="Assets\Scripts\Menus\GameOver.cs" />
@@ -210,8 +206,8 @@
     <Compile Include="Assets\My_Packages\Convai\Scripts\Runtime\UI\CanvasItems\ConvaiCrosshairHandler.cs" />
     <Compile Include="Assets\My_Packages\Convai\Scripts\Runtime\Addons\NotificationSystem\MicrophoneInputChecker.cs" />
     <Compile Include="Assets\Scripts\NPC\CheckNight.cs" />
-    <Compile Include="Assets\My_Packages\Convai\Scripts\Runtime\Core\ConvaiInputManager.cs" />
     <Compile Include="Assets\My_Packages\Convai\Scripts\Runtime\Addons\NotificationSystem\UINotification.cs" />
+    <Compile Include="Assets\My_Packages\Convai\Scripts\Runtime\Core\ConvaiInputManager.cs" />
     <Compile Include="Assets\My_Packages\Convai\Scripts\Runtime\UI\SettingsPanel\UIAppearanceSettings.cs" />
     <Compile Include="Assets\My_Packages\Convai\Scripts\Runtime\Addons\Player\ConvaiPlayerMovement.cs" />
     <Compile Include="Assets\My_Packages\Convai\Scripts\Runtime\Features\LipSync\Models\SkinMeshRendererData.cs" />
@@ -219,8 +215,8 @@
     <Compile Include="Assets\Scripts\NPC\Priest\ArtifactPickup.cs" />
     <Compile Include="Assets\My_Packages\Convai\Scripts\Runtime\Core\ConvaiGRPCAPI.cs" />
     <Compile Include="Assets\Scripts\NPC\Villagers\WanderNode.cs" />
-    <Compile Include="Assets\My_Packages\Convai\Scripts\Runtime\Core\ConvaiNPC.cs" />
     <Compile Include="Assets\My_Packages\Convai\Scripts\Runtime\UI\SettingsPanel\MicrophoneManager.cs" />
+    <Compile Include="Assets\My_Packages\Convai\Scripts\Runtime\Core\ConvaiNPC.cs" />
     <Compile Include="Assets\My_Packages\Convai\Scripts\Runtime\Addons\NotificationSystem\TalkButtonDurationChecker.cs" />
     <Compile Include="Assets\My_Packages\Convai\Scripts\Runtime\Addons\NotificationSystem\SONotification.cs" />
     <Compile Include="Assets\Scripts\NPC\EventManager.cs" />
@@ -246,8 +242,10 @@
     <Compile Include="Assets\Scripts\NPC\Guard\team.cs" />
     <Compile Include="Assets\My_Packages\Convai\Scripts\Runtime\Features\NarrativeDesign\Models\SectionChangeEventsData.cs" />
     <Compile Include="Assets\Scripts\NPC\Guard\SquadActionNode.cs" />
+    <Compile Include="Assets\Scripts\NPC\ConvaiDialogueService.cs" />
     <Compile Include="Assets\My_Packages\Convai\Scripts\Runtime\Features\NarrativeDesign\Runtime\NarrativeDesignAPI.cs" />
     <Compile Include="Assets\Scripts\NPC\RelationshipData.cs" />
+    <Compile Include="Assets\Scripts\DummyConvaiChatUIHandler.cs" />
     <Compile Include="Assets\Scripts\NPC\NPC_Memory.cs" />
     <Compile Include="Assets\Scripts\NPC\Dialogue\DialogueRelationShipEffect.cs" />
     <Compile Include="Assets\Scripts\NPC\Guard\NPC_Guard.cs" />

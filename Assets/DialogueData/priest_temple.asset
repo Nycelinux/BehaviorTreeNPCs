@@ -15,14 +15,28 @@ MonoBehaviour:
   npcName: Itzamara
   dialogueText: Geh zum Temple
   choices:
-  - choiceText: ich geh zum Tempel
+  - relationShipEffect:
+      fearChange: -2
+      loyalityChange: 1
+      respectChange: 2
+      trustChange: 5
+      friendshipChange: 1
+    choiceText: ich geh zum Tempel
     startQuest: 1
-    questID: 3
+    questID: 7
+    changeStoryChange: 1
     nextStage: 2
-    reputationChange: 0
-  - choiceText: Warum sollte ich Quests folgen?
+    reputationChange: 5
+  - relationShipEffect:
+      fearChange: 8
+      loyalityChange: -3
+      respectChange: 0
+      trustChange: -5
+      friendshipChange: -3
+    choiceText: Warum sollte ich Quests folgen?
     startQuest: 0
-    questID: 3
+    questID: 7
+    changeStoryChange: 0
     nextStage: 1
     reputationChange: -100
   portrait: {fileID: 0}

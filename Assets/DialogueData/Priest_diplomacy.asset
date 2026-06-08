@@ -16,14 +16,28 @@ MonoBehaviour:
   dialogueText: Um den Frieden mit unseren Nachbarn langfristig zu sichern, besucht
     das Nachbardorf und verhandelt mit ihnen.
   choices:
-  - choiceText: Ich werde mit ihnen verhandeln.
+  - relationShipEffect:
+      fearChange: -3
+      loyalityChange: 5
+      respectChange: 7
+      trustChange: 3
+      friendshipChange: 2
+    choiceText: Ich werde mit ihnen verhandeln.
     startQuest: 1
-    questID: 7
-    nextStage: 11
+    questID: 8
+    changeStoryChange: 1
+    nextStage: 12
     reputationChange: 10
-  - choiceText: "Warten wir lieber auf ihren n\xE4chsten Schritt."
+  - relationShipEffect:
+      fearChange: 30
+      loyalityChange: -10
+      respectChange: -20
+      trustChange: -5
+      friendshipChange: -10
+    choiceText: "Warten wir lieber auf ihren n\xE4chsten Schritt."
     startQuest: 0
-    questID: 7
-    nextStage: 13
+    questID: 8
+    changeStoryChange: 1
+    nextStage: 16
     reputationChange: -20
   portrait: {fileID: 0}

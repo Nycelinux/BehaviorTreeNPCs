@@ -16,14 +16,28 @@ MonoBehaviour:
   dialogueText: "Ihr wollt die Feindschaft durch eine Eheschlie\xDFung beilegen?
     Nun, es k\xF6nnte auch eine Falle sein. Werdet ihr meinem Urteil trauen?"
   choices:
-  - choiceText: Ich werde auf eure Entscheidung annehmen
+  - relationShipEffect:
+      fearChange: -5
+      loyalityChange: 8
+      respectChange: 5
+      trustChange: 3
+      friendshipChange: 9
+    choiceText: Ich werde auf eure Entscheidung annehmen
     startQuest: 1
-    questID: 7
+    questID: 11
+    changeStoryChange: 0
     nextStage: 12
     reputationChange: 10
-  - choiceText: Nein, es ist meine NEtscheidung
+  - relationShipEffect:
+      fearChange: 4
+      loyalityChange: -7
+      respectChange: -13
+      trustChange: -1
+      friendshipChange: -8
+    choiceText: Nein, es ist meine NEtscheidung
     startQuest: 0
-    questID: 10
+    questID: 11
+    changeStoryChange: 0
     nextStage: 16
     reputationChange: -5
   portrait: {fileID: 0}

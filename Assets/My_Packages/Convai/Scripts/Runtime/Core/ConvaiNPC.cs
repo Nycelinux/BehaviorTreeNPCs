@@ -178,7 +178,7 @@ namespace Convai.Scripts.Runtime.Core
             _convaiChatUIHandler = ConvaiChatUIHandler.Instance;
         }
 
-        private void OnEnable()
+        /*private void OnEnable()
         {
             AudioManager.OnCharacterTalkingChanged += HandleIsCharacterTalkingAnimation;
             AudioManager.OnAudioTranscriptAvailable += HandleAudioTranscriptAvailable;
@@ -188,9 +188,21 @@ namespace Convai.Scripts.Runtime.Core
 
             if (_convaiChatUIHandler != null) _convaiChatUIHandler.UpdateCharacterList();
             _processResponseCoroutine = StartCoroutine(ProcessResponseCoroutine());
+        }*/
+
+        private void OnEnable()
+        {
+            AudioManager.OnCharacterTalkingChanged += HandleIsCharacterTalkingAnimation;
+            AudioManager.OnAudioTranscriptAvailable += HandleAudioTranscriptAvailable;
+            AudioManager.OnCharacterTalkingChanged += SetCharacterTalking;
+
+            if (ConvaiNPCManager.Instance != null)
+                ConvaiNPCManager.Instance.OnActiveNPCChanged += HandleActiveNPCChanged;
+
+            _processResponseCoroutine = StartCoroutine(ProcessResponseCoroutine());
         }
 
-        private void OnDisable()
+        /*private void OnDisable()
         {
             if (AudioManager != null)
             {
@@ -204,6 +216,19 @@ namespace Convai.Scripts.Runtime.Core
 
             if (_convaiChatUIHandler != null) _convaiChatUIHandler.UpdateCharacterList();
             if (_processResponseCoroutine != null) StopCoroutine(_processResponseCoroutine);
+        }*/
+
+        private void OnDisable()
+        {
+            if (AudioManager != null)
+            {
+                AudioManager.OnCharacterTalkingChanged -= HandleIsCharacterTalkingAnimation;
+                AudioManager.OnAudioTranscriptAvailable -= HandleAudioTranscriptAvailable;
+                AudioManager.OnCharacterTalkingChanged -= SetCharacterTalking;
+            }
+
+            if (ConvaiNPCManager.Instance != null)
+                ConvaiNPCManager.Instance.OnActiveNPCChanged -= HandleActiveNPCChanged;
         }
 
         /// <summary>
@@ -268,7 +293,7 @@ namespace Convai.Scripts.Runtime.Core
         }
 
 
-        private void InitializeComponents()
+        /*private void InitializeComponents()
         {
             _convaiChatUIHandler = FindObjectOfType<ConvaiChatUIHandler>();
             _convaiCrosshairHandler = FindObjectOfType<ConvaiCrosshairHandler>();
@@ -276,8 +301,29 @@ namespace Convai.Scripts.Runtime.Core
             AudioManager = gameObject.AddComponent<ConvaiNPCAudioManager>();
             narrativeDesignManager = GetComponent<NarrativeDesignManager>();
             ConvaiPlayerDataSO.GetPlayerData(out _convaiPlayerData);
-            InitializePlayerInteractionManager();
+            if(_convaiCrosshairHandler !=null && _convaiChatUIHandler!=null)
+                InitializePlayerInteractionManager();
             InitializeLipSync();
+            StartCoroutine(InitializeActionsHandler());
+        }*/
+        private void InitializeComponents()
+        {
+            _convaiChatUIHandler = FindObjectOfType<ConvaiChatUIHandler>();
+            _convaiCrosshairHandler = FindObjectOfType<ConvaiCrosshairHandler>();
+
+            _characterAnimator = GetComponent<Animator>();
+
+            AudioManager = gameObject.AddComponent<ConvaiNPCAudioManager>();
+
+            narrativeDesignManager = GetComponent<NarrativeDesignManager>();
+
+            ConvaiPlayerDataSO.GetPlayerData(out _convaiPlayerData);
+
+            // Deaktiviert komplettes Convai UI / Crosshair System
+            // InitializePlayerInteractionManager();
+
+            InitializeLipSync();
+
             StartCoroutine(InitializeActionsHandler());
         }
 
@@ -293,10 +339,29 @@ namespace Convai.Scripts.Runtime.Core
             }
         }
 
-        private void InitializePlayerInteractionManager()
+        /*private void InitializePlayerInteractionManager()
         {
             playerInteractionManager = gameObject.AddComponent<ConvaiPlayerInteractionManager>();
             playerInteractionManager.Initialize(this, _convaiCrosshairHandler, _convaiChatUIHandler);
+        }*/
+
+        private void InitializePlayerInteractionManager()
+        {
+            if (_convaiCrosshairHandler == null ||
+                _convaiChatUIHandler == null)
+            {
+                Debug.LogWarning(
+                    $"Convai UI disabled for {characterName}");
+                return;
+            }
+
+            playerInteractionManager =
+                gameObject.AddComponent<ConvaiPlayerInteractionManager>();
+
+            playerInteractionManager.Initialize(
+                this,
+                _convaiCrosshairHandler,
+                _convaiChatUIHandler);
         }
 
         private void InitializeLipSync()

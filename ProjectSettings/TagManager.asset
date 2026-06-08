@@ -10,6 +10,7 @@ TagManager:
   - Waypoint
   - Ground
   - Haus
+  - ConvaiNPC
   layers:
   - Default
   - TransparentFX

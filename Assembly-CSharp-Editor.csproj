@@ -56,14 +56,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
-    <Analyzer Include="C:\Users\nikey\source\repos\BehaviorTreeNPCs\Assets\My_Packages\Convai\Plugins\gRPC\Grpc.Core.Api\lib\net45\Grpc.Core.Api.dll" />
-    <Analyzer Include="C:\Users\nikey\source\repos\BehaviorTreeNPCs\Assets\My_Packages\Convai\Plugins\gRPC\Grpc.Core\lib\net45\Grpc.Core.dll" />
-    <Analyzer Include="C:\Users\nikey\source\repos\BehaviorTreeNPCs\Assets\My_Packages\Convai\Plugins\gRPC\Google.Protobuf\Google.Protobuf.dll" />
-    <Analyzer Include="C:\Users\nikey\source\repos\BehaviorTreeNPCs\Assets\My_Packages\Convai\Plugins\gRPC\System.Diagnostics.DiagnosticSource\System.Diagnostics.DiagnosticSource.dll" />
-    <Analyzer Include="C:\Users\nikey\source\repos\BehaviorTreeNPCs\Assets\My_Packages\Convai\Plugins\gRPC\System.Runtime.CompilerServices.Unsafe\System.Runtime.CompilerServices.Unsafe.dll" />
-    <Analyzer Include="C:\Users\nikey\source\repos\BehaviorTreeNPCs\Assets\My_Packages\Convai\Plugins\gRPC\Microsoft.Extensions.Logging.Abstractions\Microsoft.Extensions.Logging.Abstractions.dll" />
-    <Analyzer Include="C:\Users\nikey\source\repos\BehaviorTreeNPCs\Assets\My_Packages\Convai\Plugins\gRPC\System.Memory\System.Memory.dll" />
-    <Analyzer Include="C:\Users\nikey\source\repos\BehaviorTreeNPCs\Assets\My_Packages\Convai\Plugins\gRPC\System.Buffers\System.Buffers.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.61f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.61f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>

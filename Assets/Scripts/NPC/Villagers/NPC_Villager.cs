@@ -11,6 +11,7 @@ public class NPC_Villager : NPC_Base, IInteractable
     public DialogueData villagerDialogue;
     public Ressourcetyp preferredResource;
     private bool autoGatherEnabled= false;
+    public bool hasConvai= false;
     private Blackboard blackboard;
     [TextArea]
     public string PersonalProblem;
@@ -95,7 +96,13 @@ public class NPC_Villager : NPC_Base, IInteractable
     public void Interact()
     {
         ConvaiContextProvider context = GetComponent<ConvaiContextProvider>();
-        string convaiContext = context != null ? context.BuildContext() : "";
+        string convaiContext = context != null ? context.BuildConvaiPrompt() : "You're a villager";
+        if (hasConvai)
+        {
+            DialogueManager.instance.StartConvaiDialogue(this, convaiContext);
+                return;
+        }
+        
         if(dialoguePool != null && dialoguePool.Count > 0)
         {
             DialogueData randomDialogue = dialoguePool[Random.Range(0, dialoguePool.Count)];

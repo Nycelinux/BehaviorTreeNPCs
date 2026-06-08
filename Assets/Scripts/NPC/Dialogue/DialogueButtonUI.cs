@@ -13,12 +13,10 @@ public class DialogueButtonUI : MonoBehaviour
     {
         currentChoice = choice;
         buttonnText.text = choice.choiceText;
-        GetComponent<Button>()
-            .onClick
-            .RemoveAllListeners();
-        GetComponent<Button>()
-            .onClick
-            .AddListener(Choose);
+        GetComponent<Button>().onClick.RemoveAllListeners();
+        GetComponent<Button>().onClick.AddListener(() => DialogueChoiceExecuter.instance.ExecuteChoice(choice));
+        /*GetComponent<Button>().onClick.AddListener(Choose);*/
+
 
     }
     void Choose()

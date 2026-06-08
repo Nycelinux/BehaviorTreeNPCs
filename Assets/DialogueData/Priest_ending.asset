@@ -16,14 +16,28 @@ MonoBehaviour:
   dialogueText: "Gut gemacht, ihr habt die letzte Attacke \xFCberlebt. Ob Ihr euch
     bew\xE4hrt habt?"
   choices:
-  - choiceText: Ich hoffe es
+  - relationShipEffect:
+      fearChange: -4
+      loyalityChange: 12
+      respectChange: 4
+      trustChange: 5
+      friendshipChange: 6
+    choiceText: Ich hoffe es
     startQuest: 1
-    questID: 9
+    questID: 11
+    changeStoryChange: 1
     nextStage: 14
     reputationChange: 5
-  - choiceText: Ne, ganz sicher nicht.
+  - relationShipEffect:
+      fearChange: 13
+      loyalityChange: -4
+      respectChange: -12
+      trustChange: -6
+      friendshipChange: -7
+    choiceText: Ne, ganz sicher nicht.
     startQuest: 0
-    questID: 9
+    questID: 11
+    changeStoryChange: 0
     nextStage: 16
     reputationChange: -10
   portrait: {fileID: 0}

@@ -87,6 +87,7 @@ public class VillgerSpawner : MonoBehaviour
 
         if(villager != null)
         {
+            villager.hasConvai = true;
             villager.player = player;
             villager.npcName = "Ix Chel";
             villager.PersonalProblem = " Mein Mann wird seit dem letzten ANgriff vermisst";

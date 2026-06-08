@@ -8,7 +8,8 @@ public class DialogueChoice
     public DialogueRelationShipEffect relationShipEffect = new DialogueRelationShipEffect();
     public string choiceText;
     public bool startQuest;
-    public QuestID? questID;
-    public StoryStage? nextStage;
+    public QuestID questID;
+    public bool changeStoryChange;
+    public StoryStage nextStage;
     public int reputationChange;
 }
