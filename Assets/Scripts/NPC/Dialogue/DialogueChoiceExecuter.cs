@@ -38,7 +38,7 @@ public class DialogueChoiceExecuter : MonoBehaviour
         {
             memory.AddMemory("Player choice: " + choice.choiceText);
         }
-        if (choice.startQuest)
+        /* (choice.startQuest)
         {
             QuestManager.instance.AddQuest(new Quest { 
                 questID= choice.questID,
@@ -57,15 +57,15 @@ public class DialogueChoiceExecuter : MonoBehaviour
                 StoryManager.instance.StartStage(choice.nextStage);
             else
                 Debug.Log("Story Stage Change blockiert: kein Priester NPC");
-        }
-
-        /*var context = currentNPC.GetComponent<ConvaiContextProvider>();
+        }*/
+        DialogueManager.instance.EndDialogue();
+        var context = currentNPC.GetComponent<ConvaiContextProvider>();
         if (context != null)
         {
             ConvaiResponseRouter.Instance.Send(
                 currentNPC.GetComponent<NPC_Villager>(),
                 context.BuildContext()
             );
-        }*/
+        }
     }
 }

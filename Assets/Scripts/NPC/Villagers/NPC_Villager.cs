@@ -102,8 +102,9 @@ public class NPC_Villager : NPC_Base, IInteractable
             DialogueManager.instance.StartConvaiDialogue(this, convaiContext);
                 return;
         }
-        
-        if(dialoguePool != null && dialoguePool.Count > 0)
+
+        Debug.Log(npcName +" dialoguePool count = " +dialoguePool.Count);
+        if (dialoguePool != null && dialoguePool.Count > 0)
         {
             DialogueData randomDialogue = dialoguePool[Random.Range(0, dialoguePool.Count)];
             DialogueManager.instance.StartDialogue(randomDialogue, gameObject);

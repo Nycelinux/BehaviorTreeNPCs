@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using System.Linq;
 
 public class VillgerSpawner : MonoBehaviour
 {
@@ -14,6 +15,9 @@ public class VillgerSpawner : MonoBehaviour
 
     [Header("Villager Dialogue")]
     public DialogueData[] villagerDialogue;
+
+    [Header("Alle Villager Dialogue")]
+    public DialogueData[] allDialogue;
 
     [Header("Prefabs")]
     public GameObject guardPrefab;
@@ -154,10 +158,7 @@ public class VillgerSpawner : MonoBehaviour
         if (villager == null)
             return;
         villager.player = player;
-        villager.npcName = names[Random.Range(0, names.Length)];
-        villager.PersonalProblem = problems[Random.Range(0, problems.Length)];
-        villager.preferredResource = (Ressourcetyp) Random.Range(0, System.Enum.GetValues(typeof(Ressourcetyp)).Length);
-        villager.dialoguePool.Clear();
+       
         int villagerType = Random.Range(0, 5);
 
         switch (villagerType)
@@ -185,19 +186,26 @@ public class VillgerSpawner : MonoBehaviour
 
         }
 
-        if(villagerDialogue.Length > 0)
+        villager.preferredResource = (Ressourcetyp)Random.Range(0, System.Enum.GetValues(typeof(Ressourcetyp)).Length);
+        villager.dialoguePool.Clear();
+        if (allDialogue == null || allDialogue.Length == 0)
         {
-            int amount = Mathf.Min(4, villagerDialogue.Length);
-            List<DialogueData> available = new List<DialogueData>(villagerDialogue);
-            for(int i = 0; i<amount; i++)
-            {
-                int index = Random.Range(0, available.Count);
-                villager.dialoguePool.Add(available[index]);
-                available.RemoveAt(index);
-            }
-
-            villager.villagerDialogue = villager.dialoguePool[0];
+            Debug.LogError("Keine DialogueData Assets im Spawner zugewiesen!");
+            return;
         }
+
+        List<DialogueData> matchDialogues = allDialogue.Where(d => d != null && d.npcName.Trim().ToLower() == villager.npcName.Trim().ToLower()).ToList();
+
+        if (matchDialogues.Count == 0)
+        {
+            Debug.LogWarning($" Keine Dialogue für NPC {villager.npcName} gefunden.");
+            return;
+        }
+        villager.dialoguePool.AddRange(matchDialogues);
+        villager.villagerDialogue = villager.dialoguePool[0];
+        Debug.Log($"{villager.npcName}: {villager.dialoguePool.Count} Dialoge geladen");
+
+        
     }
     void SpawnNPC(GameObject prefab, bool isGuard)
     {

@@ -667,6 +667,19 @@ MonoBehaviour:
   player: {fileID: 3095648549696892094, guid: fbd7285088325a14291b9c922934700b, type: 3}
   convaiVillagerPrefab: {fileID: 0}
   villagerDialogue: []
+  allDialogue:
+  - {fileID: 11400000, guid: 569d27fda195d094c8d6896e79a97c8c, type: 2}
+  - {fileID: 11400000, guid: c99210da02e79004dad566f4badcbb63, type: 2}
+  - {fileID: 11400000, guid: 766c16125685af94a877620ce7a0a5cf, type: 2}
+  - {fileID: 11400000, guid: d512e515977117540aa103a149375f3a, type: 2}
+  - {fileID: 11400000, guid: afebd8f0cf5d89b489a47a9446f72802, type: 2}
+  - {fileID: 11400000, guid: 75652c26983088841b25634ad28e5b23, type: 2}
+  - {fileID: 11400000, guid: ecd2693776c418040902508464dac757, type: 2}
+  - {fileID: 11400000, guid: 20baa397c806618449d410813668342e, type: 2}
+  - {fileID: 11400000, guid: c656bd5e748acbc4a802f9116c14d9d8, type: 2}
+  - {fileID: 11400000, guid: 6e422c3c2b6a149429015940501abd5e, type: 2}
+  - {fileID: 11400000, guid: cc6c7d83f636ff84f8c777e66a8351ae, type: 2}
+  - {fileID: 11400000, guid: 5d8f7f29e091f2744a3bdf84a059fe1f, type: 2}
   guardPrefab: {fileID: 1870425298327068580, guid: da89126f8b324a14c8c09ec0fa6bb061, type: 3}
   vilPrefab: {fileID: 4883709582363556406, guid: 43ea703231ce8aa4e9637a8457f0827f, type: 3}
 --- !u!4 &207450360
@@ -1104,6 +1117,8 @@ GameObject:
   m_Component:
   - component: {fileID: 374546229}
   - component: {fileID: 374546231}
+  - component: {fileID: 374546233}
+  - component: {fileID: 374546232}
   m_Layer: 0
   m_Name: ConvaiSystem
   m_TagString: Untagged
@@ -1141,6 +1156,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9075946a1a51c9f4abe905231892b484, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &374546232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374546226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac3bfdb7f1f556540bc41acc9a375817, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &374546233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374546226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5777a8a41e942f5a05df965241ef598, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rayLength: 2
+  visionConeAngle: 45
+  activeConvaiNPC: {fileID: 0}
+  nearbyNPC: {fileID: 0}
 --- !u!1 &390757716
 GameObject:
   m_ObjectHideFlags: 0
@@ -6943,6 +6986,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1463588977}
   - component: {fileID: 1463588978}
+  - component: {fileID: 1463588979}
   m_Layer: 5
   m_Name: DialogueManager
   m_TagString: Untagged
@@ -6983,6 +7027,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueUI: {fileID: 1831147093}
   currentNpc: {fileID: 0}
+--- !u!114 &1463588979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1463588975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65782d1871bdc0a4bbd417b0ca1344d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1476908609
 GameObject:
   m_ObjectHideFlags: 0
@@ -8948,10 +9004,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 855020996}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -56.358, y: 12.825}
-  m_SizeDelta: {x: 793.285, y: 401.98}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -56.858032, y: 12.825012}
+  m_SizeDelta: {x: -963.715, y: -122.01999}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1778447541
 MonoBehaviour:
@@ -11283,7 +11339,7 @@ MonoBehaviour:
   villagerDialogue: {fileID: 11400000, guid: c656bd5e748acbc4a802f9116c14d9d8, type: 2}
   preferredResource: 0
   hasConvai: 0
-  PersonalProblem: Mann vermisst, soll mir vom Halsbleiben
+  PersonalProblem: Mein Mann wird vermisst
   wanderRadius: 8
   npcName: Ix Chel
   dialoguePool:

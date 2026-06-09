@@ -15,20 +15,29 @@ public class DialogueManager : MonoBehaviour
     public void StartDialogue(DialogueData dialogue, GameObject npc)
     {
         Debug.Log("StartDialogue aufgerufen");
+        Debug.Log("dialogue = " + dialogue);
+        Debug.Log("npc = " + npc);
+        Debug.Log("dialogueUI = " + dialogueUI);
+        Debug.Log("DialogueChoiceExecuter.instance = " + DialogueChoiceExecuter.instance);
         currentNpc = npc;
-
-        /*if (dialogueUI == null)
-        {
-            Debug.LogError("DialogueUI fehlt!");
-            return;
-        }
 
         if (dialogue == null)
         {
-            Debug.LogError("DialogueData fehlt!");
+            Debug.LogError("Dialogue ist NULL");
             return;
-        }*/
-        DialogueChoiceExecuter.instance.SetContext(npc);
+        }
+
+        if (dialogueUI == null)
+        {
+            Debug.LogError("DialogueUI fehlt im Inspector");
+            return;
+        }
+
+        currentNpc = npc;
+
+        if (DialogueChoiceExecuter.instance != null)
+            DialogueChoiceExecuter.instance.SetContext(npc);
+
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 

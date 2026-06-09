@@ -24,6 +24,9 @@ MonoBehaviour:
       friendshipChange: 0
     choiceText: Klar, ich mach mich sofort auf den Weg
     startQuest: 1
+    questID: 0
+    changeStoryChange: 1
+    nextStage: 6
     reputationChange: 10
   - relationShipEffect:
       fearChange: 0
@@ -33,5 +36,8 @@ MonoBehaviour:
       friendshipChange: 0
     choiceText: Sollen die Bewohner doch das Holz sammeln
     startQuest: 0
+    questID: 0
+    changeStoryChange: 0
+    nextStage: 0
     reputationChange: -15
   portrait: {fileID: 0}

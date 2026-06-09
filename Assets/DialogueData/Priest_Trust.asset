@@ -25,7 +25,7 @@ MonoBehaviour:
       friendshipChange: 1
     choiceText: "Ja, ihr k\xF6nnt mir vertrauen."
     startQuest: 1
-    questID: 6
+    questID: 14
     changeStoryChange: 1
     nextStage: 8
     reputationChange: 10

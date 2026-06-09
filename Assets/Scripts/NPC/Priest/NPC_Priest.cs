@@ -57,14 +57,26 @@ public class NPC_Priest : NPC_Base, IInteractable
         switch (StoryManager.instance.currentStage)
         {
             case StoryStage.TempleVisits:
-               
-                if (!QuestManager.instance.IsCompleted(QuestID.VisitTemple))
+                var quest = QuestManager.instance.GetQuest(QuestID.VisitTemple);
+
+                if (quest == null)
+                {
+                    Debug.Log("Quest fehlt -> wird erstellt");
+                    QuestManager.instance.AddQuest(new Quest
+                    {
+                        questID = QuestID.VisitTemple,
+                        questName = "Visit Temple",
+                        requiredAmount = 1,
+                        questType = Quest.QuestType.Investigate
+                    });
+                }
+
+                    if (!QuestManager.instance.IsCompleted(QuestID.VisitTemple))
                 {
                     Debug.Log("Intro Dialogue");
                     Debug.Log("Quest not commpleted ... ");
 
                     QuestManager.instance.ProgressQuest(QuestID.VisitTemple, 1);
-                    Quest quest = QuestManager.instance.GetQuest(QuestID.VisitTemple);
                     if(quest != null && quest.readyToTurnIn)
                     {
                         Debug.Log("Quest completed...");
@@ -82,19 +94,16 @@ public class NPC_Priest : NPC_Base, IInteractable
                 }
                 break;
             case StoryStage.FindArtifact:
-                if (QuestManager.instance.IsReadyToTurnIn(QuestID.FindArtifact))
-                {
-                    QuestManager.instance.CompleteQuest(QuestManager.instance.GetQuest(QuestID.FindArtifact));
-                    StoryManager.instance.StartStage(StoryStage.GatherWood);
-                    currentDialogue = artifactDialogue;
-                }
-                else 
+                if (!QuestManager.instance.IsReadyToTurnIn(QuestID.FindArtifact))
                 {
                     DialogueUI.instance.ShowHint("Das Artifakt wartet im Tempel... es kommt nicht von allein zu euch");
                     ResumeMovement();
                     return;
                 }
-                    
+                    QuestManager.instance.CompleteQuest(QuestManager.instance.GetQuest(QuestID.FindArtifact));
+                    StoryManager.instance.StartStage(StoryStage.GatherWood);
+                    currentDialogue = artifactDialogue;
+
                 //storyAdvanceRequested = true;
                 break;
             case StoryStage.GatherWood:
@@ -209,8 +218,14 @@ public class NPC_Priest : NPC_Base, IInteractable
                 break;
 
         }
-        if (currentDialogue != null)
-            DialogueManager.instance.StartDialogue(currentDialogue, gameObject);
+        if (currentDialogue == null)
+        {
+            Debug.LogError("Keine Dialogdata für stage: " + StoryManager.instance.currentStage);
+            Debug.LogError($"NPC: {gameObject.name}");
+            ResumeMovement();
+            return;
+        }
+        DialogueManager.instance.StartDialogue(currentDialogue, gameObject);
     }
 
     public void ResumeMovement()
