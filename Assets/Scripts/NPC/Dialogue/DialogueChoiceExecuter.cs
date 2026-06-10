@@ -22,7 +22,10 @@ public class DialogueChoiceExecuter : MonoBehaviour
     public void ExecuteChoice(DialogueChoice choice)
     {
         if (currentNPC == null)
+        {
+            Debug.LogError(" currentNPC ist null");
             return;
+        }
 
         Debug.Log("Choice selected: " + choice.choiceText);
         GameManager.instance.reputation += choice.reputationChange;
@@ -31,6 +34,9 @@ public class DialogueChoiceExecuter : MonoBehaviour
         if (relation != null)
         {
             relation.ApplyEffect(choice.relationShipEffect);
+            Debug.Log("Friendship: " + relation.friendship);
+            Debug.Log("Trust: " + relation.trust);
+            Debug.Log("Respect: " + relation.respect);
         }
 
         var memory = currentNPC.GetComponent<NPC_Memory>();
@@ -38,26 +44,14 @@ public class DialogueChoiceExecuter : MonoBehaviour
         {
             memory.AddMemory("Player choice: " + choice.choiceText);
         }
-        /* (choice.startQuest)
-        {
-            QuestManager.instance.AddQuest(new Quest { 
-                questID= choice.questID,
-                questName= choice.questID.ToString(),
-                description= "",
-                requiredAmount=1,
-                currentAmount=0,
-                questType= Quest.QuestType.Investigate
-            });
-        }
 
-        if (choice.changeStoryChange)
+        NPCReaction reaction = currentNPC.GetComponent<NPCReaction>();
+        if (reaction != null)
         {
-            var priest = currentNPC.GetComponent<NPC_Priest>();
-            if (priest != null)
-                StoryManager.instance.StartStage(choice.nextStage);
-            else
-                Debug.Log("Story Stage Change blockiert: kein Priester NPC");
-        }*/
+            Debug.Log("Fear: " + reaction.fear);
+            Debug.Log("Loyality: " + reaction.loyality);
+        }
+       
         DialogueManager.instance.EndDialogue();
         var context = currentNPC.GetComponent<ConvaiContextProvider>();
         if (context != null)

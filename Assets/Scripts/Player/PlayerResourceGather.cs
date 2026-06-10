@@ -8,7 +8,7 @@ public class PlayerResourceGather : MonoBehaviour, IInteractable
     public RessourceNode ressourceNode;
 
     // Start is called before the first frame update
-    public void Interact()
+    public void Interact(Vector3 hitPoint)
     {
         if (ressourceNode == null)
             return;

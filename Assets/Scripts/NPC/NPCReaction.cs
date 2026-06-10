@@ -188,6 +188,7 @@ public class NPCReaction : MonoBehaviour
 
     public float GetFear()
     {
+        Debug.Log("fear: " + fear);
         return fear;
     }
 

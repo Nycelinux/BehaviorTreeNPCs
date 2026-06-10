@@ -42,7 +42,7 @@ public class NPC_Priest : NPC_Base, IInteractable
     }
 
     private bool storyAdvanceRequested = false;
-    public void Interact()
+    public void Interact(Vector3 hitPoint)
     {
 
         Debug.Log("Mit Priester interagiert");

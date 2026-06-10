@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7408b1ec601201a409f6164ba7b66f17, type: 3}
   m_Name: villager_1
   m_EditorClassIdentifier: 
-  npcName: "Itzamn\xE1"
+  npcName: Ah Kin
   dialogueText: "Die Maisfelder tragen weniger Fr\xFCchte als im letzten Zyklus.
     Wenn das so bleibt, wird der n\xE4chste Mond schwierig."
   choices:
@@ -23,7 +23,8 @@ MonoBehaviour:
       trustChange: 3
       friendshipChange: 5
     choiceText: Wir schicken mehr Sammler.
-    startQuest: 0
+    questID: 0
+    nextStage: 0
     reputationChange: 2
   - relationShipEffect:
       fearChange: 0
@@ -32,7 +33,8 @@ MonoBehaviour:
       trustChange: 0
       friendshipChange: 0
     choiceText: "Wir m\xFCssen Vorr\xE4te sparen."
-    startQuest: 0
+    questID: 0
+    nextStage: 0
     reputationChange: 0
   - relationShipEffect:
       fearChange: 0
@@ -41,6 +43,7 @@ MonoBehaviour:
       trustChange: -10
       friendshipChange: 0
     choiceText: Das Dorf hat wichtigere Probleme.
-    startQuest: 0
+    questID: 0
+    nextStage: 0
     reputationChange: 0
   portrait: {fileID: 0}

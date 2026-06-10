@@ -665,7 +665,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   player: {fileID: 3095648549696892094, guid: fbd7285088325a14291b9c922934700b, type: 3}
-  convaiVillagerPrefab: {fileID: 0}
+  convaiVillagerPrefab: {fileID: 4883709582363556406, guid: 6c9355a332f39f54f9c0381623370063, type: 3}
   villagerDialogue: []
   allDialogue:
   - {fileID: 11400000, guid: 569d27fda195d094c8d6896e79a97c8c, type: 2}
@@ -680,6 +680,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6e422c3c2b6a149429015940501abd5e, type: 2}
   - {fileID: 11400000, guid: cc6c7d83f636ff84f8c777e66a8351ae, type: 2}
   - {fileID: 11400000, guid: 5d8f7f29e091f2744a3bdf84a059fe1f, type: 2}
+  convaiMaterial: {fileID: 2100000, guid: 162f7bbd11cb6134ea48c7fca7dcc889, type: 2}
   guardPrefab: {fileID: 1870425298327068580, guid: da89126f8b324a14c8c09ec0fa6bb061, type: 3}
   vilPrefab: {fileID: 4883709582363556406, guid: 43ea703231ce8aa4e9637a8457f0827f, type: 3}
 --- !u!4 &207450360

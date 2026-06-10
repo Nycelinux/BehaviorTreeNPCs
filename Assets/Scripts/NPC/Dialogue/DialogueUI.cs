@@ -28,8 +28,15 @@ public class DialogueUI : MonoBehaviour
 
     public void ShowDialogue(DialogueData dialogue)
     {
-        
-        Debug.Log("ShowDialogue gestartet");
+
+        Debug.Log("=== ShowDialogue gestartet ===");
+
+        Debug.Log("dialoguePanel = " + dialoguePanel);
+        Debug.Log("npcNameText = " + npcNameText);
+        Debug.Log("dialogueText = " + dialogueText);
+        Debug.Log("portraitImage = " + portraitImage);
+        Debug.Log("choicesParent = " + choicesParent);
+        Debug.Log("choiceButtonPrefab = " + choiceButtonPrefab);
 
         if (dialoguePanel == null)
         {
@@ -63,8 +70,26 @@ public class DialogueUI : MonoBehaviour
 
     void CreateChoiceButton(DialogueChoice choice)
     {
+        Debug.Log("Erzeuge Button für: " + choice.choiceText);
+        if (choiceButtonPrefab == null)
+        {
+            Debug.LogError("choiceButtonPrefab fehlt!");
+            return;
+        }
+
+        if (choicesParent == null)
+        {
+            Debug.LogError("choicesParent fehlt!");
+            return;
+        }
+
         GameObject buttonObject = Instantiate(choiceButtonPrefab, choicesParent);
         DialogueButtonUI buttonUI = buttonObject.GetComponent<DialogueButtonUI>();
+        if (buttonUI == null)
+        {
+            Debug.LogError("DialogueButtonUI fehlt auf Prefab!");
+            return;
+        }
         buttonUI.Setup(choice);
     }
 

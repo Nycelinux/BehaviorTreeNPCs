@@ -4,6 +4,6 @@ using UnityEngine;
 
 public interface IInteractable
 {
-    void Interact();
+    void Interact(Vector3 hitPoint);
 
 }

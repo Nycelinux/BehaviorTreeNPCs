@@ -151,9 +151,10 @@ MonoBehaviour:
   resourcePoint: {fileID: 0}
   villagerDialogue: {fileID: 0}
   preferredResource: 0
-  PersonalProblem: 
+  hasConvai: 1
+  PersonalProblem: Mein Mannwwird vermisst
   wanderRadius: 8
-  npcName: 
+  npcName: Ix Chel
   dialoguePool: []
 --- !u!95 &4895101938537609716
 Animator:

@@ -19,6 +19,9 @@ public class VillgerSpawner : MonoBehaviour
     [Header("Alle Villager Dialogue")]
     public DialogueData[] allDialogue;
 
+    [Header("Convai NPC")]
+    public Material convaiMaterial;
+
     [Header("Prefabs")]
     public GameObject guardPrefab;
     public GameObject vilPrefab;
@@ -98,9 +101,21 @@ public class VillgerSpawner : MonoBehaviour
             villager.preferredResource = Ressourcetyp.Food;
         }
 
+        if(convaiMaterial != null)
+        {
+            Renderer[] renderers = npc.GetComponentsInChildren<Renderer>();
+            foreach (Renderer render in renderers)
+            {
+                Material[] materials = new Material[render.materials.Length];
+                for(int i=0;i< materials.Length; i++)
+                {
+                    materials[i] = convaiMaterial;
+                }               
+            }
+        }
+
         AssignHome(npc.transform);
         Debug.Log("Convai Villager Ix Chel gespawnt");
-
 
     }
 
@@ -204,8 +219,14 @@ public class VillgerSpawner : MonoBehaviour
         villager.dialoguePool.AddRange(matchDialogues);
         villager.villagerDialogue = villager.dialoguePool[0];
         Debug.Log($"{villager.npcName}: {villager.dialoguePool.Count} Dialoge geladen");
+        Debug.Log("NPC: " + villager.npcName);
+        Debug.Log("Dialoge gefunden: " + villager.dialoguePool.Count);
 
-        
+        foreach (DialogueData d in villager.dialoguePool)
+        {
+            Debug.Log("Dialog: " + d.name);
+        }
+
     }
     void SpawnNPC(GameObject prefab, bool isGuard)
     {

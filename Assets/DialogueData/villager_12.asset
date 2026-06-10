@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7408b1ec601201a409f6164ba7b66f17, type: 3}
   m_Name: villager_12
   m_EditorClassIdentifier: 
-  npcName: Pakal
+  npcName: Yax Tun
   dialogueText: "Die Nachbard\xF6rfer verlangen mehr G\xFCter f\xFCr ihre Waren."
   choices:
   - relationShipEffect:
@@ -22,7 +22,8 @@ MonoBehaviour:
       trustChange: 4
       friendshipChange: 0
     choiceText: Wir handeln fair.
-    startQuest: 0
+    questID: 0
+    nextStage: 0
     reputationChange: 2
   - relationShipEffect:
       fearChange: 0
@@ -31,7 +32,8 @@ MonoBehaviour:
       trustChange: 0
       friendshipChange: 1
     choiceText: "Wir verhandeln h\xE4rter."
-    startQuest: 0
+    questID: 0
+    nextStage: 0
     reputationChange: 1
   - relationShipEffect:
       fearChange: 0
@@ -40,6 +42,7 @@ MonoBehaviour:
       trustChange: -1
       friendshipChange: -3
     choiceText: Wir handeln gar nicht.
-    startQuest: 0
+    questID: 0
+    nextStage: 0
     reputationChange: -2
   portrait: {fileID: 0}

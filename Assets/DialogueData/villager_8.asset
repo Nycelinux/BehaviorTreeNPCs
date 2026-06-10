@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7408b1ec601201a409f6164ba7b66f17, type: 3}
   m_Name: villager_8
   m_EditorClassIdentifier: 
-  npcName: Kukulkan
+  npcName: Chak Tok
   dialogueText: "Die Ratten kommen immer n\xE4her an unsere Felder."
   choices:
   - relationShipEffect:
@@ -22,7 +22,8 @@ MonoBehaviour:
       trustChange: 4
       friendshipChange: 0
     choiceText: Wachen begleiten euch.
-    startQuest: 0
+    questID: 0
+    nextStage: 0
     reputationChange: 2
   - relationShipEffect:
       fearChange: 0
@@ -31,7 +32,8 @@ MonoBehaviour:
       trustChange: 0
       friendshipChange: 0
     choiceText: Meidet das Gebiet.
-    startQuest: 0
+    questID: 0
+    nextStage: 0
     reputationChange: 1
   - relationShipEffect:
       fearChange: 0
@@ -40,6 +42,7 @@ MonoBehaviour:
       trustChange: -1
       friendshipChange: -3
     choiceText: Das wird schon wieder.
-    startQuest: 0
+    questID: 0
+    nextStage: 0
     reputationChange: 0
   portrait: {fileID: 0}

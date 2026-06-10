@@ -12,9 +12,21 @@ public class DialogueButtonUI : MonoBehaviour
     public void Setup(DialogueChoice choice)
     {
         currentChoice = choice;
-        buttonnText.text = choice.choiceText;
+        if(buttonnText != null)
+            buttonnText.text = choice.choiceText;
         GetComponent<Button>().onClick.RemoveAllListeners();
-        GetComponent<Button>().onClick.AddListener(() => DialogueChoiceExecuter.instance.ExecuteChoice(choice));
+        GetComponent<Button>().onClick.AddListener(() =>
+        {
+            Debug.Log("Button geklickt");
+            Debug.Log("choice = " + choice);
+            Debug.Log("DialogueChoiceExecuter.instance = " + DialogueChoiceExecuter.instance);
+            if(DialogueChoiceExecuter.instance== null)
+            {
+                Debug.LogError("dialog choice executer ist null");
+                return;
+            }
+            DialogueChoiceExecuter.instance.ExecuteChoice(choice);
+            });
         /*GetComponent<Button>().onClick.AddListener(Choose);*/
 
 

@@ -77,7 +77,7 @@ public class NPC_Villager : NPC_Base, IInteractable
             }),
             
 
-            new WanderNode(blackboard, navAgent,transform.position,wanderRadius),
+            new WanderNode(blackboard, navAgent,transform.position,wanderRadius,player),
         }); ;
         
     }
@@ -93,12 +93,26 @@ public class NPC_Villager : NPC_Base, IInteractable
         return autoGatherEnabled;
     }
 
-    public void Interact()
+    public void Interact(Vector3 hitPoint)
     {
+        Debug.Log("=== NPC_Villager.Interact() ===");
+        Debug.Log("NPC Name: " + npcName);
+        Debug.Log("hasConvai: " + hasConvai);
+        Debug.Log("dialoguePool Count: " + dialoguePool.Count);
+        Debug.Log("villagerDialogue: " + villagerDialogue);
+
         ConvaiContextProvider context = GetComponent<ConvaiContextProvider>();
         string convaiContext = context != null ? context.BuildConvaiPrompt() : "You're a villager";
         if (hasConvai)
         {
+            Debug.Log("Starte Convai Dialog");
+
+            if (DialogueManager.instance == null)
+            {
+                Debug.LogError("DialogueManager.instance ist NULL");
+                return;
+            }
+
             DialogueManager.instance.StartConvaiDialogue(this, convaiContext);
                 return;
         }
@@ -107,13 +121,18 @@ public class NPC_Villager : NPC_Base, IInteractable
         if (dialoguePool != null && dialoguePool.Count > 0)
         {
             DialogueData randomDialogue = dialoguePool[Random.Range(0, dialoguePool.Count)];
+            Debug.Log("Öffne Dialog: " + randomDialogue.name);
             DialogueManager.instance.StartDialogue(randomDialogue, gameObject);
+            return;
         }
         
         
-        else if(villagerDialogue != null)
+        if(villagerDialogue != null)
         {
+            Debug.Log("Öffne Fallback Dialog: " + villagerDialogue.name);
             DialogueManager.instance.StartDialogue(villagerDialogue, gameObject);
+            return;
         }
+        Debug.LogError("KEIN DIALOG GEFUNDEN FÜR " + npcName);
     }
 }

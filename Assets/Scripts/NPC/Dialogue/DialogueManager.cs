@@ -34,13 +34,20 @@ public class DialogueManager : MonoBehaviour
         }
 
         currentNpc = npc;
-
+        Debug.Log("Current NPC gesetzt: " + currentNpc.name);
         if (DialogueChoiceExecuter.instance != null)
+        {
             DialogueChoiceExecuter.instance.SetContext(npc);
+            Debug.Log(" DialogueChoiceExecuter gesetzt");
+        }
+        else
+        {
+            Debug.LogError("DialogueChoiceExecuter instance is NULL");
+        }
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-
+        Debug.Log("ShowDialogue wird aufgerufen");
         dialogueUI.ShowDialogue(dialogue);
     }
 
