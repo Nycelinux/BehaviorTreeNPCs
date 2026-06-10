@@ -17,60 +17,59 @@ public class PlayerInteraction : MonoBehaviour
         {
             Interact();
         }
+        Debug.DrawRay(    playerCamera.transform.position,    playerCamera.transform.forward * 20f,   Color.green);
     }
+
 
     void Interact()
     {
-        //Ray ray = playerCamera.ScreenPointToRay(new Vector3(0.5f,0.5f,0f));
-        Vector3 screenCenter = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0f);
-        Ray ray = playerCamera.ScreenPointToRay(screenCenter);
+        Debug.Log("Kamera Pos: " + playerCamera.transform.position);
+        Debug.Log("Kamera Forward: " + playerCamera.transform.forward);
+        Vector3 screenPoint = new Vector3(    Screen.width * 0.5f,   Screen.height * 0.1f,    0f);
+        Ray ray;
 
-        Debug.DrawRay(ray.origin, ray.direction * interactionDistance, Color.red, 2f);
-
-        RaycastHit hit;
-
-        bool success = Physics.Raycast(ray, out hit, interactionDistance);
-
-        // Falls nichts getroffen  Streuung
-        if (!success)
+        if (playerCamera != null)
         {
-            float spread = 0.02f;
+            Vector3 screenCenter = new Vector3(
+                Screen.width * 0.5f,
+                Screen.height * 0.5f,
+                0f);
 
-            for (int i = 0; i < 6; i++)
-            {
-                Vector3 randomDir = ray.direction + new Vector3(
-                    Random.Range(-spread, spread),
-                    Random.Range(-spread, spread),
-                    Random.Range(-spread, spread)
-                );
-
-                if (Physics.Raycast(ray.origin, randomDir.normalized, out hit, interactionDistance))
-                {
-                    success = true;
-                    break;
-                }
-            }
-        }
-
-        if (success)
-        {
-            Debug.Log("=== RAYCAST TREFFER ===");
-            Debug.Log("Getroffen: " + hit.collider.name);
-
-            IInteractable interactable = hit.collider.GetComponentInParent<IInteractable>();
-
-            if (interactable != null)
-            {
-                interactable.Interact(hit.point);
-            }
-            else
-            {
-                Debug.Log("Kein Interactable gefunden");
-            }
+            ray = playerCamera.ScreenPointToRay(screenCenter);
         }
         else
         {
+            ray = new Ray(
+                transform.position + Vector3.up * 1.5f,
+                transform.forward);
+        }
+
+        Debug.DrawRay(
+            ray.origin,
+            ray.direction * interactionDistance,
+            Color.red,
+            2f);
+
+        if (!Physics.Raycast(ray, out RaycastHit hit, interactionDistance))
+        {
             Debug.Log("Raycast hat nichts getroffen!");
+            return;
+        }
+
+        Debug.Log("Getroffen: " + hit.collider.name);
+
+        IInteractable interactable =
+            hit.collider.GetComponent<IInteractable>() ??
+            hit.collider.GetComponentInParent<IInteractable>() ??
+            hit.collider.transform.root.GetComponent<IInteractable>();
+
+        if (interactable != null)
+        {
+            interactable.Interact(hit.point);
+        }
+        else
+        {
+            Debug.Log("Kein Interactable gefunden");
         }
     }
 }

@@ -238,6 +238,7 @@
     <Compile Include="Assets\My_Packages\Convai\Scripts\Runtime\UI\SettingsPanel\FadeCanvas.cs" />
     <Compile Include="Assets\My_Packages\Convai\Scripts\Runtime\PlayerStats\API\Model\MemorySettings.cs" />
     <Compile Include="Assets\Scripts\outdated\GoToTarget.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerRessourceinterahtion.cs" />
     <Compile Include="Assets\Scripts\NPC\NPC_Stats.cs" />
     <Compile Include="Assets\Scripts\NPC\Guard\team.cs" />
     <Compile Include="Assets\My_Packages\Convai\Scripts\Runtime\Features\NarrativeDesign\Models\SectionChangeEventsData.cs" />

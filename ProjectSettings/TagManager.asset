@@ -11,6 +11,11 @@ TagManager:
   - Ground
   - Haus
   - ConvaiNPC
+  - SenderTMP
+  - Villager
+  - Food
+  - Wood
+  - Stone
   layers:
   - Default
   - TransparentFX
@@ -22,7 +27,7 @@ TagManager:
   - Enemy
   - Guard
   - noNavMesh
-  - 
+  - interactmask
   - 
   - 
   - 

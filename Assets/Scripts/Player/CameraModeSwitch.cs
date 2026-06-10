@@ -6,7 +6,7 @@ public class CameraModeSwitch : MonoBehaviour
 {
     public Transform cameraTransform;
 
-    public Vector3 firstPersonOffset = new Vector3(0f, 1.6f, 0f);
+    public Vector3 firstPersonOffset = new Vector3(0f, 1.0f, 0f);
     public Vector3 thirdPersonOffset = new Vector3(0f, 1.6f, -3f);
 
     private bool isFirstPerson = true;

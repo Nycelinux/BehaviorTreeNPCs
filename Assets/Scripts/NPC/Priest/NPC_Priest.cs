@@ -16,6 +16,10 @@ public class NPC_Priest : NPC_Base, IInteractable
     public DialogueData priestDecisionDialogue;
     public DialogueData éndingDialogue;
     private Blackboard blackboard;
+    public InteractType GetInteractType()
+    {
+        return InteractType.NPC;
+    }
 
     protected override void Start()
     {

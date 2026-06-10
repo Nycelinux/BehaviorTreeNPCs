@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class PlayerResourceGather : MonoBehaviour, IInteractable
 {
+    public InteractType GetInteractType() => InteractType.Resource;
     public int gatherAmount = 1;
     public RessourceNode ressourceNode;
 
     // Start is called before the first frame update
     public void Interact(Vector3 hitPoint)
     {
-        if (ressourceNode == null)
+    Debug.Log("Resource gesammelt");
+
+    if (ressourceNode == null)
             return;
         if (!ressourceNode.HasResources())
         {

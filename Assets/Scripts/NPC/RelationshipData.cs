@@ -41,12 +41,14 @@ public class RelationshipData : MonoBehaviour
         fearOfPlayer+= effect.fearChange;
         friendship += effect.friendshipChange;
         respect += effect.respectChange;
+        Debug.Log("trust: " + trust + ", fear of player: " + fearOfPlayer + ", friendship: "+ friendship + ", respect: "+ respect);
 
         NPCReaction reaction = GetComponent<NPCReaction>();
         if(reaction != null)
         {
             reaction.loyality += effect.loyalityChange;
             reaction.loyality = Mathf.Clamp(reaction.loyality,0,100);
+            Debug.Log("loyality: " + reaction.loyality);
         }
 
         trust = Mathf.Clamp(trust,-100, 100);

@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class NPC_Villager : NPC_Base, IInteractable
 {
+    public InteractType GetInteractType() => InteractType.NPC;
     public Transform player;
     public Transform homePoint;
     public Transform resourcePoint;
@@ -100,6 +101,8 @@ public class NPC_Villager : NPC_Base, IInteractable
         Debug.Log("hasConvai: " + hasConvai);
         Debug.Log("dialoguePool Count: " + dialoguePool.Count);
         Debug.Log("villagerDialogue: " + villagerDialogue);
+       
+        
 
         ConvaiContextProvider context = GetComponent<ConvaiContextProvider>();
         string convaiContext = context != null ? context.BuildConvaiPrompt() : "You're a villager";

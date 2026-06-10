@@ -58,6 +58,12 @@ public class DialogueManager : MonoBehaviour
        
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+
+        if (ConvaiDialogueService.instance == null)
+        {
+            Debug.LogError("ConvaiDialogueService.instance ist NULL");
+            return;
+        }
         ConvaiDialogueService.instance.StartConversation(npc, context);
     }
 

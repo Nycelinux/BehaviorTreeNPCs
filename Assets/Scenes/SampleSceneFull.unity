@@ -1120,6 +1120,7 @@ GameObject:
   - component: {fileID: 374546231}
   - component: {fileID: 374546233}
   - component: {fileID: 374546232}
+  - component: {fileID: 374546234}
   m_Layer: 0
   m_Name: ConvaiSystem
   m_TagString: Untagged
@@ -1185,6 +1186,18 @@ MonoBehaviour:
   visionConeAngle: 45
   activeConvaiNPC: {fileID: 0}
   nearbyNPC: {fileID: 0}
+--- !u!114 &374546234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374546226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c31c9129d78968e4586b48d7ad48c2fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &390757716
 GameObject:
   m_ObjectHideFlags: 0
@@ -2309,6 +2322,10 @@ PrefabInstance:
     - target: {fileID: 2592722513358865629, guid: a2464b8e9b99b3d449869d62f3c867ed, type: 3}
       propertyPath: m_Name
       value: bush plant
+      objectReference: {fileID: 0}
+    - target: {fileID: 2592722513358865629, guid: a2464b8e9b99b3d449869d62f3c867ed, type: 3}
+      propertyPath: m_TagString
+      value: Food
       objectReference: {fileID: 0}
     - target: {fileID: 2932093835672133223, guid: a2464b8e9b99b3d449869d62f3c867ed, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4129,7 +4146,7 @@ Transform:
   m_GameObject: {fileID: 950046390}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.5000001, z: 0}
+  m_LocalPosition: {x: 0, y: 0.11, z: 0}
   m_LocalScale: {x: 1.2652, y: 1.2652, z: 1.2652}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4258,13 +4275,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.040307954, z: -0, w: 0.9991873}
-  m_LocalPosition: {x: -1.446, y: -0.09099996, z: -9.99}
+  m_LocalRotation: {x: 0.07197998, y: 0.040203262, z: 0.0029037273, w: 0.99659127}
+  m_LocalPosition: {x: -1.446, y: 0.172, z: -9.99}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1738153519}
-  m_LocalEulerAnglesHint: {x: 0, y: 4.62, z: 0}
+  m_LocalEulerAnglesHint: {x: 8.235, y: 4.668, z: 0.67}
 --- !u!114 &963194229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4278,8 +4295,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraTransform: {fileID: 963194228}
-  firstPersonOffset: {x: 0, y: 1.6, z: 0}
-  thirdPersonOffset: {x: 0, y: 1.6, z: -3}
+  firstPersonOffset: {x: 0, y: 0.5, z: 0}
+  thirdPersonOffset: {x: 0, y: 0.5, z: -3}
 --- !u!1 &984973784
 GameObject:
   m_ObjectHideFlags: 0
@@ -8204,8 +8221,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1288547826225672299, guid: 7d3e866ce6c8b9c49bebb0932208e715, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2.025087
+      objectReference: {fileID: 0}
+    - target: {fileID: 1288547826225672299, guid: 7d3e866ce6c8b9c49bebb0932208e715, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.2979056
+      objectReference: {fileID: 0}
+    - target: {fileID: 1288547826225672299, guid: 7d3e866ce6c8b9c49bebb0932208e715, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.916674
+      objectReference: {fileID: 0}
+    - target: {fileID: 1288547826225672299, guid: 7d3e866ce6c8b9c49bebb0932208e715, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.5021225
+      value: 0.6154
       objectReference: {fileID: 0}
     - target: {fileID: 1288547826225672299, guid: 7d3e866ce6c8b9c49bebb0932208e715, type: 3}
       propertyPath: m_LocalPosition.y
@@ -8213,7 +8242,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1288547826225672299, guid: 7d3e866ce6c8b9c49bebb0932208e715, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.013920069
+      value: -0.198
       objectReference: {fileID: 0}
     - target: {fileID: 1288547826225672299, guid: 7d3e866ce6c8b9c49bebb0932208e715, type: 3}
       propertyPath: m_LocalRotation.w
@@ -8246,6 +8275,10 @@ PrefabInstance:
     - target: {fileID: 1921356743799483089, guid: 7d3e866ce6c8b9c49bebb0932208e715, type: 3}
       propertyPath: m_Name
       value: tree
+      objectReference: {fileID: 0}
+    - target: {fileID: 1921356743799483089, guid: 7d3e866ce6c8b9c49bebb0932208e715, type: 3}
+      propertyPath: m_TagString
+      value: Wood
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -10912,6 +10945,10 @@ PrefabInstance:
     - target: {fileID: 1021835185366472628, guid: 8553144a36354224f89064fa8846ef43, type: 3}
       propertyPath: m_Name
       value: stone medium
+      objectReference: {fileID: 0}
+    - target: {fileID: 1021835185366472628, guid: 8553144a36354224f89064fa8846ef43, type: 3}
+      propertyPath: m_TagString
+      value: Stone
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
