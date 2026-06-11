@@ -73,6 +73,7 @@
     <Compile Include="Assets\My_Packages\Convai\Scripts\Runtime\Features\LipSync\ConvaiLipSync.cs" />
     <Compile Include="Assets\Scripts\IInteractable.cs" />
     <Compile Include="Assets\My_Packages\Convai\Scripts\Runtime\Features\LipSync\LipSyncBlendFrameData.cs" />
+    <Compile Include="Assets\Scripts\NPC\Villagers\CheckDialogue.cs" />
     <Compile Include="Assets\My_Packages\Convai\Scripts\Runtime\Features\LipSync\Visemes\VisemeBoneEffectorList.cs" />
     <Compile Include="Assets\Scripts\NPC\ConvaiDialogueBridge.cs" />
     <Compile Include="Assets\My_Packages\Convai\Scripts\Runtime\UI\SettingsPanel\TranscriptUIActiveStatusHandler.cs" />

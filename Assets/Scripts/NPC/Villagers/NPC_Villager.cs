@@ -57,6 +57,7 @@ public class NPC_Villager : NPC_Base, IInteractable
 
     protected override void BuildTree()
     {
+
         root = new Selector(blackboard, new List<Node>
         {
             new Sequence(blackboard, new List<Node>
@@ -78,10 +79,10 @@ public class NPC_Villager : NPC_Base, IInteractable
                 new FollowNode(blackboard,navAgent,player)
 
             }),
-            
+
 
             new WanderNode(blackboard, navAgent,transform.position,wanderRadius,player),
-        }); ;
+        }); 
         
     }
 
@@ -102,7 +103,32 @@ public class NPC_Villager : NPC_Base, IInteractable
         return autoGatherEnabled;
     }
 
-    public void Interact(Vector3 hitPoint)
+    public bool IsInDialogue { get; private set; }
+
+    public void StartDialogueMode()
+    {
+        IsInDialogue = true;
+        if(navAgent != null)
+        {
+            navAgent.isStopped = true;
+            navAgent.ResetPath();
+        }
+    }
+
+    public void ResetConvaiLock()
+    {
+        convaiGlobalLock = false;
+    }
+
+    public void EndDialogueMode()
+    {
+        IsInDialogue = false;
+        if (navAgent != null)
+        {
+            navAgent.isStopped = false;
+        }
+    }
+        public void Interact(Vector3 hitPoint)
     {
         Debug.Log("=== NPC_Villager.Interact() ===");
         Debug.Log("NPC Name: " + npcName);

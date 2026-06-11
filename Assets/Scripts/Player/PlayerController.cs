@@ -40,6 +40,10 @@ public class PlayerController : MonoBehaviour
         HandleMovement();
         HandleJump();
         AddGravity();
+        if (Input.GetMouseButtonDown(0))
+        {
+            Debug.Log("LEFT CLICK");
+        }
     }
 
     void HandleMovement()

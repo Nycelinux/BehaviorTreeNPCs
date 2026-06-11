@@ -55,7 +55,8 @@ public class DialogueManager : MonoBehaviour
     {
         Debug.Log("StartConvaiDialogue aufgerufen");
         currentNpc = npc.gameObject;
-       
+        npc.StartDialogueMode();
+        Time.timeScale = 0f;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
@@ -70,10 +71,21 @@ public class DialogueManager : MonoBehaviour
 
     public void EndDialogue()
     {
+        
+        if(currentNpc != null)
+        {
+            NPC_Villager villager = currentNpc.GetComponent<NPC_Villager>();
+            if (villager != null) { 
+                villager.EndDialogueMode();
+                villager.ResetConvaiLock();
+            }
+        }
+        dialogueUI.HideDialogue();
+        currentNpc = null;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        Time.timeScale = 1f;
 
-        dialogueUI.HideDialogue();
         /*NPC_Priest priest = FindObjectOfType<NPC_Priest>();
 
         if (priest != null)

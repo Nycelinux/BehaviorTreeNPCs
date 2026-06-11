@@ -65,6 +65,14 @@ public class ConvaiDialogueService : MonoBehaviour
         data.npcName = villager.npcName;
         data.dialogueText = text;
         data.choices = DialogueChoiceFactory.GenerateBasicChoices();
+        DialogueManager.instance.currentNpc=villager.gameObject;
+
+        if(DialogueChoiceExecuter.instance != null)
+        {
+            DialogueChoiceExecuter.instance.SetContext(villager.gameObject);
+        }
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
 
         DialogueManager.instance.dialogueUI.ShowDialogue(data);
     }

@@ -630,7 +630,10 @@ namespace Convai.Scripts.Runtime.Core
         private void ProcessCharacterEmotion(GetResponseResponse result, ConvaiNPC npc)
         {
             ConvaiNPC convaiNPC = NPCToSendResponse(npc);
-            if (convaiNPC == null || string.IsNullOrEmpty(result.EmotionResponse)) return;
+            if (convaiNPC == null || string.IsNullOrEmpty(result.EmotionResponse) || convaiNPC.convaiLipSync == null) {
+                Debug.Log("convaiNPC null oder convaiLipSync null oder string IsNullOrEmpty");
+                return; 
+            }
             ConvaiLogger.DebugLog($"Emotion Response from the server: {result.EmotionResponse}", ConvaiLogger.LogCategory.LipSync);
             List<string> newEmotions = result.EmotionResponse.Split(' ').ToList();
             convaiNPC.convaiLipSync.SetCharacterEmotions(newEmotions);

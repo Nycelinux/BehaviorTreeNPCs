@@ -20,6 +20,7 @@ public class Blackboard
 
     public Transform currentTarget;
     public Transform player;
+    public GameObject self;
     public NavMeshAgent navAgent;
     public squadRole role;
     public Vector3 lastKnownTargetPosition;

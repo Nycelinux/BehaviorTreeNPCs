@@ -21,13 +21,20 @@ public class DialogueChoiceExecuter : MonoBehaviour
 
     public void ExecuteChoice(DialogueChoice choice)
     {
+        Debug.Log("=== ExecuteChoice ===");
+
+        if (choice == null)
+        {
+            Debug.LogError("Choice ist NULL");
+            return;
+        }
         if (currentNPC == null)
         {
             Debug.LogError(" currentNPC ist null");
             return;
         }
 
-        Debug.Log("Choice selected: " + choice.choiceText);
+        Debug.Log("Choice selected: " + choice.choiceText + " for NPC: "+currentNPC.name);
         GameManager.instance.reputation += choice.reputationChange;
 
         var relation = currentNPC.GetComponent<RelationshipData>();
@@ -46,15 +53,19 @@ public class DialogueChoiceExecuter : MonoBehaviour
         }
 
         NPCReaction reaction = currentNPC.GetComponent<NPCReaction>();
-        if (reaction != null)
+        if (reaction != null && choice.relationShipEffect!= null)
         {
+            reaction.fear +=choice.relationShipEffect.fearChange;
+
+            reaction.loyality +=choice.relationShipEffect.loyalityChange;
             Debug.Log("Fear: " + reaction.fear);
             Debug.Log("Loyality: " + reaction.loyality);
         }
 
-        DialogueManager.instance.EndDialogue();
         NPC_Villager villager = currentNPC.GetComponent<NPC_Villager>();
-        if (villager != null && villager.hasConvai)
+        DialogueManager.instance.EndDialogue();
+
+        if (villager != null && villager.hasConvai && ConvaiResponseRouter.Instance != null)
         {
             var context = currentNPC.GetComponent<ConvaiContextProvider>();
 
@@ -63,5 +74,6 @@ public class DialogueChoiceExecuter : MonoBehaviour
                 ConvaiResponseRouter.Instance.Send(villager, context.BuildContext());
             }
         }
+        currentNPC = null;
     }
 }
