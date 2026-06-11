@@ -30,8 +30,8 @@ public class VillgerSpawner : MonoBehaviour
     private HashSet<Transform> occupiedHouses = new HashSet<Transform>();
     private string[] problems =
     {
-        "Seit dem letzten ANgriff wird mein Mann vermisst",
-        "Wir brauchen Stein, u den Tempel zu verbessern.",
+        "Seit dem letzten Angriff wird mein Mann vermisst",
+        "Wir brauchen Stein, um den Tempel zu verbessern.",
         "Mein Sohn ist krank",
         "Mein Haus ist undicht, ich brauche Holz für die Reperatur",
     };
@@ -207,6 +207,14 @@ public class VillgerSpawner : MonoBehaviour
         {
             Debug.LogError("Keine DialogueData Assets im Spawner zugewiesen!");
             return;
+        }
+        if (villager.npcName == "Ix Chel")
+        {
+            villager.hasConvai = true;
+        }
+        else
+        {
+            villager.hasConvai = false;
         }
 
         List<DialogueData> matchDialogues = allDialogue.Where(d => d != null && d.npcName.Trim().ToLower() == villager.npcName.Trim().ToLower()).ToList();

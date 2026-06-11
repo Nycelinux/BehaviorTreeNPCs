@@ -18,13 +18,43 @@ public class ConvaiResponseRouter : MonoBehaviour
         Instance = this;
     }
 
+    private bool isBusy;
     public void Send(NPC_Villager villager, string context)
     {
+        if (isBusy)
+        {
+            Debug.LogWarning("Convai already running");
+            return;
+        }
+        isBusy = true;
+        if (villager == null)
+        {
+            isBusy = false;
+            return;
+        }
+
+        if (!villager.hasConvai)
+        {
+            isBusy = false;
+            Debug.LogWarning("Blocked Convai for: " + villager.npcName);
+            return;
+        }
+
+        Debug.Log("=== ConvaiResponseRouter.Send ===");
         activeVillager = villager;
         activeNPC = villager.GetComponent<ConvaiNPC>();
+        Debug.Log("activeNPC = " + activeNPC);
 
         if (activeNPC == null)
         {
+            Debug.Log("NPC Object = " + activeNPC.gameObject.name);
+        }
+        Debug.Log("Villager = " + villager.npcName);
+        Debug.Log("ConvaiNPC = " + activeNPC);
+        if (activeNPC == null)
+        {
+            isBusy = false;
+            NPC_Villager.convaiGlobalLock = false;
             Debug.LogError("ConvaiNPC fehlt auf " + villager.npcName);
             return;
         }
@@ -43,13 +73,19 @@ public class ConvaiResponseRouter : MonoBehaviour
             if (rel.friendship > 60)
                 context += "\nThe villager considers the player a friend.";
         }
-
+        Debug.Log("Character ID = [" + activeNPC.characterID + "]");
+        Debug.Log("Session ID = [" + activeNPC.sessionID + "]");
+        Debug.Log("Is Character Active = " + activeNPC.isCharacterActive);
+        Debug.Log("Client: " + activeNPC.GetType());
+        ConvaiNPCManager.Instance.SetActiveConvaiNPC(activeNPC);
         activeNPC.SendTextDataAsync(context);
+        Debug.Log("SEND WURDE AUSGEFÜHRT");
     }
 
     private void Update()
     {
-        if (activeNPC == null) return;
+        Debug.Log("Polling Convai...");
+        if (activeNPC == null||activeVillager== null) return;
 
         TryReadResponse();
     }
@@ -81,10 +117,14 @@ public class ConvaiResponseRouter : MonoBehaviour
             if (textProp == null) continue;
 
             string text = textProp.GetValue(audio) as string;
-
+            if (string.IsNullOrEmpty(activeNPC.sessionID))
+            {
+                Debug.LogError("SESSION NULL");
+                return;
+            }
             if (!string.IsNullOrEmpty(text))
             {
-
+                var villager = activeVillager;
                 var memory = activeVillager.GetComponent<NPC_Memory>();
                 if (memory != null)
                 {
@@ -92,8 +132,12 @@ public class ConvaiResponseRouter : MonoBehaviour
                 }
 
                 OnTextResponse?.Invoke(text, activeVillager);
+                activeNPC = null;
+                activeVillager = null;
+                isBusy = false;
                 return;
             }
         }
+        Debug.Log("Queue Count = " + queue.Count);
     }
 }

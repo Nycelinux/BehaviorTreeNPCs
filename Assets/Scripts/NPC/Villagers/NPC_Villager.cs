@@ -12,8 +12,10 @@ public class NPC_Villager : NPC_Base, IInteractable
     public DialogueData villagerDialogue;
     public Ressourcetyp preferredResource;
     private bool autoGatherEnabled= false;
-    public bool hasConvai= false;
     private Blackboard blackboard;
+    public bool hasConvai = false;
+    public static bool convaiGlobalLock = false;
+
     [TextArea]
     public string PersonalProblem;
 
@@ -82,7 +84,13 @@ public class NPC_Villager : NPC_Base, IInteractable
         }); ;
         
     }
-   
+
+    public string BuildContext()
+    {
+        var context = GetComponent<ConvaiContextProvider>();
+        return context != null ? context.BuildConvaiPrompt() : "You're a villager";
+    }
+
     public void EnableAutoGather()
     {
         autoGatherEnabled = true;
@@ -101,22 +109,37 @@ public class NPC_Villager : NPC_Base, IInteractable
         Debug.Log("hasConvai: " + hasConvai);
         Debug.Log("dialoguePool Count: " + dialoguePool.Count);
         Debug.Log("villagerDialogue: " + villagerDialogue);
-       
-        
+        Debug.Log("Interact: " + npcName);
+
 
         ConvaiContextProvider context = GetComponent<ConvaiContextProvider>();
         string convaiContext = context != null ? context.BuildConvaiPrompt() : "You're a villager";
         if (hasConvai)
         {
             Debug.Log("Starte Convai Dialog");
-
+            if (convaiGlobalLock)
+            {
+                Debug.Log("Convai gesperrt");
+                return;
+            }
+            if (ConvaiDialogueService.instance == null)
+            {
+                Debug.LogError("ConvaiDialogueService fehlt");
+                return;
+            }
+            convaiGlobalLock = true;
             if (DialogueManager.instance == null)
             {
                 Debug.LogError("DialogueManager.instance ist NULL");
                 return;
             }
 
-            DialogueManager.instance.StartConvaiDialogue(this, convaiContext);
+            
+                ConvaiDialogueService.instance.StartConversation(this, BuildContext());
+            
+        
+            Debug.Log("ContextProvider = " + GetComponent<ConvaiContextProvider>());
+            Debug.Log("Context = " + convaiContext);
                 return;
         }
 

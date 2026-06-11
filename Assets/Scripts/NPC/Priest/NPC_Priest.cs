@@ -16,6 +16,8 @@ public class NPC_Priest : NPC_Base, IInteractable
     public DialogueData priestDecisionDialogue;
     public DialogueData éndingDialogue;
     private Blackboard blackboard;
+    private bool hasConvai = false;
+
     public InteractType GetInteractType()
     {
         return InteractType.NPC;
@@ -34,6 +36,7 @@ public class NPC_Priest : NPC_Base, IInteractable
         blackboard.navAgent = navAgent;
         BuildTree();
         SetInitialized();
+        hasConvai = false;
     }
 
     protected override void BuildTree()

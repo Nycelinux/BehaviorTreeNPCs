@@ -447,9 +447,17 @@ namespace Convai.Scripts.Runtime.Core
         ///     Add response to the GetResponseResponse Queue
         /// </summary>
         /// <param name="response"></param>
+
         public void EnqueueResponse(GetResponseResponse response)
         {
-            if (response?.AudioResponse == null) return;
+            Debug.Log("RESPONSE RECEIVED");
+
+            if (response?.AudioResponse == null) 
+            {
+                Debug.Log("TEXT = " + response.AudioResponse.TextData);
+                return;
+            }
+            
             //ConvaiLogger.DebugLog($"Adding Response for Processing: {response.AudioResponse.TextData}", ConvaiLogger.LogCategory.LipSync);
             _getResponseResponses.Enqueue(response);
         }
@@ -483,6 +491,7 @@ namespace Convai.Scripts.Runtime.Core
         /// </remarks>
         private void ProcessResponse()
         {
+            Debug.Log(gameObject.name +" QueueCount=" +_getResponseResponses.Count +" Active=" +isCharacterActive);
             // Check if the character is active and should process the response
             if (!isCharacterActive && !IsInConversationWithAnotherNPC)
             {

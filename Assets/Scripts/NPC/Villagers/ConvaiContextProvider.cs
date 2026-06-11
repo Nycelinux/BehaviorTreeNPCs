@@ -52,9 +52,12 @@ public class ConvaiContextProvider : MonoBehaviour
     {
         string prompt = BuildContext();
         prompt += "\n";
-        prompt += "\nPlayer starts a conversation.";
-        prompt += "\nTell the player about your current situation.";
-        prompt += "\nMention your biggest concern.";
+        prompt += "\nYou are speaking directly to the player.";
+        prompt += "\nExplain your personal problem.";
+        prompt += "\nAsk the player for help.";
+        prompt += "\nIf your husband is missing, ask the player to search for him.";
+        prompt += "\nIf food is scarce, ask the player to gather food.";
+        prompt += "\nIf resources wood, food or stone are needed, ask the player to bring them.";
         prompt += "\nStay in character.";
         prompt += "\nMaximum 3 sentences.";
 

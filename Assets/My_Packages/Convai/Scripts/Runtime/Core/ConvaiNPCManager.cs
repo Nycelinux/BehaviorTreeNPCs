@@ -69,7 +69,7 @@ namespace Convai.Scripts.Runtime.Core
                 }
             }
 
-            if (!foundConvaiNPC && _lastHitNpc != null)
+            /*if (!foundConvaiNPC && _lastHitNpc != null)
             {
                 Vector3 toLastHitNPC = _lastHitNpc.transform.position - ray.origin;
                 float angleToLastHitNPC = Vector3.Angle(ray.direction, toLastHitNPC.normalized);
@@ -80,7 +80,7 @@ namespace Convai.Scripts.Runtime.Core
                     ConvaiLogger.DebugLog($"Player left {_lastHitNpc.gameObject.name}", ConvaiLogger.LogCategory.Character);
                     UpdateActiveNPC(null);
                 }
-            }
+            }*/
         }
 
         private void OnDrawGizmos()

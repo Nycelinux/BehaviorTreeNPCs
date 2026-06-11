@@ -11,10 +11,11 @@ public class NPC_Guard : NPC_Base
     public int attackDamage = 2;
     private Blackboard blackboard;
     private bool iinitialized =false;
+    private bool hasConvai = false;
 
 
 
-     protected override void Awake()
+    protected override void Awake()
     {
         base.Awake();
         blackboard = new Blackboard();
@@ -37,6 +38,7 @@ public class NPC_Guard : NPC_Base
         if (GuardAlertSystem.instance != null)
         GuardAlertSystem.instance.Register(blackboard);
         SquadManager.instance?.Register(blackboard);
+        hasConvai = false;
 
     }
     public Blackboard GetBlackboard()
@@ -47,6 +49,7 @@ public class NPC_Guard : NPC_Base
     protected override void Start()
     {
         base.Start();
+
         Debug.Log($"{name} Waypoints beim Start: {(wayPoints == null ? 0 : wayPoints.Length)}");
 
         if (wayPoints == null || wayPoints.Length < 2)

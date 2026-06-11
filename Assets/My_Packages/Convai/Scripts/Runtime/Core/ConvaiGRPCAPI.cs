@@ -213,7 +213,9 @@ namespace Convai.Scripts.Runtime.Core
 
             try
             {
+                Debug.Log("STEP 1");
                 await call.RequestStream.WriteAsync(getResponseConfigRequest);
+                Debug.Log("STEP 2");
                 await call.RequestStream.WriteAsync(new GetResponseRequest
                 {
                     GetResponseData = new GetResponseData
@@ -221,15 +223,20 @@ namespace Convai.Scripts.Runtime.Core
                         TextData = userText
                     }
                 });
+                Debug.Log("STEP 3");
                 await call.RequestStream.CompleteAsync();
 
+                Debug.Log("STEP 4");
                 // Store the task that receives results from the server.
                 Task receiveResultsTask = Task.Run(
-                    async () => { await ReceiveResultFromServer(call, _cancellationTokenSource.Token); },
+                    async () => {
+                        Debug.Log("STEP 5");
+                        await ReceiveResultFromServer(call, _cancellationTokenSource.Token); },
                     _cancellationTokenSource.Token);
-
+                Debug.Log("STEP 6");
                 // Await the task if needed to ensure it completes before this method returns [OPTIONAL]
                 await receiveResultsTask.ConfigureAwait(false);
+                Debug.Log("STEP 7");
             }
             catch (Exception ex)
             {
@@ -264,6 +271,7 @@ namespace Convai.Scripts.Runtime.Core
 
             _cancellationTokenSource = new CancellationTokenSource(); // Create a new token for future calls
             _activeConvaiNPC = newActiveNPC;
+            Debug.Log("ACTIVE NPC CHANGED");
         }
 
         /// <summary>
@@ -368,7 +376,9 @@ namespace Convai.Scripts.Runtime.Core
             }
 
             if (isActionActive || _activeConvaiNPC != null) getResponseConfigRequest.GetResponseConfig.ActionConfig = actionConfig;
+            Debug.Log("REQUEST SESSION = " +(npc?.sessionID ?? _activeConvaiNPC?.sessionID ?? "-1"));
 
+            Debug.Log("REQUEST ACTIVE NPC = " +(_activeConvaiNPC != null ? _activeConvaiNPC.characterName : "NULL"));
             return getResponseConfigRequest;
         }
 
@@ -574,6 +584,10 @@ namespace Convai.Scripts.Runtime.Core
                 {
 
                     GetResponseResponse result = call.ResponseStream.Current;
+                    Debug.Log("AudioResponse = " + (result.AudioResponse != null));
+                    Debug.Log("DebugLog = " + (result.DebugLog != null));
+                    Debug.Log("UserQuery = " + (result.UserQuery != null));
+                    Debug.Log("BtResponse = " + (result.BtResponse != null));
 
                     // // Log response details for debugging only if text or audio data is present and audio data length is greater than 46 bytes. Also print sample rate hertz
                     // // if ((result.AudioResponse != null || result.UserQuery != null) && result.AudioResponse?.AudioData?.Length > 46)
@@ -674,6 +688,7 @@ namespace Convai.Scripts.Runtime.Core
             if (npc.convaiLipSync == null)
             {
                 ConvaiLogger.DebugLog($"Enqueuing responses: {result.AudioResponse.TextData}", ConvaiLogger.LogCategory.LipSync);
+                Debug.Log("RESPONSE RECEIVED");
                 npc.EnqueueResponse(result);
             }
             else
@@ -777,7 +792,7 @@ namespace Convai.Scripts.Runtime.Core
                     }
                 });
                 await call.RequestStream.CompleteAsync();
-
+                Debug.Log("START RECEIVE");
                 // Store the task that receives results from the server.
                 Task receiveResultsTask = Task.Run(
                     async () => { await ReceiveResultFromServer(call, _cancellationTokenSource.Token, sendingNPC); },
@@ -785,6 +800,7 @@ namespace Convai.Scripts.Runtime.Core
 
                 // Await the task if needed to ensure it completes before this method returns [OPTIONAL]
                 await receiveResultsTask.ConfigureAwait(false);
+                Debug.Log("END RECEIVE");
             }
             catch (Exception ex)
             {

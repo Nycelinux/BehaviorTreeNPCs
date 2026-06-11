@@ -51,15 +51,17 @@ public class DialogueChoiceExecuter : MonoBehaviour
             Debug.Log("Fear: " + reaction.fear);
             Debug.Log("Loyality: " + reaction.loyality);
         }
-       
+
         DialogueManager.instance.EndDialogue();
-        var context = currentNPC.GetComponent<ConvaiContextProvider>();
-        if (context != null)
+        NPC_Villager villager = currentNPC.GetComponent<NPC_Villager>();
+        if (villager != null && villager.hasConvai)
         {
-            ConvaiResponseRouter.Instance.Send(
-                currentNPC.GetComponent<NPC_Villager>(),
-                context.BuildContext()
-            );
+            var context = currentNPC.GetComponent<ConvaiContextProvider>();
+
+            if (context != null && ConvaiResponseRouter.Instance != null)
+            {
+                ConvaiResponseRouter.Instance.Send(villager, context.BuildContext());
+            }
         }
     }
 }
